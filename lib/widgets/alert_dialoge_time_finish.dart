@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/home_screen_widget.dart';
+
+import '../widgets/result_widget.dart';
 
 showAlertDialog(BuildContext context, String msg) {
   // set up the buttons
@@ -18,7 +19,7 @@ showAlertDialog(BuildContext context, String msg) {
     ),
     onPressed: () {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreenWidget()));
+          MaterialPageRoute(builder: (context) => ResultWidget()));
     },
   );
 
@@ -46,7 +47,6 @@ showAlertDialog(BuildContext context, String msg) {
             style: TextStyle(
               color: Colors.red,
               fontSize: 18,
-              
               fontFamily: 'Nunito',
             ),
           ),

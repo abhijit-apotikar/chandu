@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:my_proc/widgets/result_widget.dart';
 import 'package:oktoast/oktoast.dart';
 
-import '../widgets/home_screen_widget.dart';
 import '../widgets/que_list_widget.dart';
 import '../widgets/my_list_widget.dart';
 import '../widgets/alert_dialoge_time_finish.dart';
+import '../widgets/result_widget.dart';
 
 import '../models/my_que_list.dart';
+import '../my_arguments/test_arguments.dart';
 
 class MyQuizWidget extends StatefulWidget {
   final int _hours;
@@ -307,12 +309,17 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               onPressed: () {
                                                 setState(() {
                                                   _tmpBool = true;
+                                                  TestArguments testArguments =
+                                                      new TestArguments(
+                                                          _testAttempt,
+                                                          _reviewList,
+                                                          myQueList
+                                                              .queList.length);
                                                   Navigator.of(context)
-                                                      .pushReplacement(
-                                                          MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomeScreenWidget(),
-                                                  ));
+                                                      .pushReplacementNamed(
+                                                    '/ResultWidget',
+                                                    arguments: testArguments,
+                                                  );
                                                 });
                                               },
                                             ),

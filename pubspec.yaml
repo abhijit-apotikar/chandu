@@ -32,6 +32,7 @@ dependencies:
   flutter_icons:
   flutter_svg:
   oktoast:
+  syncfusion_flutter_charts:
 
 dev_dependencies:
   flutter_test:
