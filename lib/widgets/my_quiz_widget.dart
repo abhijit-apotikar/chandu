@@ -19,6 +19,7 @@ class MyQuizWidget extends StatefulWidget {
 }
 
 class _MyQuizWidgetState extends State<MyQuizWidget> {
+  //Color _reviewIconColor = Colors.grey;
   int _curIndex = 0;
   Timer _timer;
   int _start1;
@@ -29,9 +30,11 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
 
   //test result variables*******************************************************************
   int _queAttempted = 0;
+  bool _markedForReview = false;
   int _queMarkedForReview = 0;
   String _curMarked;
   List<Map<String, String>> _testAttempt = [];
+  List<Map<String, bool>> _reviewList = [];
 
   MyQueList myQueList = new MyQueList();
   int index = 0;
@@ -132,7 +135,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
               ),
               Container(
                 height: size.height * 0.1,
-                // padding: EdgeInsets.all(0),
                 child: Row(
                   children: [
                     Card(
@@ -144,10 +146,39 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                           child: Icon(
                             Icons.star,
                             size: 52,
-                            color: Colors.grey,
+                            color: _markedForReview == true
+                                ? Colors.yellow
+                                : Colors.grey,
                           ),
                           onTap: () {
-                            Navigator.of(context).pop();
+                            setState(() {
+                              _markedForReview = !_markedForReview;
+
+                              if (_reviewList
+                                  .where((element) => element.containsKey(
+                                      '${myQueList.queList[index].queId}'))
+                                  .isEmpty) {
+                                _queMarkedForReview++;
+                                debugPrint(
+                                    '$_queMarkedForReview ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;');
+                                _reviewList.add({
+                                  '${myQueList.queList[index].queId}': true
+                                });
+                                debugPrint(
+                                    '$_reviewList !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                              } else {
+                                _queMarkedForReview--;
+                                debugPrint(
+                                    '$_queMarkedForReview ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;');
+                                _reviewList
+                                    .firstWhere((element) => element.containsKey(
+                                        '${myQueList.queList[index].queId}'))
+                                    .remove(
+                                        '${myQueList.queList[index].queId}');
+                                debugPrint(
+                                    '$_reviewList !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                              }
+                            });
                           },
                         ),
                       ),
@@ -308,10 +339,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                           ],
                         )
                       : Container(
-                          //height: MediaQuery.of(context).size.height,
                           padding:
                               EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          // color: Colors.red,
                           child: GestureDetector(
                             onHorizontalDragStart: (details) {
                               if (details.localPosition.direction.isNegative) {
@@ -331,15 +360,12 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                             },
                             child: Card(
                               shadowColor: Colors.black45,
-                              //margin: EdgeInsets.all(10),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               color: Colors.transparent,
                               child: SingleChildScrollView(
                                 child: Container(
-                                  // margin: EdgeInsets.all(10),
-
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 15,
                                     vertical: 15,
@@ -433,21 +459,23 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               if (_curMarked == 'op1') {
                                                 _curMarked = null;
                                                 _queAttempted--;
+
                                                 _testAttempt
                                                     .firstWhere((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
-                                                    .update(
-                                                        '${myQueList.queList[index].queId}',
-                                                        (value) => 'null');
+                                                    .remove(
+                                                        '${myQueList.queList[index].queId}');
                                               } else {
                                                 _curMarked = 'op1';
-                                                _queAttempted++;
+
                                                 if (_testAttempt
                                                     .where((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
                                                     .isEmpty) {
+                                                  _queAttempted++;
+
                                                   _testAttempt.add({
                                                     '${myQueList.queList[index].queId}':
                                                         'op1'
@@ -462,9 +490,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           (value) => 'op1');
                                                 }
                                               }
-
-                                              debugPrint(
-                                                  '$_testAttempt #######################################');
                                             });
                                           },
                                         ),
@@ -528,21 +553,23 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               if (_curMarked == 'op2') {
                                                 _curMarked = null;
                                                 _queAttempted--;
+
                                                 _testAttempt
                                                     .firstWhere((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
-                                                    .update(
-                                                        '${myQueList.queList[index].queId}',
-                                                        (value) => 'null');
+                                                    .remove(
+                                                        '${myQueList.queList[index].queId}');
                                               } else {
                                                 _curMarked = 'op2';
-                                                _queAttempted++;
+
                                                 if (_testAttempt
                                                     .where((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
                                                     .isEmpty) {
+                                                  _queAttempted++;
+
                                                   _testAttempt.add({
                                                     '${myQueList.queList[index].queId}':
                                                         'op2'
@@ -557,8 +584,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           (value) => 'op2');
                                                 }
                                               }
-                                              debugPrint(
-                                                  '$_testAttempt #######################################');
                                             });
                                           },
                                         ),
@@ -622,21 +647,23 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               if (_curMarked == 'op3') {
                                                 _curMarked = null;
                                                 _queAttempted--;
+
                                                 _testAttempt
                                                     .firstWhere((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
-                                                    .update(
-                                                        '${myQueList.queList[index].queId}',
-                                                        (value) => 'null');
+                                                    .remove(
+                                                        '${myQueList.queList[index].queId}');
                                               } else {
                                                 _curMarked = 'op3';
-                                                _queAttempted++;
+
                                                 if (_testAttempt
                                                     .where((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
                                                     .isEmpty) {
+                                                  _queAttempted++;
+
                                                   _testAttempt.add({
                                                     '${myQueList.queList[index].queId}':
                                                         'op3'
@@ -651,8 +678,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           (value) => 'op3');
                                                 }
                                               }
-                                              debugPrint(
-                                                  '$_testAttempt #######################################');
                                             });
                                           },
                                         ),
@@ -716,21 +741,23 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               if (_curMarked == 'op4') {
                                                 _curMarked = null;
                                                 _queAttempted--;
+
                                                 _testAttempt
                                                     .firstWhere((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
-                                                    .update(
-                                                        '${myQueList.queList[index].queId}',
-                                                        (value) => 'null');
+                                                    .remove(
+                                                        '${myQueList.queList[index].queId}');
                                               } else {
                                                 _curMarked = 'op4';
-                                                _queAttempted++;
+
                                                 if (_testAttempt
                                                     .where((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
                                                     .isEmpty) {
+                                                  _queAttempted++;
+
                                                   _testAttempt.add({
                                                     '${myQueList.queList[index].queId}':
                                                         'op4'
@@ -745,9 +772,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           (value) => 'op4');
                                                 }
                                               }
-
-                                              debugPrint(
-                                                  '$_testAttempt #######################################');
                                             });
                                           },
                                         ),
@@ -764,7 +788,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                         )),
               Container(
                 height: size.height * 0.1,
-                // padding: EdgeInsets.all(0),
                 child: Row(
                   children: [
                     Card(
@@ -781,16 +804,20 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                             if (index > 0) {
                               setState(() {
                                 index = index - 1;
+                                _markedForReview = _reviewList.isEmpty
+                                    ? false
+                                    : (_reviewList
+                                            .where((element) => element.containsKey(
+                                                '${myQueList.queList[index].queId}'))
+                                            .isEmpty
+                                        ? false
+                                        : true);
                                 _curMarked = _testAttempt
                                         .where((element) => element.containsKey(
                                             '${myQueList.queList[index].queId}'))
                                         .isEmpty
                                     ? null
-                                    : /*_testAttempt
-                                        .where((element) => element.containsKey(
-                                            '${myQueList.queList[index - 1].queId}'))
-                                        .elementAt(0)[1];*/
-                                    _testAttempt
+                                    : _testAttempt
                                         .firstWhere((element) =>
                                             element.containsKey(
                                                 '${myQueList.queList[index].queId}'))
@@ -798,8 +825,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                         .toList()
                                         .elementAt(0)
                                         .value;
-                                debugPrint(
-                                    '$_curMarked&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
                               });
                             } else {
                               showToast(
@@ -833,16 +858,20 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                             if (index < myQueList.queList.length - 1) {
                               setState(() {
                                 index = index + 1;
+                                _markedForReview = _reviewList.isEmpty
+                                    ? false
+                                    : (_reviewList
+                                            .where((element) => element.containsKey(
+                                                '${myQueList.queList[index].queId}'))
+                                            .isEmpty
+                                        ? false
+                                        : true);
                                 _curMarked = _testAttempt
                                         .where((element) => element.containsKey(
                                             '${myQueList.queList[index].queId}'))
                                         .isEmpty
                                     ? null
-                                    : /*_testAttempt
-                                        .where((element) => element.containsKey(
-                                            '${myQueList.queList[index - 1].queId}'))
-                                        .elementAt(0)[1];*/
-                                    _testAttempt
+                                    : _testAttempt
                                         .firstWhere((element) =>
                                             element.containsKey(
                                                 '${myQueList.queList[index].queId}'))
@@ -850,8 +879,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                         .toList()
                                         .elementAt(0)
                                         .value;
-                                debugPrint(
-                                    '$_curMarked&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
                               });
                             } else {
                               showToast(
