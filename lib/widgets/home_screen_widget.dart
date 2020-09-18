@@ -53,7 +53,7 @@ class HomeScreenWidget extends StatelessWidget {
                                     myModel.titleText,
                                     style: TextStyle(
                                       fontSize: 32,
-                                      fontFamily: 'Ultra',
+                                      fontFamily: 'Nunito',
                                     ),
                                   ),
                                 ),

@@ -42,7 +42,7 @@ class SetUpWidget extends StatelessWidget {
                       'Set Up Screen',
                       style: TextStyle(
                         fontSize: 32,
-                        fontFamily: 'Ultra',
+                        fontFamily: 'Nunito',
                       ),
                     ),
                   ),

@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../widgets/result_widget.dart';
 
-showAlertDialog(BuildContext context, String msg) {
+import '../my_arguments/test_arguments.dart';
+
+showAlertDialog(
+    BuildContext context,
+    String msg,
+    List<Map<String, String>> testAttempt,
+    List<Map<String, bool>> reviewList,
+    int totalQue) {
   // set up the buttons
   Widget okButton = OutlineButton(
     color: Colors.white,
@@ -18,8 +25,12 @@ showAlertDialog(BuildContext context, String msg) {
           fontFamily: 'Nunito'),
     ),
     onPressed: () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => ResultWidget()));
+      TestArguments testArguments =
+          new TestArguments(testAttempt, reviewList, totalQue);
+      Navigator.of(context).pushReplacementNamed(
+        '/ResultWidget',
+        arguments: testArguments,
+      );
     },
   );
 

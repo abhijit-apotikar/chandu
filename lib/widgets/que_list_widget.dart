@@ -62,7 +62,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 32,
-                      fontWeight: FontWeight.bold,
+                     // fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],

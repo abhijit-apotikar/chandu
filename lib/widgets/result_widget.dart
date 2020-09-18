@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import '../my_arguments/test_arguments.dart';
 
@@ -20,6 +21,10 @@ class ResultWidget extends StatefulWidget {
 class _ResultWidgetState extends State<ResultWidget> {
   TestStatisticsData testStatisticsData = new TestStatisticsData();
   String _chartTitle = 'Breakdown';
+  bool _isShowingToppers = false;
+  Color _firstDotColor = Colors.black;
+  Color _secondDotColor = Colors.grey;
+  Color _thirdDotColor = Colors.grey;
 
   List<Map<String, int>> calcResult(
       List<Map<String, String>> testAttempt1, int totalQue1) {
@@ -129,14 +134,13 @@ class _ResultWidgetState extends State<ResultWidget> {
                 child: Row(
                   children: [
                     SizedBox(width: 10),
-                    GestureDetector(
+                    InkWell(
                       child: Icon(
                         Icons.arrow_back_ios,
                         size: 32,
                       ),
                       onTap: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed('/HomeScreenWidget');
+                        Navigator.of(context).pop();
                       },
                     ),
                     SizedBox(width: 10),
@@ -145,8 +149,21 @@ class _ResultWidgetState extends State<ResultWidget> {
                       style: TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                       // fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    Expanded(
+                      child: SizedBox(),
+                    ),
+                    InkWell(
+                      child: Icon(
+                        Icons.more_vert,
+                        size: 32,
+                      ),
+                      onTap: () {},
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                   ],
                 ),
@@ -155,7 +172,7 @@ class _ResultWidgetState extends State<ResultWidget> {
             Column(
               children: [
                 Container(
-                  height: size.height * 0.6,
+                  height: size.height * 0.85,
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
                   child: Stack(
                     children: [
@@ -165,19 +182,23 @@ class _ResultWidgetState extends State<ResultWidget> {
                         color: Colors.white,
                         child: PageView(
                           controller: _controller,
+                          onPageChanged: (value) {
+                            setState(() {
+                              if (value == 0) {
+                                _chartTitle = 'Breakdown';
+                              } else if (value == 1) {
+                                _chartTitle = 'Relative';
+                                _isShowingToppers = false;
+                              } else if (value == 2) {
+                                _chartTitle = 'Toppers';
+                                _isShowingToppers = true;
+                              }
+                            });
+                          },
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: 50),
+                              padding: EdgeInsets.only(top: 70, bottom: 50),
                               child: SfCircularChart(
-                                /* title: ChartTitle(
-                                  text: 'Breakdown',
-                                  textStyle: TextStyle(
-                                    fontFamily: 'Nunito',
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.deepOrangeAccent,
-                                  ),
-                                ),*/
                                 series: <CircularSeries>[
                                   DoughnutSeries<ChartData1, String>(
                                       dataSource: chartData,
@@ -208,7 +229,7 @@ class _ResultWidgetState extends State<ResultWidget> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 50),
+                              padding: EdgeInsets.only(top: 70, bottom: 50),
                               child: SfCartesianChart(
                                 /* title: ChartTitle(
                                   text: 'Relative',
@@ -263,231 +284,359 @@ class _ResultWidgetState extends State<ResultWidget> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                top: 50,
+                                top: 115,
                                 bottom: 10,
                                 left: 4,
                                 right: 4,
                               ),
                               child: ListView.builder(
                                   itemCount: testStatisticsData
-                                          .testList[0].topperList.length +
-                                      1,
+                                      .testList[0].topperList.length,
                                   itemBuilder: (context, index) {
-                                    return index == 0
-                                        ? Container(
-                                            height: size.height * 0.1,
-                                            child: Card(
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'Sr. No.',
+                                    return Container(
+                                      height: size.height * 0.1,
+                                      child: Card(
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: Center(
+                                                child: (index == 0 ||
+                                                        index == 1 ||
+                                                        index == 2)
+                                                    ? Icon(
+                                                        Entypo.medal,
+                                                        color: index == 0
+                                                            ? Colors.yellow
+                                                            : (index == 1
+                                                                ? Colors
+                                                                    .grey[350]
+                                                                : Colors.brown[
+                                                                    400]),
+                                                      )
+                                                    : Text(
+                                                        '${index + 1}',
                                                         style: TextStyle(
                                                           fontFamily: 'Nunito',
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 6,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'Name',
-                                                        style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'Score',
-                                                        style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'Time',
-                                                        style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
                                               ),
                                             ),
-                                          )
-                                        : Container(
-                                            height: size.height * 0.1,
-                                            child: Card(
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Center(
-                                                      child: Text(
-                                                        '${index}',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 6,
-                                                    child: Center(
-                                                      child: Text(
-                                                        '${testStatisticsData.testList[0].topperList[index - 1]['name']}',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Center(
-                                                      child: Text(
-                                                        '${testStatisticsData.testList[0].topperList[index - 1]['score']}',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Center(
-                                                      child: Text(
-                                                        '${testStatisticsData.testList[0].topperList[index - 1]['timeTaken']}',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                            Expanded(
+                                              flex: 6,
+                                              child: Center(
+                                                child: Text(
+                                                  '${testStatisticsData.testList[0].topperList[index]['name']}',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                ),
                                               ),
                                             ),
-                                          );
+                                            Expanded(
+                                              flex: 2,
+                                              child: Center(
+                                                child: Text(
+                                                  '${testStatisticsData.testList[0].topperList[index]['score']}',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 3,
+                                              child: Center(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      ((testStatisticsData
+                                                                          .testList[
+                                                                              0]
+                                                                          .topperList[index]
+                                                                      [
+                                                                      'timeTaken']) /
+                                                                  3600) <
+                                                              10
+                                                          ? '0' +
+                                                              '${((testStatisticsData.testList[0].topperList[index]['timeTaken']) / 3600).floor()}' +
+                                                              ':'
+                                                          : '${((testStatisticsData.testList[0].topperList[index]['timeTaken']) / 3600).floor()}' +
+                                                              ':',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ((((testStatisticsData.testList[0].topperList[index]
+                                                                              [
+                                                                              'timeTaken']) %
+                                                                          3600) /
+                                                                      60)
+                                                                  .floor()) <
+                                                              10
+                                                          ? '0' +
+                                                              '${(((testStatisticsData.testList[0].topperList[index]['timeTaken']) % 3600) / 60).floor()}' +
+                                                              ':'
+                                                          : '${(((testStatisticsData.testList[0].topperList[index]['timeTaken']) % 3600) / 60).floor()}' +
+                                                              ':',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      (((testStatisticsData.testList[0].topperList[index]
+                                                                              [
+                                                                              'timeTaken']) %
+                                                                          3600) %
+                                                                      60)
+                                                                  .floor() <
+                                                              10
+                                                          ? ((testStatisticsData
+                                                                          .testList[
+                                                                              0]
+                                                                          .topperList[index]
+                                                                      [
+                                                                      'timeTaken']) ==
+                                                                  0
+                                                              ? '00'
+                                                              : '0' +
+                                                                  '${(((testStatisticsData.testList[0].topperList[index]['timeTaken']) % 3600) % 60).floor()}')
+                                                          : '${(((testStatisticsData.testList[0].topperList[index]['timeTaken']) % 3600) % 60).floor()}',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
                                   }),
                             ),
                           ],
                         ),
                       ),
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                        height: size.height * 0.1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        padding: EdgeInsets.only(
+                            left: 4.0, right: 4.0, top: 20, bottom: 0),
+                        height: size.height * 0.85,
+                        child: Column(
                           children: [
-                            InkWell(
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                size: 32,
-                                color: Colors.grey,
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  /* _currentGraph = _currentGraph == 1
-                                            ? 0
-                                            : showToast(
-                                                'This is the first card.');*/
-                                  /*   _controller.page = _controller.page == 1 ?  :showToast('This is the first page');
-                                                if(_controller.page == 1){
-                                                  setState(() {
-                                                    _controller.page = _controller.page - 1;
-                                                  });
-                                                }*/
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                InkWell(
+                                  child: Icon(
+                                    Icons.arrow_back_ios,
+                                    size: 32,
+                                    color: Colors.grey,
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      /* _currentGraph = _currentGraph == 1
+                                                ? 0
+                                                : showToast(
+                                                    'This is the first card.');*/
+                                      /*   _controller.page = _controller.page == 1 ?  :showToast('This is the first page');
+                                                    if(_controller.page == 1){
+                                                      setState(() {
+                                                        _controller.page = _controller.page - 1;
+                                                      });
+                                                    }*/
 
-                                  if (_controller.page == 0) {
-                                    showToast(
-                                      'This is the first card.',
-                                      position: ToastPosition.bottom,
-                                    );
-                                  } else if (_controller.page == 1) {
-                                    _chartTitle = 'Breakdown';
-                                    _controller.animateToPage(0,
-                                        duration: Duration(milliseconds: 500),
-                                        curve: Curves.ease);
-                                  } else {
-                                    _chartTitle = 'Relative';
-                                    _controller.animateToPage(1,
-                                        duration: Duration(milliseconds: 500),
-                                        curve: Curves.ease);
-                                  }
-                                });
-                              },
-                            ),
-                            Expanded(
-                                child:
-                                    /*SizedBox(),*/ Center(
-                              child: Text(
-                                _chartTitle,
-                                style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepOrangeAccent,
-                                ),
-                              ),
-                            )),
-                            InkWell(
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 32,
-                                  color: Colors.grey,
-                                ),
-                                onTap: () {
-                                  setState(
-                                    () {
-                                      if (_controller.page == 2) {
+                                      if (_controller.page == 0) {
                                         showToast(
-                                          'This is the last card.',
+                                          'This is the first card.',
                                           position: ToastPosition.bottom,
                                         );
                                       } else if (_controller.page == 1) {
-                                        _chartTitle = 'Toppers';
-                                        _controller.animateToPage(2,
+                                        _chartTitle = 'Breakdown';
+                                        _controller.animateToPage(0,
                                             duration:
                                                 Duration(milliseconds: 500),
                                             curve: Curves.ease);
-                                      } else {
-                                        _chartTitle = 'Breakdown';
+                                      } else if (_controller.page == 2) {
+                                        _chartTitle = 'Relative';
+                                        _isShowingToppers = false;
                                         _controller.animateToPage(1,
                                             duration:
                                                 Duration(milliseconds: 500),
                                             curve: Curves.ease);
                                       }
-                                    },
-                                  );
-                                }),
+                                    });
+                                  },
+                                ),
+                                Expanded(
+                                    child:
+                                        /*SizedBox(),*/ Center(
+                                  child: Text(
+                                    _chartTitle,
+                                    style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.deepOrangeAccent,
+                                    ),
+                                  ),
+                                )),
+                                InkWell(
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 32,
+                                      color: Colors.grey,
+                                    ),
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          if (_controller.page == 2) {
+                                            showToast(
+                                              'This is the last card.',
+                                              position: ToastPosition.bottom,
+                                            );
+                                          } else if (_controller.page == 1) {
+                                            _chartTitle = 'Toppers';
+                                            _isShowingToppers = true;
+                                            _controller.animateToPage(2,
+                                                duration:
+                                                    Duration(milliseconds: 500),
+                                                curve: Curves.ease);
+                                          } else if (_controller.page == 0) {
+                                            _chartTitle = 'Relative';
+                                            _isShowingToppers = false;
+                                            _controller.animateToPage(1,
+                                                duration:
+                                                    Duration(milliseconds: 500),
+                                                curve: Curves.ease);
+                                          }
+                                        },
+                                      );
+                                    }),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                              ],
+                            ),
+                            _isShowingToppers
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 8.0),
+                                    height: size.height * 0.085,
+                                    child: Card(
+                                      // elevation: 0,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: Center(
+                                              child: Text(
+                                                'Rank',
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 6,
+                                            child: Center(
+                                              child: Text(
+                                                'Name',
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Center(
+                                              child: Text(
+                                                'Score',
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 3,
+                                            child: Center(
+                                              child: Text(
+                                                'Time',
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(),
+                            Expanded(
+                              child: SizedBox(),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '.',
+                                  style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    fontSize: 82,
+                                    color: _chartTitle == 'Breakdown'
+                                        ? Colors.black
+                                        : Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  '.',
+                                  style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    fontSize: 82,
+                                    color: _chartTitle == 'Relative'
+                                        ? Colors.black
+                                        : Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  '.',
+                                  style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    fontSize: 82,
+                                    color: _chartTitle == 'Toppers'
+                                        ? Colors.black
+                                        : Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                Container(
+                /* Container(
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
                   child: Row(
                     children: [
@@ -617,7 +766,7 @@ class _ResultWidgetState extends State<ResultWidget> {
                       )
                     ],
                   ),
-                ),
+                ),*/
               ],
             ),
           ],

@@ -28,6 +28,31 @@ class TestStatisticsData {
         'score': 3,
         'timeTaken': 250,
       },
+      {
+        'name': 'Abhijit',
+        'score': 5,
+        'timeTaken': 190,
+      },
+      {
+        'name': 'Ritesh',
+        'score': 5,
+        'timeTaken': 200,
+      },
+      {
+        'name': 'Maroof',
+        'score': 5,
+        'timeTaken': 210,
+      },
+      {
+        'name': 'Saurabh Jadhao',
+        'score': 4,
+        'timeTaken': 190,
+      },
+      {
+        'name': 'Annapurna Wankhade  ',
+        'score': 3,
+        'timeTaken': 250,
+      },
     ]),
   ];
 }

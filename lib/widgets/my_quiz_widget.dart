@@ -69,7 +69,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
 
   void submitByTime(BuildContext context) {
     String msg = 'Your test has been submitted successfully.';
-    showAlertDialog(context, msg);
+    showAlertDialog(
+        context, msg, _testAttempt, _reviewList, myQueList.queList.length);
   }
 
   @override
@@ -348,86 +349,88 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                       : Container(
                           padding:
                               EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          child: GestureDetector(
-                            onHorizontalDragStart: (details) {
-                              if (details.localPosition.direction.isNegative) {
-                                setState(() {
-                                  if (index > 0) {
-                                    index--;
-                                  }
-                                });
-                              } else if (!details
-                                  .localPosition.direction.isFinite) {
-                                setState(() {
-                                  if (index < myQueList.queList.length) {
-                                    index++;
-                                  }
-                                });
-                              }
-                            },
-                            child: Card(
-                              shadowColor: Colors.black45,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              color: Colors.transparent,
-                              child: SingleChildScrollView(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 15,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            '${index + 1} / ${myQueList.queList.length}',
+                          child: Card(
+                            shadowColor: Colors.black45,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            color: Colors.transparent,
+                            child: SingleChildScrollView(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 15,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          '${index + 1} / ${myQueList.queList.length}',
+                                          style: TextStyle(
+                                            fontFamily: 'Nunito',
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Colors.white.withOpacity(0.9),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            'Q.) ' +
+                                                myQueList.queList[index].que,
                                             style: TextStyle(
                                               fontFamily: 'Nunito',
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color:
-                                                  Colors.white.withOpacity(0.9),
+                                              fontSize: 22,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              'Q.) ' +
-                                                  myQueList.queList[index].que,
-                                              style: TextStyle(
-                                                fontFamily: 'Nunito',
-                                                fontSize: 22,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 20),
+                                    Container(
+                                      child: InkWell(
+                                        child: Card(
+                                          color: Colors.transparent,
+                                          margin: EdgeInsets.all(0),
+                                          child: Row(
+                                            children: [
+                                              Card(
+                                                margin: EdgeInsets.all(0),
+                                                color: _curMarked == 'op1'
+                                                    ? Colors.blue
+                                                    : Colors.white,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Text(
+                                                    'a)',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 20),
-                                      Container(
-                                        child: InkWell(
-                                          child: Card(
-                                            color: Colors.transparent,
-                                            margin: EdgeInsets.all(0),
-                                            child: Row(
-                                              children: [
-                                                Card(
-                                                  margin: EdgeInsets.all(0),
+                                              Card(
+                                                color: Colors.transparent,
+                                              ),
+                                              Expanded(
+                                                child: Card(
                                                   color: _curMarked == 'op1'
                                                       ? Colors.blue
                                                       : Colors.white,
+                                                  margin: EdgeInsets.all(0),
                                                   child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
+                                                    padding: EdgeInsets.all(4),
                                                     child: Text(
-                                                      'a)',
+                                                      myQueList
+                                                          .queList[index].op1,
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
                                                         fontSize: 20,
@@ -435,93 +438,91 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                     ),
                                                   ),
                                                 ),
-                                                Card(
-                                                  color: Colors.transparent,
-                                                ),
-                                                Expanded(
-                                                  child: Card(
-                                                    color: _curMarked == 'op1'
-                                                        ? Colors.blue
-                                                        : Colors.white,
-                                                    margin: EdgeInsets.all(0),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      child: Text(
-                                                        myQueList
-                                                            .queList[index].op1,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 20,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          onTap: () {
-                                            setState(() {
-                                              if (_curMarked == 'op1') {
-                                                _curMarked = null;
-                                                _queAttempted--;
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            if (_curMarked == 'op1') {
+                                              _curMarked = null;
+                                              _queAttempted--;
 
+                                              _testAttempt
+                                                  .firstWhere((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .remove(
+                                                      '${myQueList.queList[index].queId}');
+                                            } else {
+                                              _curMarked = 'op1';
+
+                                              if (_testAttempt
+                                                  .where((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .isEmpty) {
+                                                _queAttempted++;
+
+                                                _testAttempt.add({
+                                                  '${myQueList.queList[index].queId}':
+                                                      'op1'
+                                                });
+                                              } else {
                                                 _testAttempt
                                                     .firstWhere((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
-                                                    .remove(
-                                                        '${myQueList.queList[index].queId}');
-                                              } else {
-                                                _curMarked = 'op1';
-
-                                                if (_testAttempt
-                                                    .where((element) =>
-                                                        element.containsKey(
-                                                            '${myQueList.queList[index].queId}'))
-                                                    .isEmpty) {
-                                                  _queAttempted++;
-
-                                                  _testAttempt.add({
-                                                    '${myQueList.queList[index].queId}':
-                                                        'op1'
-                                                  });
-                                                } else {
-                                                  _testAttempt
-                                                      .firstWhere((element) =>
-                                                          element.containsKey(
-                                                              '${myQueList.queList[index].queId}'))
-                                                      .update(
-                                                          '${myQueList.queList[index].queId}',
-                                                          (value) => 'op1');
-                                                }
+                                                    .update(
+                                                        '${myQueList.queList[index].queId}',
+                                                        (value) => 'op1');
                                               }
-                                            });
-                                          },
-                                        ),
+                                            }
+                                          });
+                                        },
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        child: InkWell(
-                                          child: Card(
-                                            color: Colors.transparent,
-                                            margin: EdgeInsets.all(0),
-                                            child: Row(
-                                              children: [
-                                                Card(
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      child: InkWell(
+                                        child: Card(
+                                          color: Colors.transparent,
+                                          margin: EdgeInsets.all(0),
+                                          child: Row(
+                                            children: [
+                                              Card(
+                                                color: _curMarked == 'op2'
+                                                    ? Colors.blue
+                                                    : Colors.white,
+                                                margin: EdgeInsets.all(0),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Text(
+                                                    'b)',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Card(
+                                                color: Colors.transparent,
+                                              ),
+                                              Expanded(
+                                                child: Card(
                                                   color: _curMarked == 'op2'
                                                       ? Colors.blue
                                                       : Colors.white,
                                                   margin: EdgeInsets.all(0),
                                                   child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
+                                                    padding: EdgeInsets.all(4),
                                                     child: Text(
-                                                      'b)',
+                                                      myQueList
+                                                          .queList[index].op2,
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
                                                         fontSize: 20,
@@ -529,93 +530,91 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                     ),
                                                   ),
                                                 ),
-                                                Card(
-                                                  color: Colors.transparent,
-                                                ),
-                                                Expanded(
-                                                  child: Card(
-                                                    color: _curMarked == 'op2'
-                                                        ? Colors.blue
-                                                        : Colors.white,
-                                                    margin: EdgeInsets.all(0),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      child: Text(
-                                                        myQueList
-                                                            .queList[index].op2,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 20,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          onTap: () {
-                                            setState(() {
-                                              if (_curMarked == 'op2') {
-                                                _curMarked = null;
-                                                _queAttempted--;
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            if (_curMarked == 'op2') {
+                                              _curMarked = null;
+                                              _queAttempted--;
 
+                                              _testAttempt
+                                                  .firstWhere((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .remove(
+                                                      '${myQueList.queList[index].queId}');
+                                            } else {
+                                              _curMarked = 'op2';
+
+                                              if (_testAttempt
+                                                  .where((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .isEmpty) {
+                                                _queAttempted++;
+
+                                                _testAttempt.add({
+                                                  '${myQueList.queList[index].queId}':
+                                                      'op2'
+                                                });
+                                              } else {
                                                 _testAttempt
                                                     .firstWhere((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
-                                                    .remove(
-                                                        '${myQueList.queList[index].queId}');
-                                              } else {
-                                                _curMarked = 'op2';
-
-                                                if (_testAttempt
-                                                    .where((element) =>
-                                                        element.containsKey(
-                                                            '${myQueList.queList[index].queId}'))
-                                                    .isEmpty) {
-                                                  _queAttempted++;
-
-                                                  _testAttempt.add({
-                                                    '${myQueList.queList[index].queId}':
-                                                        'op2'
-                                                  });
-                                                } else {
-                                                  _testAttempt
-                                                      .firstWhere((element) =>
-                                                          element.containsKey(
-                                                              '${myQueList.queList[index].queId}'))
-                                                      .update(
-                                                          '${myQueList.queList[index].queId}',
-                                                          (value) => 'op2');
-                                                }
+                                                    .update(
+                                                        '${myQueList.queList[index].queId}',
+                                                        (value) => 'op2');
                                               }
-                                            });
-                                          },
-                                        ),
+                                            }
+                                          });
+                                        },
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        child: InkWell(
-                                          child: Card(
-                                            color: Colors.transparent,
-                                            margin: EdgeInsets.all(0),
-                                            child: Row(
-                                              children: [
-                                                Card(
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      child: InkWell(
+                                        child: Card(
+                                          color: Colors.transparent,
+                                          margin: EdgeInsets.all(0),
+                                          child: Row(
+                                            children: [
+                                              Card(
+                                                color: _curMarked == 'op3'
+                                                    ? Colors.blue
+                                                    : Colors.white,
+                                                margin: EdgeInsets.all(0),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Text(
+                                                    'c)',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Card(
+                                                color: Colors.transparent,
+                                              ),
+                                              Expanded(
+                                                child: Card(
                                                   color: _curMarked == 'op3'
                                                       ? Colors.blue
                                                       : Colors.white,
                                                   margin: EdgeInsets.all(0),
                                                   child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
+                                                    padding: EdgeInsets.all(4),
                                                     child: Text(
-                                                      'c)',
+                                                      myQueList
+                                                          .queList[index].op3,
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
                                                         fontSize: 20,
@@ -623,93 +622,91 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                     ),
                                                   ),
                                                 ),
-                                                Card(
-                                                  color: Colors.transparent,
-                                                ),
-                                                Expanded(
-                                                  child: Card(
-                                                    color: _curMarked == 'op3'
-                                                        ? Colors.blue
-                                                        : Colors.white,
-                                                    margin: EdgeInsets.all(0),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      child: Text(
-                                                        myQueList
-                                                            .queList[index].op3,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 20,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          onTap: () {
-                                            setState(() {
-                                              if (_curMarked == 'op3') {
-                                                _curMarked = null;
-                                                _queAttempted--;
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            if (_curMarked == 'op3') {
+                                              _curMarked = null;
+                                              _queAttempted--;
 
+                                              _testAttempt
+                                                  .firstWhere((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .remove(
+                                                      '${myQueList.queList[index].queId}');
+                                            } else {
+                                              _curMarked = 'op3';
+
+                                              if (_testAttempt
+                                                  .where((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .isEmpty) {
+                                                _queAttempted++;
+
+                                                _testAttempt.add({
+                                                  '${myQueList.queList[index].queId}':
+                                                      'op3'
+                                                });
+                                              } else {
                                                 _testAttempt
                                                     .firstWhere((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
-                                                    .remove(
-                                                        '${myQueList.queList[index].queId}');
-                                              } else {
-                                                _curMarked = 'op3';
-
-                                                if (_testAttempt
-                                                    .where((element) =>
-                                                        element.containsKey(
-                                                            '${myQueList.queList[index].queId}'))
-                                                    .isEmpty) {
-                                                  _queAttempted++;
-
-                                                  _testAttempt.add({
-                                                    '${myQueList.queList[index].queId}':
-                                                        'op3'
-                                                  });
-                                                } else {
-                                                  _testAttempt
-                                                      .firstWhere((element) =>
-                                                          element.containsKey(
-                                                              '${myQueList.queList[index].queId}'))
-                                                      .update(
-                                                          '${myQueList.queList[index].queId}',
-                                                          (value) => 'op3');
-                                                }
+                                                    .update(
+                                                        '${myQueList.queList[index].queId}',
+                                                        (value) => 'op3');
                                               }
-                                            });
-                                          },
-                                        ),
+                                            }
+                                          });
+                                        },
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        child: InkWell(
-                                          child: Card(
-                                            color: Colors.transparent,
-                                            margin: EdgeInsets.all(0),
-                                            child: Row(
-                                              children: [
-                                                Card(
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      child: InkWell(
+                                        child: Card(
+                                          color: Colors.transparent,
+                                          margin: EdgeInsets.all(0),
+                                          child: Row(
+                                            children: [
+                                              Card(
+                                                color: _curMarked == 'op4'
+                                                    ? Colors.blue
+                                                    : Colors.white,
+                                                margin: EdgeInsets.all(0),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Text(
+                                                    'd)',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Card(
+                                                color: Colors.transparent,
+                                              ),
+                                              Expanded(
+                                                child: Card(
                                                   color: _curMarked == 'op4'
                                                       ? Colors.blue
                                                       : Colors.white,
                                                   margin: EdgeInsets.all(0),
                                                   child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
+                                                    padding: EdgeInsets.all(4),
                                                     child: Text(
-                                                      'd)',
+                                                      myQueList
+                                                          .queList[index].op4,
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
                                                         fontSize: 20,
@@ -717,82 +714,58 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                     ),
                                                   ),
                                                 ),
-                                                Card(
-                                                  color: Colors.transparent,
-                                                ),
-                                                Expanded(
-                                                  child: Card(
-                                                    color: _curMarked == 'op4'
-                                                        ? Colors.blue
-                                                        : Colors.white,
-                                                    margin: EdgeInsets.all(0),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      child: Text(
-                                                        myQueList
-                                                            .queList[index].op4,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 20,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          onTap: () {
-                                            setState(() {
-                                              if (_curMarked == 'op4') {
-                                                _curMarked = null;
-                                                _queAttempted--;
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            if (_curMarked == 'op4') {
+                                              _curMarked = null;
+                                              _queAttempted--;
 
+                                              _testAttempt
+                                                  .firstWhere((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .remove(
+                                                      '${myQueList.queList[index].queId}');
+                                            } else {
+                                              _curMarked = 'op4';
+
+                                              if (_testAttempt
+                                                  .where((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .isEmpty) {
+                                                _queAttempted++;
+
+                                                _testAttempt.add({
+                                                  '${myQueList.queList[index].queId}':
+                                                      'op4'
+                                                });
+                                              } else {
                                                 _testAttempt
                                                     .firstWhere((element) =>
                                                         element.containsKey(
                                                             '${myQueList.queList[index].queId}'))
-                                                    .remove(
-                                                        '${myQueList.queList[index].queId}');
-                                              } else {
-                                                _curMarked = 'op4';
-
-                                                if (_testAttempt
-                                                    .where((element) =>
-                                                        element.containsKey(
-                                                            '${myQueList.queList[index].queId}'))
-                                                    .isEmpty) {
-                                                  _queAttempted++;
-
-                                                  _testAttempt.add({
-                                                    '${myQueList.queList[index].queId}':
-                                                        'op4'
-                                                  });
-                                                } else {
-                                                  _testAttempt
-                                                      .firstWhere((element) =>
-                                                          element.containsKey(
-                                                              '${myQueList.queList[index].queId}'))
-                                                      .update(
-                                                          '${myQueList.queList[index].queId}',
-                                                          (value) => 'op4');
-                                                }
+                                                    .update(
+                                                        '${myQueList.queList[index].queId}',
+                                                        (value) => 'op4');
                                               }
-                                            });
-                                          },
-                                        ),
+                                            }
+                                          });
+                                        },
                                       ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ),
-                        )),
+                          ))),
               Container(
                 height: size.height * 0.1,
                 child: Row(

@@ -57,7 +57,7 @@ class MyListWidget extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 32,
-                      fontWeight: FontWeight.bold,
+                     // fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
