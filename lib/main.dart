@@ -9,6 +9,7 @@ import './widgets/set_up_widget.dart';
 import './widgets/que_list_widget.dart';
 import './widgets/my_quiz_widget.dart';
 import './widgets/result_widget.dart';
+import './widgets/review_questions_widget.dart';
 
 void main() {
   SyncfusionLicense.registerLicense(
@@ -43,6 +44,9 @@ class MyApp extends StatelessWidget {
                 ),
             '/ResultWidget': (context) => Scaffold(
                   body: ResultWidget(),
+                ),
+            '/ReviewQuestionsWidget': (context) => Scaffold(
+                  body: ReviewQuestionsWidget(),
                 ),
           }),
     );

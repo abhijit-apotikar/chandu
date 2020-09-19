@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../my_arguments/test_arguments.dart';
+import '../my_arguments/arguments_to_review_questions.dart';
 
 import '../models/chartData _1.dart';
 import '../models/my_que_list.dart';
@@ -12,6 +13,8 @@ import '../models/chartData_2.dart';
 import '../models/test_statistics.dart';
 
 import '../data/test_statistics_data.dart';
+
+import '../widgets/alert_dialoge_reappear.dart';
 
 class ResultWidget extends StatefulWidget {
   @override
@@ -149,18 +152,51 @@ class _ResultWidgetState extends State<ResultWidget> {
                       style: TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 32,
-                       // fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.bold,
                       ),
                     ),
                     Expanded(
                       child: SizedBox(),
                     ),
-                    InkWell(
+                    /* InkWell(
                       child: Icon(
                         Icons.more_vert,
                         size: 32,
                       ),
                       onTap: () {},
+                    ),*/
+                    PopupMenuButton(
+                      initialValue: 0,
+                      onSelected: (value) {
+                        if (value == 0) {
+                          ArgumentsToReviewQuestions
+                              argumentsToReviewQuestions =
+                              new ArgumentsToReviewQuestions(_reviewList);
+                          Navigator.of(context).pushNamed(
+                              '/ReviewQuestionsWidget',
+                              arguments: argumentsToReviewQuestions);
+                        } else if (value == 1) {
+                          String msg =
+                              'Do you really want to reappear for this test?';
+                          showAlertDialogReappear(context, msg);
+                        }
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return [
+                          PopupMenuItem(
+                            value: 0,
+                            child: Text('Review Questions'),
+                          ),
+                          PopupMenuItem(
+                            value: 1,
+                            child: Text('Reappear'),
+                          ),
+                          PopupMenuItem(
+                            value: 2,
+                            child: Text('Rate Test'),
+                          ),
+                        ];
+                      },
                     ),
                     SizedBox(
                       width: 10,
