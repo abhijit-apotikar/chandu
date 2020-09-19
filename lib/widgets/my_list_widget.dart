@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_proc/my_arguments/my_arguments1.dart';
 import '../my_arguments/my_arguments1.dart';
 import '../my_arguments/my_arguments2.dart';
+import '../widgets/my_quiz_widget.dart';
 
 class MyListWidget extends StatelessWidget {
   @override
@@ -9,7 +10,7 @@ class MyListWidget extends StatelessWidget {
     RouteSettings settings = ModalRoute.of(context).settings;
     MyArguments1 myArguments1 = settings.arguments;
     String titleString = myArguments1.title;
-    List<String> contentArray = myArguments1.contentArray;
+    List<Map<String, String>> contentArray = myArguments1.contentArray;
     Size size = MediaQuery.of(context).size;
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     return Scaffold(
@@ -33,7 +34,6 @@ class MyListWidget extends StatelessWidget {
           Container(
             height: size.height * 0.085,
             child: Card(
-              
               color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -57,7 +57,7 @@ class MyListWidget extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 32,
-                     // fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -80,7 +80,7 @@ class MyListWidget extends StatelessWidget {
                           color: Colors.transparent,
                           child: Center(
                               child: Text(
-                            contentArray[index],
+                            contentArray[index]['title'],
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               fontSize: 24,
@@ -88,10 +88,20 @@ class MyListWidget extends StatelessWidget {
                           )),
                         )),
                     onTap: () {
-                      MyArguments2 myArguments2 =
-                          new MyArguments2(contentArray[index]);
-                      Navigator.pushNamed(context, '/MyQueListWidget',
-                          arguments: myArguments2);
+                      if (contentArray[index]['listType'] == 'test') {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return MyQuizWidget(
+                              int.parse(contentArray[index]['hours']),
+                              int.parse(contentArray[index]['minutes']),
+                              int.parse(contentArray[index]['seconds']));
+                        }));
+                      } else {
+                        MyArguments2 myArguments2 =
+                            new MyArguments2(contentArray[index]['title']);
+                        Navigator.pushNamed(context, '/MyQueListWidget',
+                            arguments: myArguments2);
+                      }
                     },
                   );
                 }),

@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
                   body: MyQueListWidget(),
                 ),
             '/MyQuizWidget': (context) => Scaffold(
-                  body: MyQuizWidget(0, 10, 10),
+                  body: MyQuizWidget(0, 0, 10),
                 ),
             '/ResultWidget': (context) => Scaffold(
                   body: ResultWidget(),

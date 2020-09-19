@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/result_widget.dart';
-
 import '../my_arguments/test_arguments.dart';
 
 showAlertDialog(

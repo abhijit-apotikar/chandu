@@ -99,7 +99,7 @@ class MainContentWidget extends StatelessWidget {
               onTap: () {
                 MyArguments1 myArguments1 =
                     new MyArguments1(mlm.title3, mlm.testSchemeList);
-                Navigator.pushNamed(context, '/MyQuizWidget',
+                Navigator.pushNamed(context, '/MyListWidget',
                     arguments: myArguments1);
               },
             ),

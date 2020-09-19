@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../my_arguments/test_arguments.dart';
 import '../my_arguments/arguments_to_review_questions.dart';
-
 import '../models/chartData _1.dart';
 import '../models/my_que_list.dart';
 import '../models/chartData_2.dart';
-import '../models/test_statistics.dart';
 
 import '../data/test_statistics_data.dart';
 
@@ -25,9 +22,6 @@ class _ResultWidgetState extends State<ResultWidget> {
   TestStatisticsData testStatisticsData = new TestStatisticsData();
   String _chartTitle = 'Breakdown';
   bool _isShowingToppers = false;
-  Color _firstDotColor = Colors.black;
-  Color _secondDotColor = Colors.grey;
-  Color _thirdDotColor = Colors.grey;
 
   List<Map<String, int>> calcResult(
       List<Map<String, String>> testAttempt1, int totalQue1) {
@@ -166,7 +160,7 @@ class _ResultWidgetState extends State<ResultWidget> {
                       onTap: () {},
                     ),*/
                     PopupMenuButton(
-                      initialValue: 0,
+                      // initialValue: 0,
                       onSelected: (value) {
                         if (value == 0) {
                           ArgumentsToReviewQuestions
@@ -190,10 +184,6 @@ class _ResultWidgetState extends State<ResultWidget> {
                           PopupMenuItem(
                             value: 1,
                             child: Text('Reappear'),
-                          ),
-                          PopupMenuItem(
-                            value: 2,
-                            child: Text('Rate Test'),
                           ),
                         ];
                       },
@@ -277,14 +267,14 @@ class _ResultWidgetState extends State<ResultWidget> {
                                   ),
                                 ),*/
                                 primaryXAxis: CategoryAxis(
-                                  title: AxisTitle(text: 'Subjects'),
+                                  title: AxisTitle(text: 'Scores'),
                                 ),
                                 primaryYAxis: NumericAxis(
                                   minimum:
                                       testStatisticsData.testList[0].minMarks,
                                   maximum:
                                       testStatisticsData.testList[0].maxMarks,
-                                  title: AxisTitle(text: 'marks'),
+                                  title: AxisTitle(text: 'Marks'),
                                   interval: 1,
                                 ),
                                 series: <ChartSeries>[

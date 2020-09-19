@@ -1,5 +1,5 @@
 class MyArguments1 {
   final String title;
-  final List<String> contentArray;
+  final List<Map<String,String>> contentArray;
   MyArguments1(this.title,this.contentArray);
 }
