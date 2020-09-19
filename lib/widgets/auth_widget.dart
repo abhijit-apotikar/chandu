@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import '../services/authService.dart';
 
 class AuthScreenWidget extends StatefulWidget {
   @override
@@ -8,9 +11,17 @@ class AuthScreenWidget extends StatefulWidget {
 }
 
 class _AuthScreenWidgetState extends State<AuthScreenWidget> {
+  final AuthService _authService = new AuthService();
+
   bool _obscureText = true;
 
   final String assetName = 'assets/svgs/app_title1.svg';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +33,6 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
         decoration: BoxDecoration(
           gradient: new LinearGradient(
               colors: [
-                // Color(0xffffd740),
                 Color(0xffb2ff59),
                 Color(0xff69f0ae),
               ],
@@ -126,10 +136,16 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image(
-                              image:
-                                  AssetImage("assets/images/google_logo.png"),
-                              height: 30.0),
+                          InkWell(
+                            child: Image(
+                                image:
+                                    AssetImage("assets/images/google_logo.png"),
+                                height: 30.0),
+                            onTap: () async {
+                              dynamic result =
+                                  await _authService.signInWithGoogle();
+                            },
+                          ),
                           SizedBox(
                             width: 15,
                           ),
@@ -141,9 +157,15 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                           SizedBox(
                             width: 10,
                           ),
-                          Image(
-                              image: AssetImage("assets/images/incognito.png"),
-                              height: 37.5),
+                          InkWell(
+                            child: Image(
+                                image:
+                                    AssetImage("assets/images/incognito.png"),
+                                height: 37.5),
+                            onTap: () async {
+                              await _authService.signOutFromGoogle();
+                            },
+                          ),
                         ],
                       ),
                       SizedBox(

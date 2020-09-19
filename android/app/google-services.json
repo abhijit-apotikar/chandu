@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "823017348746",
+    "firebase_url": "https://chandu-fe41d.firebaseio.com",
+    "project_id": "chandu-fe41d",
+    "storage_bucket": "chandu-fe41d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823017348746:android:b9efd0e4d7eee82c629773",
+        "android_client_info": {
+          "package_name": "com.example.chandu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "823017348746-3v4enmeg03bjmp0bpomdolr3h8t39arr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chandu",
+            "certificate_hash": "7aa0d7216e4c49e4df46f8c88299afc8d5f4effe"
+          }
+        },
+        {
+          "client_id": "823017348746-j6eq74pl9qn529rvv54i4uk203257j32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxQNMiYz-1hFWuahMoWftZbe9NyaivfRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "823017348746-j6eq74pl9qn529rvv54i4uk203257j32.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
