@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import '../widgets/my_quiz_widget.dart';
 
 showAlertDialogReappear(
   BuildContext context,
   String msg,
+  int _hours,
+  int _minutes,
+  int _seconds,
 ) {
   // set up the buttons
   Widget yesButton = OutlineButton(
-    color: Colors.white,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-    highlightElevation: 0,
-    borderSide: BorderSide(color: Colors.grey),
-    child: Text(
-      'Yes',
-      style: TextStyle(
-          color: Colors.green,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'Nunito'),
-    ),
-    onPressed: () {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          '/MyQuizWidget', ModalRoute.withName('/HomeScreenWidget'));
-    },
-  );
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: BorderSide(color: Colors.grey),
+      child: Text(
+        'Yes',
+        style: TextStyle(
+            color: Colors.green,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Nunito'),
+      ),
+      onPressed: () {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) {
+          return MyQuizWidget(_hours, _minutes, _seconds);
+        }), ModalRoute.withName('/HomeScreenWidget'));
+      });
   Widget noButton = OutlineButton(
     color: Colors.white,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),

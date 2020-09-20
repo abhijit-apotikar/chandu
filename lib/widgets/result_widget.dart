@@ -172,7 +172,12 @@ class _ResultWidgetState extends State<ResultWidget> {
                         } else if (value == 1) {
                           String msg =
                               'Do you really want to reappear for this test?';
-                          showAlertDialogReappear(context, msg);
+                          showAlertDialogReappear(
+                              context,
+                              msg,
+                              testArguments.hours,
+                              testArguments.minutes,
+                              testArguments.seconds);
                         }
                       },
                       itemBuilder: (BuildContext context) {

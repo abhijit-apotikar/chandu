@@ -328,7 +328,10 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                         _testAttempt,
                                                         _reviewList,
                                                         myQueList
-                                                            .queList.length);
+                                                            .queList.length,
+                                                        widget._hours,
+                                                        widget._minutes,
+                                                        widget._seconds);
                                                 Navigator.of(context)
                                                     .pushReplacementNamed(
                                                   '/ResultWidget',
@@ -419,8 +422,11 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                         new TestArguments(
                                                             _testAttempt,
                                                             _reviewList,
-                                                            myQueList.queList
-                                                                .length);
+                                                            myQueList
+                                                                .queList.length,
+                                                            widget._hours,
+                                                            widget._minutes,
+                                                            widget._seconds);
                                                     Navigator.of(context)
                                                         .pushReplacementNamed(
                                                       '/ResultWidget',

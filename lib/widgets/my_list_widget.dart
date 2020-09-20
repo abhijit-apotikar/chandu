@@ -95,7 +95,7 @@ class MyListWidget extends StatelessWidget {
                               int.parse(contentArray[index]['hours']),
                               int.parse(contentArray[index]['minutes']),
                               int.parse(contentArray[index]['seconds']));
-                        }));
+                        },));
                       } else {
                         MyArguments2 myArguments2 =
                             new MyArguments2(contentArray[index]['title']);

@@ -7,7 +7,10 @@ showAlertDialog(
     String msg,
     List<Map<String, String>> testAttempt,
     List<Map<String, bool>> reviewList,
-    int totalQue) {
+    int totalQue,
+    int _hours,
+    int _minutes,
+    int _seconds) {
   // set up the buttons
   Widget okButton = OutlineButton(
     color: Colors.white,
@@ -23,8 +26,8 @@ showAlertDialog(
           fontFamily: 'Nunito'),
     ),
     onPressed: () {
-      TestArguments testArguments =
-          new TestArguments(testAttempt, reviewList, totalQue);
+      TestArguments testArguments = new TestArguments(
+          testAttempt, reviewList, totalQue, _hours, _minutes, _seconds);
       Navigator.of(context).pushReplacementNamed(
         '/ResultWidget',
         arguments: testArguments,
