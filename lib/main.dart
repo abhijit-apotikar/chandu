@@ -3,14 +3,20 @@ import 'package:syncfusion_flutter_core/core.dart';
 import 'package:my_proc/widgets/my_list_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:firebase_core/firebase_core.dart';
-import './widgets/auth_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
+import './widgets/mainWrapper.dart';
 import './widgets/home_screen_widget.dart';
 import './widgets/set_up_widget.dart';
 import './widgets/que_list_widget.dart';
 import './widgets/my_quiz_widget.dart';
 import './widgets/result_widget.dart';
 import './widgets/review_questions_widget.dart';
+import './widgets/registerWidget.dart';
+import './widgets/userIdSetUp.dart';
+
+import './services/authService.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,33 +31,45 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return OKToast(
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: AuthScreenWidget(),
-          routes: {
-            '/HomeScreenWidget': (context) => Scaffold(
-                  body: HomeScreenWidget(),
-                ),
-            '/SetUpScreenWidget': (context) => Scaffold(
-                  body: SetUpWidget(),
-                ),
-            '/MyListWidget': (context) => Scaffold(
-                  body: MyListWidget(),
-                ),
-            '/MyQueListWidget': (context) => Scaffold(
-                  body: MyQueListWidget(),
-                ),
-            '/MyQuizWidget': (context) => Scaffold(
-                  body: MyQuizWidget(0, 0, 10),
-                ),
-            '/ResultWidget': (context) => Scaffold(
-                  body: ResultWidget(),
-                ),
-            '/ReviewQuestionsWidget': (context) => Scaffold(
-                  body: ReviewQuestionsWidget(),
-                ),
-          }),
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: OKToast(
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Chandu',
+            routes: {
+              '/': (context) => Scaffold(
+                    body: MainWrapper(),
+                  ),
+              '/HomeScreenWidget': (context) => Scaffold(
+                    body: HomeScreenWidget(),
+                  ),
+              '/SetUpScreenWidget': (context) => Scaffold(
+                    body: SetUpWidget(),
+                  ),
+              '/MyListWidget': (context) => Scaffold(
+                    body: MyListWidget(),
+                  ),
+              '/MyQueListWidget': (context) => Scaffold(
+                    body: MyQueListWidget(),
+                  ),
+              '/MyQuizWidget': (context) => Scaffold(
+                    body: MyQuizWidget(0, 0, 10),
+                  ),
+              '/ResultWidget': (context) => Scaffold(
+                    body: ResultWidget(),
+                  ),
+              '/ReviewQuestionsWidget': (context) => Scaffold(
+                    body: ReviewQuestionsWidget(),
+                  ),
+              '/RegisterWidget': (context) => Scaffold(
+                    body: RegisterWidget(),
+                  ),
+              '/UserIdSetUPWidget': (context) => Scaffold(
+                    body: UserIdSetUpWidget(),
+                  ),
+            }),
+      ),
     );
   }
 }

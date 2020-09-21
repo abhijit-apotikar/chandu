@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -58,11 +59,28 @@ class AuthService {
   // ----Sign in with email & password-------
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      dynamic result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
       return user;
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+      return null;
+    } on PlatformException catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  //--------------sign in Annonymously-----------------
+  Future signInAnnonymouslyToMyApp() async {
+    try {
+      UserCredential result = await _auth.signInAnonymously();
+      return result.user;
+    } on FirebaseAuth catch (e) {
+      print(e.toString());
+      return null;
+    } on PlatformException catch (e) {
       print(e.toString());
       return null;
     }

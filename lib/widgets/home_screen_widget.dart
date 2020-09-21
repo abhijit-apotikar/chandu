@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../widgets/profileWidget.dart';
 import '../widgets/main_content_widget.dart';
+import '../widgets/settingsWidget.dart';
 import 'package:provider/provider.dart';
 import '../models/my_model.dart';
 import '../models/set_up_model.dart';
@@ -105,7 +107,7 @@ class HomeScreenWidget extends StatelessWidget {
                               myModel.titleText,
                               style: TextStyle(
                                 fontSize: 32,
-                               // fontFamily: 'Ultra',
+                                // fontFamily: 'Ultra',
                               ),
                             );
                     },
@@ -117,7 +119,11 @@ class HomeScreenWidget extends StatelessWidget {
                   width: size.width,
                   child: Consumer<MyModel>(
                     builder: (context, myModel, child) {
-                      return MainContentWidget();
+                      return myModel.curPg == 'Home'
+                          ? MainContentWidget()
+                          : (myModel.curPg == 'Profile'
+                              ? ProfileWidget()
+                              : SettingsWidget());
                     },
                   ),
                 ),
