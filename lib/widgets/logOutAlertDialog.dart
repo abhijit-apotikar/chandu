@@ -20,9 +20,9 @@ showLogOutDialog(
             fontWeight: FontWeight.bold,
             fontFamily: 'Nunito'),
       ),
-      onPressed: () {
+      onPressed: () async {
         Navigator.of(context).pop();
-        _authService.signOutFromGoogle();
+        await _authService.signOutFromGoogle();
       });
   Widget noButton = OutlineButton(
     color: Colors.white,
