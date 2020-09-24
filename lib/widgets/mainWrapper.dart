@@ -13,7 +13,7 @@ class MainWrapper extends StatelessWidget {
     if (user == null) {
       return AuthScreenWidget();
     } else {
-      return UserIdSetUpWidget();
+      return HomeScreenWidget();
     }
   }
 }

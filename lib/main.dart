@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
               '/RegisterWidget': (context) => Scaffold(
                     body: RegisterWidget(),
                   ),
-              '/UserIdSetUPWidget': (context) => Scaffold(
+              '/UserIdSetUpWidget': (context) => Scaffold(
                     body: UserIdSetUpWidget(),
                   ),
             }),
