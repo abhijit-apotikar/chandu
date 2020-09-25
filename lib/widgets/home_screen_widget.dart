@@ -7,7 +7,7 @@ import '../models/my_model.dart';
 import '../models/set_up_model.dart';
 
 import '../shared/constants.dart';
-
+import '../services/firestoreService.dart';
 import '../widgets/loadingWidget.dart';
 
 class HomeScreenWidget extends StatefulWidget {

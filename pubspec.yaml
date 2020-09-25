@@ -37,6 +37,7 @@ dependencies:
   google_sign_in:
   firebase_core:
   flutter_spinkit:
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:
