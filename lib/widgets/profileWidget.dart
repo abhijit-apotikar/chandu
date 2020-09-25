@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,8 @@ class ProfileWidget extends StatefulWidget {
 class _ProfileWidgetState extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
-   // List<Map<String,dynamic>> _userData = [];
-   
+    // List<Map<String,dynamic>> _userData = [];
+
     Size size = MediaQuery.of(context).size;
     MyListModel mlm = new MyListModel();
     final user = Provider.of<User>(context);
@@ -22,7 +23,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     AuthService _authService = new AuthService();
     FirestoreService _fsService = new FirestoreService();
     // _fsService.getUserInfo(cUser).then((value) => _userData.add(value));
-     // String _userNameId = _userData[0]['pubUserId'];
+    // String _userNameId = _userData[0]['pubUserId'];
 
     return SingleChildScrollView(
       child: Column(
@@ -70,13 +71,30 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             fontSize: 18,
                           ),
                         ),
-                        Text(
-                          'Abhijtgit',
+                        StreamBuilder<QuerySnapshot>(
+                            stream: _fsService.fireStoreInstance
+                                .collection('users')
+                                .where('docId', isEqualTo: cUser.uid)
+                                .snapshots(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              return Text(
+                                snapshot.data.docs[0].data()['pubUserId'],
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontSize: 18,
+                                ),
+                              );
+                            }
+                            /*Text(
+                          'User ID: ',
                           style: TextStyle(
                             fontFamily: 'Nunito',
                             fontSize: 18,
                           ),
-                        ),
+                        ),*/
+
+                            )
                       ],
                     ),
                   ),
@@ -102,9 +120,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         ),
                         Flexible(
                           child: Text(
-                            user.isAnonymous
-                                ? "You are using the app annonymously."
-                                : user.email,
+                            user.isAnonymous ? "Annonymous User" : user.email,
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               fontSize: 18,

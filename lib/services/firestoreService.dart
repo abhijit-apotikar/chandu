@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
   //Firestore instance ********************
-  FirebaseFirestore _fireStoreInstance = FirebaseFirestore.instance;
+  FirebaseFirestore fireStoreInstance = FirebaseFirestore.instance;
 
 //check Availability******************
   Future checkAvailability(String userId) async {
-    QuerySnapshot users = await _fireStoreInstance.collection('users').get();
+    QuerySnapshot users = await fireStoreInstance.collection('users').get();
     if (users.docs
         .where((element) => element.data()['pubUserId'] == userId)
         .isEmpty) {
@@ -23,11 +23,11 @@ class FirestoreService {
 
   //create new user*******************
   Future createNewUserDocument(String userId, User user1) async {
-    QuerySnapshot users = await _fireStoreInstance.collection('users').get();
+    QuerySnapshot users = await fireStoreInstance.collection('users').get();
     if (users.docs
         .where((element) => element.data()['pubUserId'] == userId)
         .isEmpty) {
-      _fireStoreInstance
+      fireStoreInstance
           .collection('users')
           .add({'docId': user1.uid, 'pubUserId': userId});
 
@@ -39,7 +39,7 @@ class FirestoreService {
 
   //get user info **************************
  Future getUserInfo(User user1) async {
-    QuerySnapshot reqUser = await _fireStoreInstance
+    QuerySnapshot reqUser = await fireStoreInstance
         .collection('users')
         .where('docId', isEqualTo: user1.uid)
         .get();
