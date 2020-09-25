@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../services/authService.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/loadingWidget.dart';
 import '../widgets/alertDialog.dart';

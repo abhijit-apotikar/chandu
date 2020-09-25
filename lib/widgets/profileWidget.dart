@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/my_list_model.dart';
 import '../services/authService.dart';
-import '../my_arguments/my_arguments1.dart';
 
 class ProfileWidget extends StatefulWidget {
   @override

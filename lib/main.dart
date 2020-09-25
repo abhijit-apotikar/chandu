@@ -8,13 +8,12 @@ import 'package:provider/provider.dart';
 
 import './widgets/mainWrapper.dart';
 import './widgets/home_screen_widget.dart';
-import './widgets/set_up_widget.dart';
+
 import './widgets/que_list_widget.dart';
 import './widgets/my_quiz_widget.dart';
 import './widgets/result_widget.dart';
 import './widgets/review_questions_widget.dart';
 import './widgets/registerWidget.dart';
-import './widgets/userIdSetUp.dart';
 
 import './services/authService.dart';
 
@@ -44,9 +43,6 @@ class MyApp extends StatelessWidget {
               '/HomeScreenWidget': (context) => Scaffold(
                     body: HomeScreenWidget(),
                   ),
-              '/SetUpScreenWidget': (context) => Scaffold(
-                    body: SetUpWidget(),
-                  ),
               '/MyListWidget': (context) => Scaffold(
                     body: MyListWidget(),
                   ),
@@ -64,9 +60,6 @@ class MyApp extends StatelessWidget {
                   ),
               '/RegisterWidget': (context) => Scaffold(
                     body: RegisterWidget(),
-                  ),
-              '/UserIdSetUpWidget': (context) => Scaffold(
-                    body: UserIdSetUpWidget(),
                   ),
             }),
       ),

@@ -102,8 +102,8 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                     ),
                                     suffixIcon: GestureDetector(
                                         child: _obscureText
-                                            ? Icon(Feather.eye)
-                                            : Icon(Feather.eye_off),
+                                            ? Icon(Feather.eye_off)
+                                            : Icon(Feather.eye),
                                         onTap: () {
                                           setState(() {
                                             _obscureText = !_obscureText;
