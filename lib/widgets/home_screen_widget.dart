@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:oktoast/oktoast.dart';
 import '../widgets/profileWidget.dart';
 import '../widgets/main_content_widget.dart';
 import '../widgets/settingsWidget.dart';
@@ -8,6 +10,7 @@ import '../models/set_up_model.dart';
 
 import '../shared/constants.dart';
 import '../services/firestoreService.dart';
+import '../services/authService.dart';
 import '../widgets/loadingWidget.dart';
 
 class HomeScreenWidget extends StatefulWidget {
@@ -29,6 +32,9 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final EdgeInsets pdTop = MediaQuery.of(context).padding;
+    final cUser = Provider.of<User>(context);
+    final AuthService _auth = new AuthService();
+    final FirestoreService _fsService = new FirestoreService();
 
     return Scaffold(
         body: _haveUserId
@@ -530,10 +536,31 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                             children: [
                                               RaisedButton(
                                                 child: Text('Yes'),
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   setState(() {
                                                     _haveUserId = true;
                                                   });
+                                                  dynamic result =
+                                                      await _fsService
+                                                          .createNewUserDocument(
+                                                              _userId, cUser);
+                                                  if (result == true) {
+                                                    showToast(
+                                                        'User id has been set successfully.',
+                                                        textStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Nunito'),
+                                                        position: ToastPosition
+                                                            .bottom);
+                                                  } else {
+                                                    showToast(
+                                                        'Some problem occured.',
+                                                        textStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Nunito'),
+                                                        position: ToastPosition
+                                                            .bottom);
+                                                  }
                                                 },
                                               ),
                                               SizedBox(
@@ -541,7 +568,18 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                               ),
                                               RaisedButton(
                                                 child: Text('No'),
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _isUserIdAvailable = false;
+                                                    showToast(
+                                                        'You can look for a different User id.',
+                                                        textStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Nunito'),
+                                                        position: ToastPosition
+                                                            .bottom);
+                                                  });
+                                                },
                                               ),
                                             ],
                                           ),
@@ -562,7 +600,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                               validator: (val) => val.isEmpty
                                                   ? "User Id can't be empty."
                                                   : (val.length < 2
-                                                      ? 'Uset Id should be atleast 3 characters long'
+                                                      ? 'User Id should be atleast 3 characters long'
                                                       : (val.length > 20
                                                           ? 'User Id should be atmost 20 characters long'
                                                           : null)),
@@ -582,7 +620,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                                       fontSize: 20),
                                                 ),
                                               ),
-                                              onPressed: () {
+                                              onPressed: () async {
                                                 if (_formKey1.currentState
                                                     .validate()) {
                                                   /* String msg =
@@ -590,9 +628,30 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                           showUserIdAvailableDialog(
                                               context, msg);*/
                                                   setState(() {
-                                                    // _isUserIdAvailable = true;
-                                                    _isUserIdAvailable = true;
+                                                    _isLoading = true;
                                                   });
+                                                  dynamic result =
+                                                      await _fsService
+                                                          .checkAvailability(
+                                                              _userId);
+                                                  if (result == true) {
+                                                    setState(() {
+                                                      _isLoading = false;
+                                                      _isUserIdAvailable = true;
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      _isLoading = false;
+                                                      showToast(
+                                                          'User id not available. Try with some different user id.',
+                                                          textStyle: TextStyle(
+                                                              fontFamily:
+                                                                  'Nunito'),
+                                                          position:
+                                                              ToastPosition
+                                                                  .bottom);
+                                                    });
+                                                  }
                                                 }
                                               },
                                             ),

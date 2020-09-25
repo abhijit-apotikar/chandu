@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/my_list_model.dart';
 import '../services/authService.dart';
+import '../services/firestoreService.dart';
 
 class ProfileWidget extends StatefulWidget {
   @override
@@ -12,10 +13,16 @@ class ProfileWidget extends StatefulWidget {
 class _ProfileWidgetState extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
+   // List<Map<String,dynamic>> _userData = [];
+   
     Size size = MediaQuery.of(context).size;
     MyListModel mlm = new MyListModel();
     final user = Provider.of<User>(context);
+    final cUser = Provider.of<User>(context);
     AuthService _authService = new AuthService();
+    FirestoreService _fsService = new FirestoreService();
+    // _fsService.getUserInfo(cUser).then((value) => _userData.add(value));
+     // String _userNameId = _userData[0]['pubUserId'];
 
     return SingleChildScrollView(
       child: Column(
@@ -64,7 +71,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           ),
                         ),
                         Text(
-                          'Abhijit',
+                          'Abhijtgit',
                           style: TextStyle(
                             fontFamily: 'Nunito',
                             fontSize: 18,
