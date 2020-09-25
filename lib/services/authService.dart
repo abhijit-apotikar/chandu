@@ -65,6 +65,7 @@ class AuthService {
       return user;
     } on FirebaseAuthException catch (e) {
       print(e.toString());
+
       return null;
     } on PlatformException catch (e) {
       print(e.toString());
