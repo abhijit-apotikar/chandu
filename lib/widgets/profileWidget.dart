@@ -22,6 +22,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     final cUser = Provider.of<User>(context);
     AuthService _authService = new AuthService();
     FirestoreService _fsService = new FirestoreService();
+
     // _fsService.getUserInfo(cUser).then((value) => _userData.add(value));
     // String _userNameId = _userData[0]['pubUserId'];
 

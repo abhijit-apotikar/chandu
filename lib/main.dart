@@ -16,6 +16,7 @@ import './widgets/review_questions_widget.dart';
 import './widgets/registerWidget.dart';
 
 import './services/authService.dart';
+import './models/userIdStatus.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,8 @@ void main() async {
   SyncfusionLicense.registerLicense(
       'NT8mJyc2IWhia31ifWN9Z2FoYmF8YGJ8ampqanNiYmlmamlmanMDHmgyMTs6OTonfTIjPCc6ODIhYmZlEzQ+Mjo/fTA8Pg==');
   runApp(
-    MyApp(),
+    ChangeNotifierProvider<UserIdStatus>(
+        create: (_) => UserIdStatus(false), child: MyApp()),
   );
 }
 
@@ -40,8 +42,8 @@ class MyApp extends StatelessWidget {
               '/': (context) => Scaffold(
                     body: MainWrapper(),
                   ),
-              '/HomeScreenWidget': (context) => Scaffold(
-                    body: HomeScreenWidget(),
+              '/HomePageWidget': (context) => Scaffold(
+                    body: HomePageWidget(),
                   ),
               '/MyListWidget': (context) => Scaffold(
                     body: MyListWidget(),

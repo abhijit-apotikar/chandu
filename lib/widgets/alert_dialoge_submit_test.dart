@@ -135,7 +135,7 @@ class _SubmitAlertBoxState extends State<SubmitAlertBox> {
                                   response = true;
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => HomeScreenWidget()));
+                                    builder: (context) => HomePageWidget()));
                               },
                             ),
                             SizedBox(width: 10),
