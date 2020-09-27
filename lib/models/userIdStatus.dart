@@ -12,6 +12,10 @@ class UserIdStatus with ChangeNotifier {
     return haveUserId;
   }
 
+  bool getUserIdAvailableStatus() {
+    return isUserIdAvailable;
+  }
+
   bool getCourseSetUpStatus() {
     return isCourseSetUpDone;
   }
