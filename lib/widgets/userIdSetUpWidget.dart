@@ -24,7 +24,7 @@ class _UserIdSetUpWidgetState extends State<UserIdSetUpWidget> {
     final userIdStatus = Provider.of<UserIdStatus>(context);
     final FirestoreService _fsService = new FirestoreService();
 
-    String _userId;
+    String userId;
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class _UserIdSetUpWidgetState extends State<UserIdSetUpWidget> {
                                               ? 'User Id should be atmost 20 characters long'
                                               : null)),
                                   onChanged: (val) {
-                                    _userId = val;
+                                    userId = val;
                                   },
                                 ),
                                 SizedBox(height: 25),
@@ -107,11 +107,12 @@ class _UserIdSetUpWidgetState extends State<UserIdSetUpWidget> {
                                         _isLoading = true;
                                       });
                                       dynamic result = await _fsService
-                                          .checkAvailability(_userId);
+                                          .checkAvailability(userId);
                                       if (result == true) {
                                         setState(() {
                                           _isLoading = false;
-                                          userIdStatus.userIdAvailability(true);
+                                          userIdStatus
+                                              .userIdAvailability(result);
                                         });
                                       } else {
                                         setState(() {
