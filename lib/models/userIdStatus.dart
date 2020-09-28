@@ -20,8 +20,8 @@ class UserIdStatus with ChangeNotifier {
     return isCourseSetUpDone;
   }
 
-  //------------ to get the accent --------------
-  bool getAccent() {
+  //------------ to get the assent --------------
+  bool getAssent() {
     return acceptUserId;
   }
 
