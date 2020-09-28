@@ -1,24 +1,16 @@
 import 'package:flutter/foundation.dart';
 
 class UserIdStatus with ChangeNotifier {
-  bool haveUserId;
-  bool isUserIdAvailable;
-  bool acceptUserId;
+  bool _haveUserId;
+  bool _isUserIdAvailable;
+  bool _acceptUserId;
   String curUserId;
-  bool isCourseSetUpDone;
-  UserIdStatus(this.haveUserId);
+  bool _isCourseSetUpDone;
 
-  bool getUserIdStatus() {
-    return haveUserId;
-  }
-
-  bool getUserIdAvailableStatus() {
-    return isUserIdAvailable;
-  }
-
-  bool getCourseSetUpStatus() {
-    return isCourseSetUpDone;
-  }
+  getUserIdStatus() => _haveUserId;
+  getUserIdAvailableStatus() => _isUserIdAvailable;
+  getCourseSetUpDone() => _isCourseSetUpDone;
+  getAssent() => _acceptUserId;
 
   //------------ to get the assent --------------
   bool getAssent() {
