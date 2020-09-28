@@ -15,7 +15,7 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget> {
   Widget build(BuildContext context) {
-    final userIdStatus = Provider.of<UserIdStatus>(context);
+    final userIdStatus = context.watch<UserIdStatus>();
     final _haveUserIdStatus = userIdStatus.getUserIdStatus();
     final _isUserIdAvailable = userIdStatus.getUserIdAvailableStatus();
     final _acceptUserId = userIdStatus.getAssent();

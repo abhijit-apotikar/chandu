@@ -109,6 +109,16 @@ class _AcceptUserIdWidgetState extends State<AcceptUserIdWidget> {
                               children: [
                                 RaisedButton(
                                   child: Text(
+                                    'No',
+                                    style: TextStyle(fontFamily: 'Nunito'),
+                                  ),
+                                  onPressed: () async {},
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                RaisedButton(
+                                  child: Text(
                                     'Yes',
                                     style: TextStyle(fontFamily: 'Nunito'),
                                   ),

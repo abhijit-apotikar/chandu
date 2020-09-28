@@ -7,7 +7,7 @@ class UserIdStatus with ChangeNotifier {
   String _curUserId;
   bool _isCourseSetUpDone;
 
-  UserIdStatus(this._haveUserId);
+  UserIdStatus(this._haveUserId,this._isCourseSetUpDone);
 
   getUserIdStatus() => _haveUserId;
   getUserIdAvailableStatus() => _isUserIdAvailable;
@@ -29,6 +29,7 @@ class UserIdStatus with ChangeNotifier {
   processUserId(bool ascent) async {
     if (ascent) {
       _acceptUserId = true;
+      _isUserIdAvailable = false;
     } else {
       _acceptUserId = false;
     }
@@ -39,8 +40,10 @@ class UserIdStatus with ChangeNotifier {
   userIdAvailability(bool availibility) async {
     if (availibility) {
       _isUserIdAvailable = true;
+      _haveUserId = true;
     } else {
       _isUserIdAvailable = false;
+      _haveUserId = false;
     }
     notifyListeners();
   }
@@ -48,9 +51,9 @@ class UserIdStatus with ChangeNotifier {
   //---------- To see if the course set is done or not ------------
   courseSetUpStatus(bool status) async {
     if (status) {
-      _isCourseSetUpDone = true;
-    } else {
       _isCourseSetUpDone = false;
+    } else {
+      _isCourseSetUpDone = true;
     }
     notifyListeners();
   }
