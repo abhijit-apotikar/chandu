@@ -20,6 +20,11 @@ class UserIdStatus with ChangeNotifier {
     return isCourseSetUpDone;
   }
 
+  //------------ to get the accent --------------
+  bool getAccent() {
+    return acceptUserId;
+  }
+
   //-------- To check if user already has an user id-------------------
   void chngUIdStatus(bool status) {
     if (status) {

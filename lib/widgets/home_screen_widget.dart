@@ -13,6 +13,7 @@ class HomePageWidget extends StatelessWidget {
     final userIdStatus = Provider.of<UserIdStatus>(context);
     final _haveUserIdStatus = userIdStatus.getUserIdStatus();
     final _isUserIdAvailable = userIdStatus.getUserIdAvailableStatus();
+    final _acceptsUserId = userIdStatus.getAccent();
     final _isCourseSetUpDone = userIdStatus.getCourseSetUpStatus();
     return Scaffold(
       body: _haveUserIdStatus
