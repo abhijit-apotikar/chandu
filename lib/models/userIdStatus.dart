@@ -4,62 +4,60 @@ class UserIdStatus with ChangeNotifier {
   bool _haveUserId;
   bool _isUserIdAvailable;
   bool _acceptUserId;
-  String curUserId;
+  String _curUserId;
   bool _isCourseSetUpDone;
+
+  UserIdStatus(this._haveUserId);
 
   getUserIdStatus() => _haveUserId;
   getUserIdAvailableStatus() => _isUserIdAvailable;
-  getCourseSetUpDone() => _isCourseSetUpDone;
+  getCourseSetUpStatus() => _isCourseSetUpDone;
   getAssent() => _acceptUserId;
-
-  //------------ to get the assent --------------
-  bool getAssent() {
-    return acceptUserId;
-  }
+  getCurUserId() => _curUserId;
 
   //-------- To check if user already has an user id-------------------
-  void chngUIdStatus(bool status) {
+  chngUIdStatus(bool status) async {
     if (status) {
-      haveUserId = true;
+      _haveUserId = true;
     } else {
-      haveUserId = false;
+      _haveUserId = false;
     }
     notifyListeners();
   }
 
   //-------- To see if user accepts the selected user id----------------
-  void processUserId(bool ascent) {
+  processUserId(bool ascent) async {
     if (ascent) {
-      acceptUserId = true;
+      _acceptUserId = true;
     } else {
-      acceptUserId = false;
+      _acceptUserId = false;
     }
     notifyListeners();
   }
 
   //---------- To see if the currently selected user id is available------------
-  void userIdAvailability(bool availibility) {
+  userIdAvailability(bool availibility) async {
     if (availibility) {
-      isUserIdAvailable = true;
+      _isUserIdAvailable = true;
     } else {
-      isUserIdAvailable = false;
+      _isUserIdAvailable = false;
     }
     notifyListeners();
   }
 
   //---------- To see if the course set is done or not ------------
-  void courseSetUpStatus(bool status) {
+  courseSetUpStatus(bool status) async {
     if (status) {
-      isCourseSetUpDone = true;
+      _isCourseSetUpDone = true;
     } else {
-      isCourseSetUpDone = false;
+      _isCourseSetUpDone = false;
     }
     notifyListeners();
   }
 
   //----------- Set current user id----------------
-  void setCurUserId(String curUserId) {
-    curUserId = curUserId;
+  setCurUserId(String curUserId1) async {
+    _curUserId = curUserId1;
     notifyListeners();
   }
 }

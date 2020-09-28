@@ -24,7 +24,7 @@ class _AcceptUserIdWidgetState extends State<AcceptUserIdWidget> {
     final cUser = Provider.of<User>(context);
     final userIdStatus = Provider.of<UserIdStatus>(context);
     final FirestoreService _fsService = new FirestoreService();
-    final _userId = userIdStatus.curUserId;
+    final _userId = userIdStatus.getCurUserId();
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(

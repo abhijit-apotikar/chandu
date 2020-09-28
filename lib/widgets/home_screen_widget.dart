@@ -8,7 +8,12 @@ import '../widgets/courseSetUpWidget.dart';
 import '../widgets/acceptUserIdWidget.dart';
 import '../widgets/mainProduct.dart';
 
-class HomePageWidget extends StatelessWidget {
+class HomePageWidget extends StatefulWidget {
+  @override
+  _HomePageWidgetState createState() => _HomePageWidgetState();
+}
+
+class _HomePageWidgetState extends State<HomePageWidget> {
   Widget build(BuildContext context) {
     final userIdStatus = Provider.of<UserIdStatus>(context);
     final _haveUserIdStatus = userIdStatus.getUserIdStatus();
