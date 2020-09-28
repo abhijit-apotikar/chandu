@@ -11,10 +11,6 @@ class FirestoreService {
     if (users.docs
         .where((element) => element.data()['pubUserId'] == userId)
         .isEmpty) {
-      /* _fireStoreInstance
-          .collection('users')
-          .add({'docId': user.uid, 'pubUserId': userId});*/
-
       return true;
     } else {
       return false;
@@ -55,7 +51,7 @@ class FirestoreService {
     if (curUser.docs.isEmpty) {
       return false;
     } else if (curUser.docs.isNotEmpty &&
-        curUser.docs[0].data()['pubUserId'] != null) {
+        curUser.docs[0].data()['pubUserId'] == null) {
       return false;
     } else {
       return true;

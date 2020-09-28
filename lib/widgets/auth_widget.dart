@@ -36,7 +36,8 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
     Size size = MediaQuery.of(context).size;
     double pt = MediaQuery.of(context).padding.top;
     final FirestoreService _fsService = new FirestoreService();
-    final cUser = Provider.of<User>(context);
+    // final cUser = Provider.of<User>(context);
+    final userIdStatus = Provider.of<UserIdStatus>(context);
 
     return Scaffold(
       body: _isLoading
@@ -161,12 +162,11 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                             showAlertDialog(context, error);
                                           });
                                         } else {
-                                          dynamic userIdStatus =
+                                          dynamic userExistenceResult =
                                               await _fsService
-                                                  .checkUserExistence(cUser);
-
-                                          userIdStatus
-                                              .changUIdStatus(userIdStatus);
+                                                  .checkUserExistence(result);
+                                          userIdStatus.chngUIdStatus(
+                                              userExistenceResult);
                                         }
                                       }
                                     },
@@ -202,12 +202,11 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                               'trouble signing in -------------------------');
                                         } else {
                                           _isLoading = false;
-                                          dynamic userIdStatus =
+                                          dynamic userExistenceResult =
                                               await _fsService
-                                                  .checkUserExistence(cUser);
-
-                                          userIdStatus
-                                              .changUIdStatus(userIdStatus);
+                                                  .checkUserExistence(result);
+                                          userIdStatus.chngUIdStatus(
+                                              userExistenceResult);
                                           debugPrint(
                                               'signed in +++++++++++++++++++++++');
                                         }
