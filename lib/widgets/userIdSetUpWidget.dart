@@ -113,6 +113,7 @@ class _UserIdSetUpWidgetState extends State<UserIdSetUpWidget> {
                                           _isLoading = false;
                                           userIdStatus
                                               .userIdAvailability(result);
+                                          userIdStatus.setCurUserId(userId);
                                         });
                                       } else {
                                         setState(() {

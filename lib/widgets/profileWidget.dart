@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../models/my_list_model.dart';
 import '../services/authService.dart';
 import '../services/firestoreService.dart';
+import '../models/userIdStatus.dart';
 
 class ProfileWidget extends StatefulWidget {
   @override
@@ -19,9 +20,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     Size size = MediaQuery.of(context).size;
     MyListModel mlm = new MyListModel();
     final user = Provider.of<User>(context);
-    final cUser = Provider.of<User>(context);
-    AuthService _authService = new AuthService();
-    FirestoreService _fsService = new FirestoreService();
+    final userIdStatus = (context).watch<UserIdStatus>();
 
     // _fsService.getUserInfo(cUser).then((value) => _userData.add(value));
     // String _userNameId = _userData[0]['pubUserId'];
@@ -72,30 +71,21 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             fontSize: 18,
                           ),
                         ),
-                        StreamBuilder<QuerySnapshot>(
-                            stream: _fsService.fireStoreInstance
-                                .collection('users')
-                                .where('docId', isEqualTo: cUser.uid)
-                                .snapshots(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              return Text(
-                                snapshot.data.docs[0].data()['pubUserId'],
-                                style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  fontSize: 18,
-                                ),
-                              );
-                            }
-                            /*Text(
+                        Text(
+                          userIdStatus.getCurUserId(),
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 18,
+                          ),
+                        ),
+
+                        /*Text(
                           'User ID: ',
                           style: TextStyle(
                             fontFamily: 'Nunito',
                             fontSize: 18,
                           ),
                         ),*/
-
-                            )
                       ],
                     ),
                   ),

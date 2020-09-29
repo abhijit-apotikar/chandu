@@ -21,7 +21,7 @@ class _MainProductWidgetState extends State<MainProductWidget> {
 
     return Scaffold(
       body: ChangeNotifierProvider<MyModel>(
-        create: (context) => MyModel(),
+        create: (_) => MyModel(),
         child: Container(
           decoration: BoxDecoration(
             gradient: new LinearGradient(

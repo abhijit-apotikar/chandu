@@ -42,6 +42,8 @@ class FirestoreService {
     return reqUser.docs[0].data();
   }
 
+  
+
   //check if user and userId already exists************
   Future checkUserExistence(User user1) async {
     QuerySnapshot curUser = await fireStoreInstance

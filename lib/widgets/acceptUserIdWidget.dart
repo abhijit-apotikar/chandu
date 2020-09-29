@@ -22,9 +22,9 @@ class _AcceptUserIdWidgetState extends State<AcceptUserIdWidget> {
     Size size = MediaQuery.of(context).size;
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     final cUser = Provider.of<User>(context);
-    final userIdStatus = Provider.of<UserIdStatus>(context);
+    final userIdStatus = context.watch<UserIdStatus>();
     final FirestoreService _fsService = new FirestoreService();
-    final _userId = userIdStatus.getCurUserId();
+    final userId = userIdStatus.getCurUserId();
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -124,7 +124,7 @@ class _AcceptUserIdWidgetState extends State<AcceptUserIdWidget> {
                                   ),
                                   onPressed: () async {
                                     dynamic result = await _fsService
-                                        .createNewUserDocument(_userId, cUser);
+                                        .createNewUserDocument(userId, cUser);
                                     if (result == true) {
                                       userIdStatus.processUserId(true);
                                     }

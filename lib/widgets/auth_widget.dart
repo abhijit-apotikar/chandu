@@ -109,8 +109,8 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                     ),
                                     suffixIcon: GestureDetector(
                                         child: _obscureText
-                                            ? Icon(Feather.eye_off)
-                                            : Icon(Feather.eye),
+                                            ? Icon(Feather.eye)
+                                            : Icon(Feather.eye_off),
                                         onTap: () {
                                           setState(() {
                                             _obscureText = !_obscureText;
@@ -167,6 +167,15 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                                   .checkUserExistence(result);
                                           userIdStatus.chngUIdStatus(
                                               userExistenceResult);
+                                          dynamic userInfo = await _fsService
+                                              .getUserInfo(result);
+                                          if (userExistenceResult == true &&
+                                              userInfo['pubUserId'] != null) {
+                                            userIdStatus.setCurUserId(
+                                                userInfo['pubUserId']);
+                                          } else {
+                                            userIdStatus.setCurUserId('');
+                                          }
                                         }
                                       }
                                     },
@@ -207,6 +216,15 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                                   .checkUserExistence(result);
                                           userIdStatus.chngUIdStatus(
                                               userExistenceResult);
+                                          dynamic userInfo = await _fsService
+                                              .getUserInfo(result);
+                                          if (userExistenceResult == true &&
+                                              userInfo['pubUserId'] != null) {
+                                            userIdStatus.setCurUserId(
+                                                userInfo['pubUserId']);
+                                          } else {
+                                            userIdStatus.setCurUserId('');
+                                          }
                                           debugPrint(
                                               'signed in +++++++++++++++++++++++');
                                         }

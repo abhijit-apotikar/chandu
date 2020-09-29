@@ -51,9 +51,9 @@ class UserIdStatus with ChangeNotifier {
   //---------- To see if the course set is done or not ------------
   courseSetUpStatus(bool status) async {
     if (status) {
-      _isCourseSetUpDone = false;
-    } else {
       _isCourseSetUpDone = true;
+    } else {
+      _isCourseSetUpDone = false;
     }
     notifyListeners();
   }
