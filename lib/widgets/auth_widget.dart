@@ -167,14 +167,15 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                                   .checkUserExistence(result);
                                           userIdStatus.chngUIdStatus(
                                               userExistenceResult);
-                                          dynamic userInfo = await _fsService
-                                              .getUserInfo(result);
-                                          if (userExistenceResult == true &&
-                                              userInfo['pubUserId'] != null) {
-                                            userIdStatus.setCurUserId(
-                                                userInfo['pubUserId']);
-                                          } else {
-                                            userIdStatus.setCurUserId('');
+                                          if (userExistenceResult == true) {
+                                            dynamic userInfo = await _fsService
+                                                .getUserInfo(result);
+                                            if (userInfo['pubUserId'] != null) {
+                                              userIdStatus.setCurUserId(
+                                                  userInfo['pubUserId']);
+                                            } else {
+                                              userIdStatus.setCurUserId('');
+                                            }
                                           }
                                         }
                                       }
@@ -216,15 +217,17 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                                   .checkUserExistence(result);
                                           userIdStatus.chngUIdStatus(
                                               userExistenceResult);
-                                          dynamic userInfo = await _fsService
-                                              .getUserInfo(result);
-                                          if (userExistenceResult == true &&
-                                              userInfo['pubUserId'] != null) {
-                                            userIdStatus.setCurUserId(
-                                                userInfo['pubUserId']);
-                                          } else {
-                                            userIdStatus.setCurUserId('');
+                                          if (userExistenceResult == true) {
+                                            dynamic userInfo = await _fsService
+                                                .getUserInfo(result);
+                                            if (userInfo['pubUserId'] != null) {
+                                              userIdStatus.setCurUserId(
+                                                  userInfo['pubUserId']);
+                                            } else {
+                                              userIdStatus.setCurUserId('');
+                                            }
                                           }
+
                                           debugPrint(
                                               'signed in +++++++++++++++++++++++');
                                         }

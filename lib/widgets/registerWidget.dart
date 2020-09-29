@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../services/authService.dart';
 
 import '../widgets/loadingWidget.dart';
 import '../widgets/alertDialog.dart';
 
 import '../shared/constants.dart';
+import '../models/userIdStatus.dart';
 
 class RegisterWidget extends StatefulWidget {
   @override
@@ -15,6 +17,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   bool loading = false;
   bool _agreedToTerms = false;
   final _formKey = GlobalKey<FormState>();
+ 
+   
 
   ///------------textField e-mail,password local variables--------
   String email = '';
@@ -23,7 +27,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   @override
   Widget build(BuildContext context) {
     AuthService _auth = new AuthService();
-
+  final userIdStatus = Provider.of<UserIdStatus>(context);
     return loading
         ? LoadingWidget()
         : Scaffold(
@@ -198,6 +202,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                           email, password);
                                   if (result != null) {
                                     Navigator.pop(context);
+                                    userIdStatus.chngUIdStatus(false);
                                   }
                                   if (result == null) {
                                     setState(() {
