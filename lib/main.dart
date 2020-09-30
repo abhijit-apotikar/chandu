@@ -25,7 +25,7 @@ void main() async {
       'NT8mJyc2IWhia31ifWN9Z2FoYmF8YGJ8ampqanNiYmlmamlmanMDHmgyMTs6OTonfTIjPCc6ODIhYmZlEzQ+Mjo/fTA8Pg==');
   runApp(
     ChangeNotifierProvider<UserIdStatus>(
-        create: (_) => UserIdStatus(false,false), child: MyApp()),
+        create: (_) => UserIdStatus(false), child: MyApp()),
   );
 }
 

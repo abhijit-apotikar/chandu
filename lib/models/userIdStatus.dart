@@ -1,19 +1,45 @@
 import 'package:flutter/foundation.dart';
 
 class UserIdStatus with ChangeNotifier {
+  bool _iniAssent;
   bool _haveUserId;
   bool _isUserIdAvailable;
   bool _acceptUserId;
   String _curUserId;
   bool _isCourseSetUpDone;
 
-  UserIdStatus(this._haveUserId,this._isCourseSetUpDone);
+  UserIdStatus(this._iniAssent);
 
+  getIniAssent() => _iniAssent;
   getUserIdStatus() => _haveUserId;
   getUserIdAvailableStatus() => _isUserIdAvailable;
   getCourseSetUpStatus() => _isCourseSetUpDone;
   getAssent() => _acceptUserId;
   getCurUserId() => _curUserId;
+
+  //----------- set initial assent------------
+  setIniAssent(bool assent) async {
+    _iniAssent = assent;
+  }
+
+  //---------- set _haveUserId -------------
+  setHaveUserId(bool status) async {
+    _haveUserId = status;
+  }
+
+  // -------------- set _isUserIdAvailable -----------
+  setIsUserIdAvailable(bool status) async {
+    _isUserIdAvailable = status;
+  }
+
+  // ------------ set _isCourseSetUpDone ---------
+  setIsCourseSetUpDone(bool status) async {
+    _isCourseSetUpDone = status;
+  }
+
+  processIniAssent(bool assent) async {
+    _iniAssent = assent;
+  }
 
   //-------- To check if user already has an user id-------------------
   chngUIdStatus(bool status) async {

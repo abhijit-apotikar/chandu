@@ -25,7 +25,7 @@ class FirestoreService {
         .isEmpty) {
       fireStoreInstance
           .collection('users')
-          .add({'docId': user1.uid, 'pubUserId': userId});
+          .add({'docId': user1.uid, 'pubUserId': userId,'haveUserId':false,'isUserIdAvailable':false,'isCourseSetUpDone':false});
 
       return true;
     } else {
@@ -40,6 +40,11 @@ class FirestoreService {
         .where('docId', isEqualTo: user1.uid)
         .get();
     return reqUser.docs[0].data();
+  }
+
+  // ------------- update user info ------------
+  Future updateUserIndo(User user1)async{
+    QuerySnapshot
   }
 
   

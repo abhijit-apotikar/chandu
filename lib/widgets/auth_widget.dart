@@ -162,7 +162,8 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                             showAlertDialog(context, error);
                                           });
                                         } else {
-                                          dynamic userExistenceResult =
+                                        //  userIdStatus.setIniAssent(false);
+                                         /* dynamic userExistenceResult =
                                               await _fsService
                                                   .checkUserExistence(result);
                                           userIdStatus.chngUIdStatus(
@@ -176,7 +177,7 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                             } else {
                                               userIdStatus.setCurUserId('');
                                             }
-                                          }
+                                          }*/
                                         }
                                       }
                                     },
