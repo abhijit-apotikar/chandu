@@ -25,7 +25,7 @@ class FirestoreService {
         .isEmpty) {
       fireStoreInstance
           .collection('users')
-          .add({'docId': user1.uid, 'pubUserId': userId,'haveUserId':false,'isUserIdAvailable':false,'isCourseSetUpDone':false});
+          .add({'docId': user1.uid, 'pubUserId': userId,'haveUserId':true,'isUserIdAvailable':false,'isCourseSetUpDone':false});
 
       return true;
     } else {
@@ -42,9 +42,24 @@ class FirestoreService {
     return reqUser.docs[0].data();
   }
 
-  // ------------- update user info ------------
-  Future updateUserIndo(User user1)async{
-    QuerySnapshot
+   // ------------- update haveUserId ------------
+  Future updateIsHaveUserId(User user1)async{
+    QuerySnapshot reqUser = await fireStoreInstance.collection('users').where('docId',isEqualTo:user1.uid).get();
+    reqUser.docs[0].data().update('haveUserId', (value) => true);
+    return true;
+  }
+   // ------------- update isUserIdAvailable ------------
+  Future updateIsUserIdAvailable(User user1)async{
+    QuerySnapshot reqUser = await fireStoreInstance.collection('users').where('docId',isEqualTo:user1.uid).get();
+    reqUser.docs[0].data().update('isUserIdAvailable', (value) => true);
+    return true;
+  }
+
+  // ------------- update isCourseSetUpDone ------------
+  Future updateIsCourseSetUpDone(User user1)async{
+    QuerySnapshot reqUser = await fireStoreInstance.collection('users').where('docId',isEqualTo:user1.uid).get();
+    reqUser.docs[0].data().update('isCourseSetUpDone', (value) => true);
+    return true;
   }
 
   

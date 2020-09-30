@@ -223,7 +223,15 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                               fontSize: 24,
                             ),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            dynamic userInfo =
+                                await _fsService.updateIsCourseSetUpDone(cUser);
+                            if (userInfo) {
+                              showToast(
+                                  'User id not available. Try with some different user id.',
+                                  textStyle: TextStyle(fontFamily: 'Nunito'),
+                                  position: ToastPosition.bottom);
+                            }
                             setState(() {
                               userIdStatus.courseSetUpStatus(true);
                             });

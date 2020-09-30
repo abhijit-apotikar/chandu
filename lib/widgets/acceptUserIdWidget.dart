@@ -126,6 +126,8 @@ class _AcceptUserIdWidgetState extends State<AcceptUserIdWidget> {
                                     dynamic result = await _fsService
                                         .createNewUserDocument(userId, cUser);
                                     if (result == true) {
+                                     // _fsService.updateIsHaveUserId(cUser);
+                                     userIdStatus.setHaveUserId(true);
                                       userIdStatus.processUserId(true);
                                     }
                                   },
