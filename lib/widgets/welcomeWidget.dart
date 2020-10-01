@@ -44,10 +44,13 @@ class WelcomeWidget extends StatelessWidget {
                     dynamic userInfo = await _fsService.getUserInfo(user);
                     if (userInfo['pubUserId'] != null) {
                       userIdStatus.setHaveUserId(userInfo['haveUserId']);
+                      debugPrint((userIdStatus.getUserIdStatus()).toString());
                       userIdStatus.setIsUserIdAvailable(userInfo['isUserIdAvailable']);
+                       debugPrint((userIdStatus.getUserIdAvailableStatus()).toString());
                       userIdStatus.setIsCourseSetUpDone(userInfo['isCourseSetUpDone']);
-                      
+                       debugPrint((userIdStatus.getCourseSetUpStatus()).toString());
                       userIdStatus.setCurUserId(userInfo['pubUserId']);
+                       debugPrint((userIdStatus.getCurUserId()).toString());
                     } else {
                       userIdStatus.setCurUserId('');
                     }

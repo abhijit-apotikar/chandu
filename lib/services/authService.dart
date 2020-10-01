@@ -62,7 +62,7 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
-      if (user.emailVerified) return user.uid;
+      if (user.emailVerified) return user;
       return null;
     } on FirebaseAuthException catch (e) {
       print(e.toString());

@@ -228,7 +228,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                 await _fsService.updateIsCourseSetUpDone(cUser);
                             if (userInfo) {
                               showToast(
-                                  'User id not available. Try with some different user id.',
+                                  'Course set up done successfully.',
                                   textStyle: TextStyle(fontFamily: 'Nunito'),
                                   position: ToastPosition.bottom);
                             }

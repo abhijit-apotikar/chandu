@@ -128,6 +128,8 @@ class _AcceptUserIdWidgetState extends State<AcceptUserIdWidget> {
                                     if (result == true) {
                                      // _fsService.updateIsHaveUserId(cUser);
                                      userIdStatus.setHaveUserId(true);
+                                     userIdStatus.setIsUserIdAvailable(false);
+                                     userIdStatus.setIsCourseSetUpDone(false);
                                       userIdStatus.processUserId(true);
                                     }
                                   },

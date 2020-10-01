@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+
+
+// -------------- my packages ------------------
 import '../models/my_list_model.dart';
 import '../services/authService.dart';
 import '../widgets/logOutAlertDialog.dart';
+import '../models/userIdStatus.dart';
 
 class SettingsWidget extends StatefulWidget {
   @override
@@ -14,6 +20,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     AuthService _authService = new AuthService();
     Size size = MediaQuery.of(context).size;
     MyListModel mlm = new MyListModel();
+    final userIdStatus = context.watch<UserIdStatus>();
 
     return SingleChildScrollView(
       child: Column(
@@ -47,7 +54,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             ),
                             onTap: () {
                               String msg = 'Do you really want to log out?';
-                              showLogOutDialog(context, msg, _authService);
+                              showLogOutDialog(context, msg, _authService,/*userIdStatus*/);
                             }),
                       ],
                     ),

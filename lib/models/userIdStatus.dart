@@ -20,25 +20,36 @@ class UserIdStatus with ChangeNotifier {
   //----------- set initial assent------------
   setIniAssent(bool assent) async {
     _iniAssent = assent;
+    notifyListeners();
   }
 
   //---------- set _haveUserId -------------
   setHaveUserId(bool status) async {
     _haveUserId = status;
+    notifyListeners();
   }
 
   // -------------- set _isUserIdAvailable -----------
   setIsUserIdAvailable(bool status) async {
     _isUserIdAvailable = status;
+    notifyListeners();
   }
 
   // ------------ set _isCourseSetUpDone ---------
   setIsCourseSetUpDone(bool status) async {
     _isCourseSetUpDone = status;
+    notifyListeners();
   }
 
   processIniAssent(bool assent) async {
     _iniAssent = assent;
+    notifyListeners();
+  }
+
+  //----------- Set current user id----------------
+  setCurUserId(String curUserId1) async {
+    _curUserId = curUserId1;
+    notifyListeners();
   }
 
   //-------- To check if user already has an user id-------------------
@@ -81,12 +92,6 @@ class UserIdStatus with ChangeNotifier {
     } else {
       _isCourseSetUpDone = false;
     }
-    notifyListeners();
-  }
-
-  //----------- Set current user id----------------
-  setCurUserId(String curUserId1) async {
-    _curUserId = curUserId1;
     notifyListeners();
   }
 }

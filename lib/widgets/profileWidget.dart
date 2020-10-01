@@ -20,7 +20,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     Size size = MediaQuery.of(context).size;
     MyListModel mlm = new MyListModel();
     final user = Provider.of<User>(context);
-    final userIdStatus = (context).watch<UserIdStatus>();
+    final userIdStatus = Provider.of<UserIdStatus>(context);
 
     // _fsService.getUserInfo(cUser).then((value) => _userData.add(value));
     // String _userNameId = _userData[0]['pubUserId'];

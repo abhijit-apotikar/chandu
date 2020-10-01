@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// ---------- my packages -------------------
 import '../services/authService.dart';
+//import '../models/userIdStatus.dart';
 
 showLogOutDialog(
   BuildContext context,
   String msg,
   AuthService _authService,
+  //UserIdStatus userIdStatus,
 ) {
   // set up the buttons
   Widget yesButton = OutlineButton(
@@ -23,6 +28,10 @@ showLogOutDialog(
       onPressed: () async {
         Navigator.of(context).pop();
         await _authService.signOutFromGoogle();
+      /*  userIdStatus.setHaveUserId(null);
+        userIdStatus.setIsUserIdAvailable(null);
+        userIdStatus.setIsCourseSetUpDone(null);
+        userIdStatus.setCurUserId(null);*/
       });
   Widget noButton = OutlineButton(
     color: Colors.white,

@@ -162,8 +162,8 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                             showAlertDialog(context, error);
                                           });
                                         } else {
-                                        //  userIdStatus.setIniAssent(false);
-                                         /* dynamic userExistenceResult =
+                                          //  userIdStatus.setIniAssent(false);
+                                          /* dynamic userExistenceResult =
                                               await _fsService
                                                   .checkUserExistence(result);
                                           userIdStatus.chngUIdStatus(
@@ -178,6 +178,30 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                               userIdStatus.setCurUserId('');
                                             }
                                           }*/
+                                          dynamic userInfo = await _fsService
+                                              .getUserInfo(result);
+                                          if (userInfo['pubUserId'] != null) {
+                                            userIdStatus.setHaveUserId(
+                                                userInfo['haveUserId']);
+                                            debugPrint(
+                                                (userIdStatus.getUserIdStatus())
+                                                    .toString());
+                                            userIdStatus.setIsUserIdAvailable(
+                                                userInfo['isUserIdAvailable']);
+                                            debugPrint((userIdStatus
+                                                    .getUserIdAvailableStatus())
+                                                .toString());
+                                            userIdStatus.setIsCourseSetUpDone(
+                                                userInfo['isCourseSetUpDone']);
+                                            debugPrint((userIdStatus
+                                                    .getCourseSetUpStatus())
+                                                .toString());
+                                            userIdStatus.setCurUserId(
+                                                userInfo['pubUserId']);
+                                            debugPrint(
+                                                (userIdStatus.getCurUserId())
+                                                    .toString());
+                                          }
                                         }
                                       }
                                     },
