@@ -55,7 +55,9 @@ class WelcomeWidget extends StatelessWidget {
                       userIdStatus.setCurUserId('');
                     }
                   }
+                  _fsService.updateIniAssent(user);
                   userIdStatus.processIniAssent(true);
+                  
                 },
               ),
             ],

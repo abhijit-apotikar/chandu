@@ -25,7 +25,7 @@ class FirestoreService {
         .isEmpty) {
       fireStoreInstance
           .collection('users')
-          .add({'docId': user1.uid, 'pubUserId': userId,'haveUserId':true,'isUserIdAvailable':false,'isCourseSetUpDone':false});
+          .add({'docId': user1.uid, 'pubUserId': userId,'iniAssent': false,'haveUserId':true,'isUserIdAvailable':false,'isCourseSetUpDone':false});
 
       return true;
     } else {
@@ -40,6 +40,13 @@ class FirestoreService {
         .where('docId', isEqualTo: user1.uid)
         .get();
     return reqUser.docs[0].data();
+  }
+
+   // ------------- update iniAssent ------------
+  Future updateIniAssent(User user1)async{
+    QuerySnapshot reqUser = await fireStoreInstance.collection('users').where('docId',isEqualTo:user1.uid).get();
+    reqUser.docs[0].data().update('iniAssent', (value) => true);
+    return true;
   }
 
    // ------------- update haveUserId ------------

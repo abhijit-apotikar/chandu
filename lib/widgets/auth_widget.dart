@@ -178,29 +178,38 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                               userIdStatus.setCurUserId('');
                                             }
                                           }*/
-                                          dynamic userInfo = await _fsService
-                                              .getUserInfo(result);
-                                          if (userInfo['pubUserId'] != null) {
-                                            userIdStatus.setHaveUserId(
-                                                userInfo['haveUserId']);
-                                            debugPrint(
-                                                (userIdStatus.getUserIdStatus())
-                                                    .toString());
-                                            userIdStatus.setIsUserIdAvailable(
-                                                userInfo['isUserIdAvailable']);
-                                            debugPrint((userIdStatus
-                                                    .getUserIdAvailableStatus())
-                                                .toString());
-                                            userIdStatus.setIsCourseSetUpDone(
-                                                userInfo['isCourseSetUpDone']);
-                                            debugPrint((userIdStatus
-                                                    .getCourseSetUpStatus())
-                                                .toString());
-                                            userIdStatus.setCurUserId(
-                                                userInfo['pubUserId']);
-                                            debugPrint(
-                                                (userIdStatus.getCurUserId())
-                                                    .toString());
+                                          dynamic userExistenceResult =
+                                              await _fsService
+                                                  .checkUserExistence(result);
+                                          if (userExistenceResult) {
+                                            dynamic userInfo = await _fsService
+                                                .getUserInfo(result);
+                                            if (userInfo['pubUserId'] != null) {
+                                              userIdStatus.setIniAssent(
+                                                  userInfo['iniAssent']);
+                                              userIdStatus.setHaveUserId(
+                                                  userInfo['haveUserId']);
+                                              debugPrint((userIdStatus
+                                                      .getUserIdStatus())
+                                                  .toString());
+                                              userIdStatus.setIsUserIdAvailable(
+                                                  userInfo[
+                                                      'isUserIdAvailable']);
+                                              debugPrint((userIdStatus
+                                                      .getUserIdAvailableStatus())
+                                                  .toString());
+                                              userIdStatus.setIsCourseSetUpDone(
+                                                  userInfo[
+                                                      'isCourseSetUpDone']);
+                                              debugPrint((userIdStatus
+                                                      .getCourseSetUpStatus())
+                                                  .toString());
+                                              userIdStatus.setCurUserId(
+                                                  userInfo['pubUserId']);
+                                              debugPrint(
+                                                  (userIdStatus.getCurUserId())
+                                                      .toString());
+                                            }
                                           }
                                         }
                                       }
