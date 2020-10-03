@@ -48,7 +48,7 @@ class UserIdStatus with ChangeNotifier {
 
   //----------- Set current user id----------------
   setCurUserId(dynamic curUserId1) async {
-    if (curUserId1 != '') _curUserId = curUserId1;
+    _curUserId = curUserId1;
     notifyListeners();
   }
 

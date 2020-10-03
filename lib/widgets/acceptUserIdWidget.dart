@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ------------------------ my packages ---------------
 import '../services/firestoreService.dart';
@@ -16,6 +17,26 @@ class AcceptUserIdWidget extends StatefulWidget {
 class _AcceptUserIdWidgetState extends State<AcceptUserIdWidget> {
   // --------------- state variables -------------
   bool _isLoading = false;
+
+  _addHaveUserIdToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('haveUserId', status);
+  }
+
+  _addIsUserIdAvailableToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isUserIdAvailable', status);
+  }
+
+  _addIsCourseSetUpDoneToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isCourseSetUpDone', status);
+  }
+
+  _addCurUserIdToSF(String userId1) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('curUserId', userId1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +147,15 @@ class _AcceptUserIdWidgetState extends State<AcceptUserIdWidget> {
                                     dynamic result = await _fsService
                                         .createNewUserDocument(userId, cUser);
                                     if (result == true) {
-                                     // _fsService.updateIsHaveUserId(cUser);
-                                     userIdStatus.setHaveUserId(true);
-                                     userIdStatus.setIsUserIdAvailable(false);
-                                     userIdStatus.setIsCourseSetUpDone(false);
-                                      userIdStatus.processUserId(true);
+                                      _addHaveUserIdToSF(true);
+                                      _addIsUserIdAvailableToSF(false);
+                                      _addIsCourseSetUpDoneToSF(false);
+                                      _addCurUserIdToSF(userId);
+                                      // _fsService.updateIsHaveUserId(cUser);
+                                      userIdStatus.setHaveUserId(true);
+                                      userIdStatus.setIsUserIdAvailable(false);
+                                      userIdStatus.setIsCourseSetUpDone(false);
+                                      //userIdStatus.processUserId(true);
                                     }
                                   },
                                 ),

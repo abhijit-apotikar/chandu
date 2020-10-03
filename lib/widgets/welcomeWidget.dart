@@ -8,6 +8,31 @@ import '../models/userIdStatus.dart';
 import '../services/firestoreService.dart';
 
 class WelcomeWidget extends StatelessWidget {
+  _addIniAssentToSF(bool assent) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('iniAssent', assent);
+  }
+
+  _addHaveUserIdToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('haveUserId', status);
+  }
+
+  _addIsUserIdAvailableToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isUserIdAvailable', status);
+  }
+
+  _addIsCourseSetUpDoneToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isCourseSetUpDone', status);
+  }
+
+  _addCurUserIdToSF(String userId1) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('curUserId', userId1);
+  }
+
   @override
   Widget build(BuildContext context) {
     final userIdStatus = Provider.of<UserIdStatus>(context);
@@ -44,20 +69,25 @@ class WelcomeWidget extends StatelessWidget {
                   if (userExistenceResult == true) {
                     dynamic userInfo = await _fsService.getUserInfo(user);
                     if (userInfo['pubUserId'] != null) {
-                      userIdStatus.setHaveUserId(userInfo['haveUserId']);
-                      debugPrint((userIdStatus.getUserIdStatus()).toString());
-                      userIdStatus
-                          .setIsUserIdAvailable(userInfo['isUserIdAvailable']);
-                      debugPrint(
+                      _addIniAssentToSF(true);
+                      /*userIdStatus.setHaveUserId(userInfo['haveUserId']);*/
+                      _addHaveUserIdToSF(userInfo['haveUserId']);
+                      /*debugPrint((userIdStatus.getUserIdStatus()).toString());*/
+                      /*userIdStatus
+                          .setIsUserIdAvailable(userInfo['isUserIdAvailable']);*/
+                      _addIsUserIdAvailableToSF(userInfo['isUserIdAvailable']);
+                      /* debugPrint(
                           (userIdStatus.getUserIdAvailableStatus()).toString());
                       userIdStatus
-                          .setIsCourseSetUpDone(userInfo['isCourseSetUpDone']);
-                      debugPrint(
-                          (userIdStatus.getCourseSetUpStatus()).toString());
-                      userIdStatus.setCurUserId(userInfo['pubUserId']);
-                      debugPrint((userIdStatus.getCurUserId()).toString());
+                          .setIsCourseSetUpDone(userInfo['isCourseSetUpDone']);*/
+                      _addIsCourseSetUpDoneToSF(userInfo['isCourseSetUpDone']);
+                      /* debugPrint(
+                          (userIdStatus.getCourseSetUpStatus()).toString());*/
+                      /*userIdStatus.setCurUserId(userInfo['pubUserId']);*/
+                      _addCurUserIdToSF(userInfo['pubUserId']);
+                      /* debugPrint((userIdStatus.getCurUserId()).toString());*/
                     } else {
-                      userIdStatus.setCurUserId('');
+                      //userIdStatus.setCurUserId('');
                     }
                   }
                   _fsService.updateIniAssent(user);

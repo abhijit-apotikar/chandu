@@ -60,7 +60,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     userIdStatus.setHaveUserId(_getHaveUserIdFromSF());
     userIdStatus.setIsUserIdAvailable(_getIsUserIdAvailableFromSF());
     userIdStatus.setIsUserIdAvailable(_getIsCourseSetUpDoneFromSF());
-    userIdStatus.setCurUserId(_getCurUserIdFromSF());
+   // userIdStatus.setCurUserId(_getCurUserIdFromSF());
 
     final _iniAssent = userIdStatus.getIniAssent();
     final _haveUserIdStatus = userIdStatus.getUserIdStatus();
