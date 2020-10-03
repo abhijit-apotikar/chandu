@@ -18,26 +18,26 @@ class UserIdStatus with ChangeNotifier {
   getCurUserId() => _curUserId;
 
   //----------- set initial assent------------
-  setIniAssent(bool assent) async {
-    _iniAssent = assent;
+  setIniAssent(dynamic assent) async {
+    if (assent == true) _iniAssent = assent;
     notifyListeners();
   }
 
   //---------- set _haveUserId -------------
-  setHaveUserId(bool status) async {
-    _haveUserId = status;
+  setHaveUserId(dynamic status) async {
+    if (status == true) _haveUserId = status;
     notifyListeners();
   }
 
   // -------------- set _isUserIdAvailable -----------
-  setIsUserIdAvailable(bool status) async {
-    _isUserIdAvailable = status;
+  setIsUserIdAvailable(dynamic status) async {
+    if (status == true) _isUserIdAvailable = status;
     notifyListeners();
   }
 
   // ------------ set _isCourseSetUpDone ---------
-  setIsCourseSetUpDone(bool status) async {
-    _isCourseSetUpDone = status;
+  setIsCourseSetUpDone(dynamic status) async {
+    if (status == true) _isCourseSetUpDone = status;
     notifyListeners();
   }
 
@@ -47,8 +47,8 @@ class UserIdStatus with ChangeNotifier {
   }
 
   //----------- Set current user id----------------
-  setCurUserId(String curUserId1) async {
-    _curUserId = curUserId1;
+  setCurUserId(dynamic curUserId1) async {
+    if (curUserId1 != '') _curUserId = curUserId1;
     notifyListeners();
   }
 
