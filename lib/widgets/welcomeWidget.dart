@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //------------ my packages -----------------
 import '../models/userIdStatus.dart';
@@ -45,19 +46,22 @@ class WelcomeWidget extends StatelessWidget {
                     if (userInfo['pubUserId'] != null) {
                       userIdStatus.setHaveUserId(userInfo['haveUserId']);
                       debugPrint((userIdStatus.getUserIdStatus()).toString());
-                      userIdStatus.setIsUserIdAvailable(userInfo['isUserIdAvailable']);
-                       debugPrint((userIdStatus.getUserIdAvailableStatus()).toString());
-                      userIdStatus.setIsCourseSetUpDone(userInfo['isCourseSetUpDone']);
-                       debugPrint((userIdStatus.getCourseSetUpStatus()).toString());
+                      userIdStatus
+                          .setIsUserIdAvailable(userInfo['isUserIdAvailable']);
+                      debugPrint(
+                          (userIdStatus.getUserIdAvailableStatus()).toString());
+                      userIdStatus
+                          .setIsCourseSetUpDone(userInfo['isCourseSetUpDone']);
+                      debugPrint(
+                          (userIdStatus.getCourseSetUpStatus()).toString());
                       userIdStatus.setCurUserId(userInfo['pubUserId']);
-                       debugPrint((userIdStatus.getCurUserId()).toString());
+                      debugPrint((userIdStatus.getCurUserId()).toString());
                     } else {
                       userIdStatus.setCurUserId('');
                     }
                   }
                   _fsService.updateIniAssent(user);
                   userIdStatus.processIniAssent(true);
-                  
                 },
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_proc/models/userIdStatus.dart';
 
@@ -30,6 +31,26 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
   String error = '';
 
   final String assetName = 'assets/svgs/app_title1.svg';
+
+  _addIniAssentToSF(bool assent) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('iniAssent', assent);
+  }
+
+  _addHaveUserIdToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('haveUserId', status);
+  }
+
+  _addIsUserIdAvailableToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isUserIdAvailable', status);
+  }
+
+  _addIsCourseSetUpDoneToSF(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('IsCourseSetUpDone', status);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +208,11 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                             if (userInfo['pubUserId'] != null) {
                                               userIdStatus.setIniAssent(
                                                   userInfo['iniAssent']);
+                                              _addIniAssentToSF(
+                                                  userInfo['iniAssent']);
                                               userIdStatus.setHaveUserId(
+                                                  userInfo['haveUserId']);
+                                              _addHaveUserIdToSF(
                                                   userInfo['haveUserId']);
                                               debugPrint((userIdStatus
                                                       .getUserIdStatus())
@@ -195,10 +220,16 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                               userIdStatus.setIsUserIdAvailable(
                                                   userInfo[
                                                       'isUserIdAvailable']);
+                                              _addIsUserIdAvailableToSF(
+                                                  userInfo[
+                                                      'isUserIdAvailable']);
                                               debugPrint((userIdStatus
                                                       .getUserIdAvailableStatus())
                                                   .toString());
                                               userIdStatus.setIsCourseSetUpDone(
+                                                  userInfo[
+                                                      'isCourseSetUpDone']);
+                                              _addIsCourseSetUpDoneToSF(
                                                   userInfo[
                                                       'isCourseSetUpDone']);
                                               debugPrint((userIdStatus
