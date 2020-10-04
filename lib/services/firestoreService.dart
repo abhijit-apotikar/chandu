@@ -23,9 +23,10 @@ class FirestoreService {
     if (users.docs
         .where((element) => element.data()['pubUserId'] == userId)
         .isEmpty) {
-      fireStoreInstance
-          .collection('users')
-          .add({'docId': user1.uid, 'pubUserId': userId,'iniAssent': false,'haveUserId':true,'isUserIdAvailable':false,'isCourseSetUpDone':false});
+      fireStoreInstance.collection('users').add({
+        'docId': user1.uid,
+        'pubUserId': userId,
+      });
 
       return true;
     } else {
@@ -42,34 +43,45 @@ class FirestoreService {
     return reqUser.docs[0].data();
   }
 
-   // ------------- update iniAssent ------------
-  Future updateIniAssent(User user1)async{
-    QuerySnapshot reqUser = await fireStoreInstance.collection('users').where('docId',isEqualTo:user1.uid).get();
+  // ------------- update iniAssent ------------
+  Future updateIniAssent(User user1) async {
+    QuerySnapshot reqUser = await fireStoreInstance
+        .collection('users')
+        .where('docId', isEqualTo: user1.uid)
+        .get();
     reqUser.docs[0].data().update('iniAssent', (value) => true);
     return true;
   }
 
-   // ------------- update haveUserId ------------
-  Future updateIsHaveUserId(User user1)async{
-    QuerySnapshot reqUser = await fireStoreInstance.collection('users').where('docId',isEqualTo:user1.uid).get();
+  // ------------- update haveUserId ------------
+  Future updateIsHaveUserId(User user1) async {
+    QuerySnapshot reqUser = await fireStoreInstance
+        .collection('users')
+        .where('docId', isEqualTo: user1.uid)
+        .get();
     reqUser.docs[0].data().update('haveUserId', (value) => true);
     return true;
   }
-   // ------------- update isUserIdAvailable ------------
-  Future updateIsUserIdAvailable(User user1)async{
-    QuerySnapshot reqUser = await fireStoreInstance.collection('users').where('docId',isEqualTo:user1.uid).get();
+
+  // ------------- update isUserIdAvailable ------------
+  Future updateIsUserIdAvailable(User user1) async {
+    QuerySnapshot reqUser = await fireStoreInstance
+        .collection('users')
+        .where('docId', isEqualTo: user1.uid)
+        .get();
     reqUser.docs[0].data().update('isUserIdAvailable', (value) => true);
     return true;
   }
 
   // ------------- update isCourseSetUpDone ------------
-  Future updateIsCourseSetUpDone(User user1)async{
-    QuerySnapshot reqUser = await fireStoreInstance.collection('users').where('docId',isEqualTo:user1.uid).get();
+  Future updateIsCourseSetUpDone(User user1) async {
+    QuerySnapshot reqUser = await fireStoreInstance
+        .collection('users')
+        .where('docId', isEqualTo: user1.uid)
+        .get();
     reqUser.docs[0].data().update('isCourseSetUpDone', (value) => true);
     return true;
   }
-
-  
 
   //check if user and userId already exists************
   Future checkUserExistence(dynamic user1) async {

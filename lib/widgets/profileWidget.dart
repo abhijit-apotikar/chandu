@@ -18,9 +18,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     // List<Map<String,dynamic>> _userData = [];
 
     Size size = MediaQuery.of(context).size;
-    MyListModel mlm = new MyListModel();
+    //MyListModel mlm = new MyListModel();
     final user = Provider.of<User>(context);
-    final userIdStatus = Provider.of<UserIdStatus>(context);
+//final userIdStatus = Provider.of<UserIdStatus>(context);
 
     // _fsService.getUserInfo(cUser).then((value) => _userData.add(value));
     // String _userNameId = _userData[0]['pubUserId'];
@@ -72,7 +72,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           ),
                         ),
                         Text(
-                          userIdStatus.getCurUserId(),
+                          'user',
                           style: TextStyle(
                             fontFamily: 'Nunito',
                             fontSize: 18,

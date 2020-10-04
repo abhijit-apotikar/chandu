@@ -20,6 +20,7 @@ class _UserIdSetUpWidgetState extends State<UserIdSetUpWidget> {
   final _formKey1 = GlobalKey<FormState>();
   bool _isLoading = false;
   bool _isUserIdAvailable = false;
+  String userId;
 
   _addUDocFlagToSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -34,7 +35,6 @@ class _UserIdSetUpWidgetState extends State<UserIdSetUpWidget> {
     final FirestoreService _fsService = new FirestoreService();
     final stateVariablesModel = Provider.of<StateVariablesModel>(context);
 
-    String userId;
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(

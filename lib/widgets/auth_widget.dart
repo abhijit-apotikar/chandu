@@ -32,33 +32,13 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
 
   final String assetName = 'assets/svgs/app_title1.svg';
 
-  _addIniAssentToSF(bool assent) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('iniAssent', assent);
-  }
-
-  _addHaveUserIdToSF(bool status) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('haveUserId', status);
-  }
-
-  _addIsUserIdAvailableToSF(bool status) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isUserIdAvailable', status);
-  }
-
-  _addIsCourseSetUpDoneToSF(bool status) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('IsCourseSetUpDone', status);
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double pt = MediaQuery.of(context).padding.top;
     final FirestoreService _fsService = new FirestoreService();
     // final cUser = Provider.of<User>(context);
-    final userIdStatus = Provider.of<UserIdStatus>(context);
+    // final userIdStatus = Provider.of<UserIdStatus>(context);
 
     return Scaffold(
       body: _isLoading
@@ -113,7 +93,7 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                     ),
                                   ),
                                   validator: (val) =>
-                                      val.isEmpty ? 'Enter an e-mail' : null,
+                                      val.isEmpty ? 'Email should not be empty' : null,
                                   onChanged: (val) {
                                     setState(() {
                                       email = val;
@@ -139,7 +119,7 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                         }),
                                   ),
                                   validator: (val) => val.length < 6
-                                      ? 'Password should be atleast 6 characters long'
+                                      ? 'Password should not be empty'
                                       : null,
                                   obscureText: _obscureText,
                                   onChanged: (val) {
@@ -226,17 +206,12 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                           dynamic userExistenceResult =
                                               await _fsService
                                                   .checkUserExistence(result);
-                                          userIdStatus.chngUIdStatus(
-                                              userExistenceResult);
+
                                           if (userExistenceResult == true) {
                                             dynamic userInfo = await _fsService
                                                 .getUserInfo(result);
                                             if (userInfo['pubUserId'] != null) {
-                                              userIdStatus.setCurUserId(
-                                                  userInfo['pubUserId']);
-                                            } else {
-                                              userIdStatus.setCurUserId('');
-                                            }
+                                            } else {}
                                           }
 
                                           debugPrint(

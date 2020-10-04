@@ -25,7 +25,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   @override
   Widget build(BuildContext context) {
     AuthService _auth = new AuthService();
-    final userIdStatus = Provider.of<UserIdStatus>(context);
+    // final userIdStatus = Provider.of<UserIdStatus>(context);
     return loading
         ? LoadingWidget()
         : Scaffold(
