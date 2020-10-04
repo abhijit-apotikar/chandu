@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //------------ my packages -----------------
-import '../models/userIdStatus.dart';
+
 import '../services/firestoreService.dart';
 
 class WelcomeWidget extends StatelessWidget {
@@ -35,7 +35,6 @@ class WelcomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userIdStatus = Provider.of<UserIdStatus>(context);
     final user = Provider.of<User>(context);
     final FirestoreService _fsService = new FirestoreService();
 
@@ -65,7 +64,7 @@ class WelcomeWidget extends StatelessWidget {
                 onPressed: () async {
                   dynamic userExistenceResult =
                       await _fsService.checkUserExistence(user);
-                  userIdStatus.chngUIdStatus(userExistenceResult);
+
                   if (userExistenceResult == true) {
                     dynamic userInfo = await _fsService.getUserInfo(user);
                     if (userInfo['pubUserId'] != null) {
@@ -91,7 +90,6 @@ class WelcomeWidget extends StatelessWidget {
                     }
                   }
                   _fsService.updateIniAssent(user);
-                  userIdStatus.processIniAssent(true);
                 },
               ),
             ],

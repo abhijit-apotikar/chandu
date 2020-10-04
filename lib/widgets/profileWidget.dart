@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../models/my_list_model.dart';
 import '../services/authService.dart';
 import '../services/firestoreService.dart';
-import '../models/userIdStatus.dart';
+
 
 class ProfileWidget extends StatefulWidget {
   @override

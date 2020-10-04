@@ -6,7 +6,7 @@ import '../widgets/loadingWidget.dart';
 import '../widgets/alertDialog.dart';
 
 import '../shared/constants.dart';
-import '../models/userIdStatus.dart';
+
 
 class RegisterWidget extends StatefulWidget {
   @override

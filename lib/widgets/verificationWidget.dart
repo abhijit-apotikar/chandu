@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // ---------------- my packages -----------------------
 import '../shared/constants.dart';
 import '../widgets/loadingWidget.dart';
-import '../models/userIdStatus.dart';
+
 import '../services/firestoreService.dart';
 import '../services/authService.dart';
 

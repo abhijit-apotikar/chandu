@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // ------------------------ my packages ---------------
 import '../services/firestoreService.dart';
-import '../models/userIdStatus.dart';
+
 import '../widgets/loadingWidget.dart';
 
 class AcceptUserIdWidget extends StatefulWidget {
