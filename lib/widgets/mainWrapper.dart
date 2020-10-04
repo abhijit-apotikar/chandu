@@ -1,21 +1,45 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/auth_widget.dart';
-import '../widgets/home_screen_widget.dart';
+import '../widgets/homePageWidget.dart';
+import '../widgets/userIdSetUpWidget.dart';
+import '../widgets/verificationWidget.dart ';
+import '../services/firestoreService.dart';
+import '../models/stateVariablesModel.dart';
 
 class MainWrapper extends StatelessWidget {
+  _getUDocFlagFromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    bool uDocFlag = prefs.getBool('uDocFalg') ?? false;
+    return uDocFlag;
+  }
 
-  
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final stateVariablesModel = Provider.of<StateVariablesModel>(context);
+    FirestoreService fsService = new FirestoreService();
+    stateVariablesModel.setUDocFlag(_getUDocFlagFromSF());
+    bool userDocFlag = stateVariablesModel.getUDocFlag();
 
     if (user == null) {
       return AuthScreenWidget();
     } else {
-      return HomePageWidget();
+      if (user.emailVerified) {
+//dynamic userDocFlag = _getUDocFalgFromSF();
+
+        if (userDocFlag == true) {
+          return HomePageWidget();
+        } else {
+          return UserIdSetUpWidget();
+        }
+      } else {
+        return VerificationWidget();
+      }
     }
   }
 }

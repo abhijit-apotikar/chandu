@@ -17,8 +17,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   bool loading = false;
   bool _agreedToTerms = false;
   final _formKey = GlobalKey<FormState>();
- 
-   
 
   ///------------textField e-mail,password local variables--------
   String email = '';
@@ -27,7 +25,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   @override
   Widget build(BuildContext context) {
     AuthService _auth = new AuthService();
-  final userIdStatus = Provider.of<UserIdStatus>(context);
+    final userIdStatus = Provider.of<UserIdStatus>(context);
     return loading
         ? LoadingWidget()
         : Scaffold(
@@ -49,29 +47,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               iconTheme: new IconThemeData(
                 size: 20,
               ),
-              /*  actions: <Widget>[
-                Material(
-                  elevation: 4,
-                  color: Colors.pink,
-                  child: FlatButton.icon(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
-                      label: Text(
-                        'sign in',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      )),
-                
-              ],*/
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -200,16 +175,22 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                   dynamic result =
                                       await _auth.registerWithEmailAndPassword(
                                           email, password);
-                                  if (result != null) {
-                                    Navigator.pop(context);
-                                    userIdStatus.chngUIdStatus(false);
-                                  }
+
                                   if (result == null) {
                                     setState(() {
                                       loading = false;
                                       error = 'Please enter a valid email id';
                                       showAlertDialog(context, error);
                                     });
+                                  } else if (result == '101') {
+                                    setState(() {
+                                      loading = false;
+                                      error =
+                                          'Given email is already accosiated with an account.';
+                                      showAlertDialog(context, error);
+                                    });
+                                  } else {
+                                    Navigator.pop(context);
                                   }
                                 }
                               },

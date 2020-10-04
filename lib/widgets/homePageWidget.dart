@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // ------------- my packages -------------
-import '../widgets/main_content_widget.dart';
+import 'main_content_widget.dart';
 import '../models/set_up_model.dart';
 import '../models/my_model.dart';
-import '../widgets/profileWidget.dart';
-import '../widgets/settingsWidget.dart';
+import 'profileWidget.dart';
+import 'settingsWidget.dart';
 
-class MainProductWidget extends StatefulWidget {
+class HomePageWidget extends StatefulWidget {
   @override
-  _MainProductWidgetState createState() => _MainProductWidgetState();
+  _HomePageWidgetState createState() => _HomePageWidgetState();
 }
 
-class _MainProductWidgetState extends State<MainProductWidget> {
+class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

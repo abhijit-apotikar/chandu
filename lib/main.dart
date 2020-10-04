@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 import './widgets/mainWrapper.dart';
-import './widgets/home_screen_widget.dart';
+import './widgets/homePageWidget.dart';
 
 import './widgets/que_list_widget.dart';
 import './widgets/my_quiz_widget.dart';

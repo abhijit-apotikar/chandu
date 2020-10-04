@@ -72,7 +72,7 @@ class FirestoreService {
   
 
   //check if user and userId already exists************
-  Future checkUserExistence(User user1) async {
+  Future checkUserExistence(dynamic user1) async {
     QuerySnapshot curUser = await fireStoreInstance
         .collection('users')
         .where('docId', isEqualTo: user1.uid)

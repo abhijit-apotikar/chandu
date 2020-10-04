@@ -182,66 +182,12 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                                 'Wrong credentials, try again';
                                             showAlertDialog(context, error);
                                           });
-                                        } else {
-                                          //  userIdStatus.setIniAssent(false);
-                                          /* dynamic userExistenceResult =
-                                              await _fsService
-                                                  .checkUserExistence(result);
-                                          userIdStatus.chngUIdStatus(
-                                              userExistenceResult);
-                                          if (userExistenceResult == true) {
-                                            dynamic userInfo = await _fsService
-                                                .getUserInfo(result);
-                                            if (userInfo['pubUserId'] != null) {
-                                              userIdStatus.setCurUserId(
-                                                  userInfo['pubUserId']);
-                                            } else {
-                                              userIdStatus.setCurUserId('');
-                                            }
-                                          }*/
-                                          dynamic userExistenceResult =
-                                              await _fsService
-                                                  .checkUserExistence(result);
-                                          if (userExistenceResult) {
-                                            dynamic userInfo = await _fsService
-                                                .getUserInfo(result);
-                                            if (userInfo['pubUserId'] != null) {
-                                              userIdStatus.setIniAssent(
-                                                  userInfo['iniAssent']);
-                                              _addIniAssentToSF(
-                                                  userInfo['iniAssent']);
-                                              userIdStatus.setHaveUserId(
-                                                  userInfo['haveUserId']);
-                                              _addHaveUserIdToSF(
-                                                  userInfo['haveUserId']);
-                                              debugPrint((userIdStatus
-                                                      .getUserIdStatus())
-                                                  .toString());
-                                              userIdStatus.setIsUserIdAvailable(
-                                                  userInfo[
-                                                      'isUserIdAvailable']);
-                                              _addIsUserIdAvailableToSF(
-                                                  userInfo[
-                                                      'isUserIdAvailable']);
-                                              debugPrint((userIdStatus
-                                                      .getUserIdAvailableStatus())
-                                                  .toString());
-                                              userIdStatus.setIsCourseSetUpDone(
-                                                  userInfo[
-                                                      'isCourseSetUpDone']);
-                                              _addIsCourseSetUpDoneToSF(
-                                                  userInfo[
-                                                      'isCourseSetUpDone']);
-                                              debugPrint((userIdStatus
-                                                      .getCourseSetUpStatus())
-                                                  .toString());
-                                              userIdStatus.setCurUserId(
-                                                  userInfo['pubUserId']);
-                                              debugPrint(
-                                                  (userIdStatus.getCurUserId())
-                                                      .toString());
-                                            }
-                                          }
+                                        } else if (!result.emailVerified) {
+                                          setState(() {
+                                            _isLoading = false;
+                                            error = 'Email id not verified.';
+                                            showAlertDialog(context, error);
+                                          });
                                         }
                                       }
                                     },

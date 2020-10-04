@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -50,9 +51,12 @@ class AuthService {
           email: email, password: password);
       User user = result.user;
       return user;
-    } catch (e) {
-      print(e.toString());
+    }on FirebaseAuthException catch(e) {
+      print(
+          '${e.code}    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
       return null;
+    }on PlatformException catch(e){
+      print('${e.code}  -----------------------------------------------');
     }
   }
 
@@ -62,11 +66,8 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
-      if (user.emailVerified) return user;
-      return null;
+      return user;
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
-
       return null;
     } on PlatformException catch (e) {
       print(e.toString());
