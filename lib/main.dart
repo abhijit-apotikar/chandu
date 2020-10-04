@@ -16,7 +16,7 @@ import './widgets/review_questions_widget.dart';
 import './widgets/registerWidget.dart';
 
 import './services/authService.dart';
-import './models/userIdStatus.dart';
+import './models/stateVariablesModel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +24,8 @@ void main() async {
   SyncfusionLicense.registerLicense(
       'NT8mJyc2IWhia31ifWN9Z2FoYmF8YGJ8ampqanNiYmlmamlmanMDHmgyMTs6OTonfTIjPCc6ODIhYmZlEzQ+Mjo/fTA8Pg==');
   runApp(
-    ChangeNotifierProvider<UserIdStatus>(
-        create: (_) => UserIdStatus(false), child: MyApp()),
+    ChangeNotifierProvider<StateVariablesModel>(
+        create: (_) => StateVariablesModel(), child: MyApp()),
   );
 }
 
