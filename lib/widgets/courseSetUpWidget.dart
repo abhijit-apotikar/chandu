@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // ------- my packages ---------------
 import '../services/firestoreService.dart';
-import '../models/userIdStatus.dart';
+
 import '../models/set_up_model.dart';
 
 class CourseSetUpWidget extends StatefulWidget {
@@ -19,7 +19,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
     Size size = MediaQuery.of(context).size;
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     final cUser = Provider.of<User>(context);
-    final userIdStatus = Provider.of<UserIdStatus>(context);
+
     final FirestoreService _fsService = new FirestoreService();
     return Scaffold(
         body: Container(
@@ -227,13 +227,12 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                             dynamic userInfo =
                                 await _fsService.updateIsCourseSetUpDone(cUser);
                             if (userInfo) {
-                              showToast(
-                                  'Course set up done successfully.',
+                              showToast('Course set up done successfully.',
                                   textStyle: TextStyle(fontFamily: 'Nunito'),
                                   position: ToastPosition.bottom);
                             }
                             setState(() {
-                              userIdStatus.courseSetUpStatus(true);
+                              // userIdStatus.courseSetUpStatus(true);
                             });
                           }),
                     ],
