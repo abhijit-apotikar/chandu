@@ -224,13 +224,6 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                             ),
                           ),
                           onPressed: () async {
-                            dynamic userInfo =
-                                await _fsService.updateIsCourseSetUpDone(cUser);
-                            if (userInfo) {
-                              showToast('Course set up done successfully.',
-                                  textStyle: TextStyle(fontFamily: 'Nunito'),
-                                  position: ToastPosition.bottom);
-                            }
                             setState(() {
                               // userIdStatus.courseSetUpStatus(true);
                             });

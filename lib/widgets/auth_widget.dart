@@ -4,7 +4,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 import '../services/authService.dart';
 import '../widgets/loadingWidget.dart';
 
@@ -92,8 +91,9 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                       fontSize: 20,
                                     ),
                                   ),
-                                  validator: (val) =>
-                                      val.isEmpty ? 'Email should not be empty' : null,
+                                  validator: (val) => val.isEmpty
+                                      ? 'Email should not be empty'
+                                      : null,
                                   onChanged: (val) {
                                     setState(() {
                                       email = val;

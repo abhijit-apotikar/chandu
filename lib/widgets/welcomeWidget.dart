@@ -1,43 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 //------------ my packages -----------------
 
-import '../services/firestoreService.dart';
+import '../models/stateVariablesModel.dart';
+
+_addFirstVisitFlagToSF() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool('firstVisitFlag', true);
+}
 
 class WelcomeWidget extends StatelessWidget {
-  _addIniAssentToSF(bool assent) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('iniAssent', assent);
-  }
-
-  _addHaveUserIdToSF(bool status) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('haveUserId', status);
-  }
-
-  _addIsUserIdAvailableToSF(bool status) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isUserIdAvailable', status);
-  }
-
-  _addIsCourseSetUpDoneToSF(bool status) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isCourseSetUpDone', status);
-  }
-
-  _addCurUserIdToSF(String userId1) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('curUserId', userId1);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-    final FirestoreService _fsService = new FirestoreService();
-
+    final stateVariablesModel = Provider.of<StateVariablesModel>(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -60,38 +37,11 @@ class WelcomeWidget extends StatelessWidget {
                 height: 20,
               ),
               RaisedButton(
-                child: Text("Continue"),
-                onPressed: () async {
-                  dynamic userExistenceResult =
-                      await _fsService.checkUserExistence(user);
-
-                  if (userExistenceResult == true) {
-                    dynamic userInfo = await _fsService.getUserInfo(user);
-                    if (userInfo['pubUserId'] != null) {
-                      _addIniAssentToSF(true);
-                      /*userIdStatus.setHaveUserId(userInfo['haveUserId']);*/
-                      _addHaveUserIdToSF(userInfo['haveUserId']);
-                      /*debugPrint((userIdStatus.getUserIdStatus()).toString());*/
-                      /*userIdStatus
-                          .setIsUserIdAvailable(userInfo['isUserIdAvailable']);*/
-                      _addIsUserIdAvailableToSF(userInfo['isUserIdAvailable']);
-                      /* debugPrint(
-                          (userIdStatus.getUserIdAvailableStatus()).toString());
-                      userIdStatus
-                          .setIsCourseSetUpDone(userInfo['isCourseSetUpDone']);*/
-                      _addIsCourseSetUpDoneToSF(userInfo['isCourseSetUpDone']);
-                      /* debugPrint(
-                          (userIdStatus.getCourseSetUpStatus()).toString());*/
-                      /*userIdStatus.setCurUserId(userInfo['pubUserId']);*/
-                      _addCurUserIdToSF(userInfo['pubUserId']);
-                      /* debugPrint((userIdStatus.getCurUserId()).toString());*/
-                    } else {
-                      //userIdStatus.setCurUserId('');
-                    }
-                  }
-                  _fsService.updateIniAssent(user);
-                },
-              ),
+                  child: Text("Continue"),
+                  onPressed: () async {
+                    _addFirstVisitFlagToSF();
+                    stateVariablesModel.setFirstVisitFlag(true);
+                  }),
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class FirestoreService {
   //Firestore instance ********************
@@ -43,46 +44,6 @@ class FirestoreService {
     return reqUser.docs[0].data();
   }
 
-  // ------------- update iniAssent ------------
-  Future updateIniAssent(User user1) async {
-    QuerySnapshot reqUser = await fireStoreInstance
-        .collection('users')
-        .where('docId', isEqualTo: user1.uid)
-        .get();
-    reqUser.docs[0].data().update('iniAssent', (value) => true);
-    return true;
-  }
-
-  // ------------- update haveUserId ------------
-  Future updateIsHaveUserId(User user1) async {
-    QuerySnapshot reqUser = await fireStoreInstance
-        .collection('users')
-        .where('docId', isEqualTo: user1.uid)
-        .get();
-    reqUser.docs[0].data().update('haveUserId', (value) => true);
-    return true;
-  }
-
-  // ------------- update isUserIdAvailable ------------
-  Future updateIsUserIdAvailable(User user1) async {
-    QuerySnapshot reqUser = await fireStoreInstance
-        .collection('users')
-        .where('docId', isEqualTo: user1.uid)
-        .get();
-    reqUser.docs[0].data().update('isUserIdAvailable', (value) => true);
-    return true;
-  }
-
-  // ------------- update isCourseSetUpDone ------------
-  Future updateIsCourseSetUpDone(User user1) async {
-    QuerySnapshot reqUser = await fireStoreInstance
-        .collection('users')
-        .where('docId', isEqualTo: user1.uid)
-        .get();
-    reqUser.docs[0].data().update('isCourseSetUpDone', (value) => true);
-    return true;
-  }
-
   //check if user and userId already exists************
   Future checkUserExistence(dynamic user1) async {
     QuerySnapshot curUser = await fireStoreInstance
@@ -90,11 +51,14 @@ class FirestoreService {
         .where('docId', isEqualTo: user1.uid)
         .get();
     if (curUser.docs.isEmpty) {
+      debugPrint('11111111111111111111111111111111111');
       return false;
     } else if (curUser.docs.isNotEmpty &&
         curUser.docs[0].data()['pubUserId'] == null) {
+      debugPrint('222222222222222222222222222222222');
       return false;
     } else {
+      debugPrint('33333333333333333333333333333333333333');
       return true;
     }
   }
