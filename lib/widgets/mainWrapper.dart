@@ -35,12 +35,17 @@ class MainWrapper extends StatelessWidget {
     stateVariablesModel.setFirstVisitFlag(_getFirstVisitFlagFromSF());
     bool userDocFlag = stateVariablesModel.getUDocFlag();
     bool firstVisitFlag = stateVariablesModel.getFirstVisitFlag();
+    dynamic userExistenceResult = fsService.checkUserExistence(user);
 
     if (user == null) {
       return AuthScreenWidget();
     } else {
       if (user.emailVerified) {
-        if (userDocFlag == true) {
+        //dynamic userDocFlag = _getUDocFlagFromSF();
+
+        if (userExistenceResult == true) {
+          return !firstVisitFlag ? WelcomeWidget() : HomePageWidget();
+        } else if (userDocFlag == true) {
           return !firstVisitFlag ? WelcomeWidget() : HomePageWidget();
         } else {
           return !firstVisitFlag ? WelcomeWidget() : UserIdSetUpWidget();
