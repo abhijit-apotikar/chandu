@@ -40,11 +40,7 @@ class MainWrapper extends StatelessWidget {
       return AuthScreenWidget();
     } else {
       if (user.emailVerified) {
-        //dynamic userDocFlag = _getUDocFlagFromSF();
-        dynamic userExistenceResult = fsService.checkUserExistence(user);
-        if (userExistenceResult == true) {
-          return !firstVisitFlag ? WelcomeWidget() : HomePageWidget();
-        } else if (userDocFlag == true) {
+        if (userDocFlag == true) {
           return !firstVisitFlag ? WelcomeWidget() : HomePageWidget();
         } else {
           return !firstVisitFlag ? WelcomeWidget() : UserIdSetUpWidget();
