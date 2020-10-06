@@ -1,11 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../services/firestoreService.dart';
 
 class AuthService {
   //FirebaseAuth instance-------------------
   FirebaseAuth _auth = FirebaseAuth.instance;
+
+  _addUDocFlagToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('uDocFlag', true);
+  }
+
+  _getUDocFlagFromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    bool uDocFlag = prefs.getBool('uDocFlag') ?? false;
+    return uDocFlag;
+  }
 
   //---------FirebaseUser Stream----------
   Stream<User> get user {
@@ -51,20 +66,28 @@ class AuthService {
           email: email, password: password);
       User user = result.user;
       return user;
-    }on FirebaseAuthException catch(e) {
+    } on FirebaseAuthException catch (e) {
       print(
           '${e.code}    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
       return null;
-    }on PlatformException catch(e){
+    } on PlatformException catch (e) {
       print('${e.code}  -----------------------------------------------');
     }
   }
 
   // ----Sign in with email & password-------
   Future signInWithEmailAndPassword(String email, String password) async {
+    FirestoreService fsService = FirestoreService();
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+      dynamic userExistence = await fsService.checkUserExistence(result.user);
+      if (userExistence == true) {
+        await _addUDocFlagToSF();
+        dynamic temp = await _getUDocFlagFromSF();
+        debugPrint(
+            '$temp %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+      }
       User user = result.user;
       return user;
     } on FirebaseAuthException catch (e) {

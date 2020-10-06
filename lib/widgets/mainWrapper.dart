@@ -15,7 +15,7 @@ class MainWrapper extends StatelessWidget {
   _getUDocFlagFromSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Return bool
-    bool uDocFlag = prefs.getBool('uDocFalg') ?? false;
+    bool uDocFlag = prefs.getBool('uDocFlag') ?? false;
     return uDocFlag;
   }
 
@@ -26,16 +26,19 @@ class MainWrapper extends StatelessWidget {
     return firstVisitFlag;
   }
 
+  setVariables(StateVariablesModel svm) async {
+    svm.setUDocFlag(await _getUDocFlagFromSF());
+    svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     final stateVariablesModel = Provider.of<StateVariablesModel>(context);
-    FirestoreService fsService = new FirestoreService();
-    stateVariablesModel.setUDocFlag(_getUDocFlagFromSF());
-    stateVariablesModel.setFirstVisitFlag(_getFirstVisitFlagFromSF());
+    setVariables(stateVariablesModel);
     bool userDocFlag = stateVariablesModel.getUDocFlag();
     bool firstVisitFlag = stateVariablesModel.getFirstVisitFlag();
-    dynamic userExistenceResult = fsService.checkUserExistence(user);
+    //dynamic userExistenceResult = fsService.checkUserExistence(user);
 
     if (user == null) {
       return AuthScreenWidget();
@@ -43,9 +46,7 @@ class MainWrapper extends StatelessWidget {
       if (user.emailVerified) {
         //dynamic userDocFlag = _getUDocFlagFromSF();
 
-        if (userExistenceResult == true) {
-          return !firstVisitFlag ? WelcomeWidget() : HomePageWidget();
-        } else if (userDocFlag == true) {
+        if (userDocFlag == true) {
           return !firstVisitFlag ? WelcomeWidget() : HomePageWidget();
         } else {
           return !firstVisitFlag ? WelcomeWidget() : UserIdSetUpWidget();
