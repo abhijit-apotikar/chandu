@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ---------- my packages -------------------
 import '../services/authService.dart';
@@ -11,6 +12,16 @@ showLogOutDialog(
   AuthService _authService,
   //UserIdStatus userIdStatus,
 ) {
+  _removeUDocFlagFromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('uDocFlag', false);
+  }
+
+  _removeFirstVisitFlagFromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('firstVisitFlag', false);
+  }
+
   // set up the buttons
   Widget yesButton = OutlineButton(
       color: Colors.white,
@@ -28,7 +39,9 @@ showLogOutDialog(
       onPressed: () async {
         Navigator.of(context).pop();
         await _authService.signOutFromGoogle();
-      /*  userIdStatus.setHaveUserId(null);
+        await _removeUDocFlagFromSF();
+        await _removeFirstVisitFlagFromSF();
+        /*  userIdStatus.setHaveUserId(null);
         userIdStatus.setIsUserIdAvailable(null);
         userIdStatus.setIsCourseSetUpDone(null);
         userIdStatus.setCurUserId(null);*/

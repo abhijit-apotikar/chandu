@@ -7,7 +7,6 @@ import '../widgets/auth_widget.dart';
 import '../widgets/homePageWidget.dart';
 import '../widgets/userIdSetUpWidget.dart';
 import '../widgets/verificationWidget.dart ';
-import '../services/firestoreService.dart';
 import '../models/stateVariablesModel.dart';
 import '../widgets/welcomeWidget.dart';
 
