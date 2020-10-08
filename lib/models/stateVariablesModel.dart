@@ -8,14 +8,18 @@ class StateVariablesModel with ChangeNotifier {
   setUDocFlag(dynamic flag) async {
     if (flag == true) {
       _uDocFlag = true;
-      notifyListeners();
+    } else if (flag == false) {
+      _uDocFlag = false;
     }
+    notifyListeners();
   }
 
   setFirstVisitFlag(dynamic flag) async {
     if (flag == true) {
       _firstVisitFlag = true;
-      notifyListeners();
+    } else if (flag == false) {
+      _firstVisitFlag = false;
     }
+    notifyListeners();
   }
 }

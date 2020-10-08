@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../services/authService.dart';
@@ -11,7 +10,6 @@ import '../widgets/alertDialog.dart';
 import '../widgets/annonymousSignInWarning.dart';
 
 import '../services/firestoreService.dart';
-import 'package:provider/provider.dart';
 
 class AuthScreenWidget extends StatefulWidget {
   @override
@@ -153,7 +151,7 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
 
                                         dynamic result = await _authService
                                             .signInWithEmailAndPassword(
-                                                email, password);
+                                                email, password, context);
 
                                         if (result == null) {
                                           setState(() {

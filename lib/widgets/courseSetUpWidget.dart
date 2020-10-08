@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // ------- my packages ---------------
 import '../services/firestoreService.dart';
-
 import '../models/set_up_model.dart';
 
 class CourseSetUpWidget extends StatefulWidget {

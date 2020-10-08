@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../services/firestoreService.dart';
+import '../models/stateVariablesModel.dart';
 
 class AuthService {
   //FirebaseAuth instance-------------------
@@ -20,6 +22,13 @@ class AuthService {
     //Return bool
     bool uDocFlag = prefs.getBool('uDocFlag') ?? false;
     return uDocFlag;
+  }
+
+  _getFirstVisitFlagFromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    bool firstVisitFlag = prefs.getBool('firstVisitFlag') ?? false;
+    return firstVisitFlag;
   }
 
   //---------FirebaseUser Stream----------
@@ -76,21 +85,26 @@ class AuthService {
   }
 
   // ----Sign in with email & password-------
-  Future signInWithEmailAndPassword(String email, String password) async {
+  Future signInWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
     FirestoreService fsService = FirestoreService();
+    StateVariablesModel svm = Provider.of<StateVariablesModel>(
+      context,
+      listen: false,
+    );
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       dynamic userExistence = await fsService.checkUserExistence(result.user);
       if (userExistence == true) {
         await _addUDocFlagToSF();
-        dynamic temp = await _getUDocFlagFromSF();
-        debugPrint(
-            '$temp %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
       }
+      svm.setUDocFlag(await _getUDocFlagFromSF());
+      svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
       User user = result.user;
       return user;
     } on FirebaseAuthException catch (e) {
+      print(e.toString());
       return null;
     } on PlatformException catch (e) {
       print(e.toString());

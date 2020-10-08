@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // ---------------- my packages -----------------------
-import '../shared/constants.dart';
 import '../widgets/loadingWidget.dart';
 
 import '../services/firestoreService.dart';
@@ -83,16 +82,19 @@ class _VerificationWidgetState extends State<VerificationWidget> {
                                     Text(
                                       'We have sent an email containing the verification link to your email id. Check your email.',
                                       style: TextStyle(
-                                          fontFamily: 'Nunito',fontSize: 16),
+                                          fontFamily: 'Nunito', fontSize: 16),
                                     ),
                                     Text(
                                       'Just open that link in any web browser and then click the below verify button.',
-                                      style: TextStyle(fontFamily: 'Nunito',color: Colors.red,fontSize: 16),
+                                      style: TextStyle(
+                                          fontFamily: 'Nunito',
+                                          color: Colors.red,
+                                          fontSize: 16),
                                     ),
                                     SizedBox(
                                       height: 20,
                                     ),
-                                   /* TextFormField(
+                                    /* TextFormField(
                                       style: myTextFormFieldTextStyle,
                                       decoration:
                                           textFormFieldDecoration.copyWith(
@@ -122,10 +124,11 @@ class _VerificationWidgetState extends State<VerificationWidget> {
                                       onPressed: () async {
                                         if (_formKey1.currentState.validate()) {
                                           _authService.signOutFromGoogle();
-                                           showToast('You have to sign in again in order to complete the verification process.',
-                                          textStyle:
-                                              TextStyle(fontFamily: 'Nunito'),
-                                          position: ToastPosition.bottom);
+                                          showToast(
+                                              'You have to sign in again in order to complete the verification process.',
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'Nunito'),
+                                              position: ToastPosition.bottom);
                                           setState(() {
                                             _isLoading = true;
                                           });

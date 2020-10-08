@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // -------------- my packages ------------------
 import '../services/authService.dart';
+import '../models/stateVariablesModel.dart';
 import '../widgets/logOutAlertDialog.dart';
 
 class SettingsWidget extends StatefulWidget {
@@ -15,6 +15,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   @override
   Widget build(BuildContext context) {
     AuthService _authService = new AuthService();
+    StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
     Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -52,7 +53,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               showLogOutDialog(
                                 context,
                                 msg,
-                                _authService, /*userIdStatus*/
+                                _authService,
+                                svm, /*userIdStatus*/
                               );
                             }),
                       ],

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import '../services/authService.dart';
 
 import '../widgets/loadingWidget.dart';
 import '../widgets/alertDialog.dart';
 
 import '../shared/constants.dart';
-
 
 class RegisterWidget extends StatefulWidget {
   @override
