@@ -18,8 +18,8 @@ class MainWrapper extends StatelessWidget {
     final stateVariablesModel = Provider.of<StateVariablesModel>(context);
 
     bool userDocFlag = stateVariablesModel.getUDocFlag();
-    bool firstVisitFlag = stateVariablesModel.getFirstVisitFlag();
     bool courseFlag = stateVariablesModel.getCourseFlag();
+    bool firstVisitFlag = stateVariablesModel.getFirstVisitFlag();
 
     if (user == null) {
       return AuthScreenWidget();

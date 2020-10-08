@@ -118,8 +118,9 @@ class AuthService {
       }
 
       svm.setUDocFlag(await _getUDocFlagFromSF());
-      svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
       svm.setCourseFlag(await _getCourseFlagFromSF());
+      svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
+
       User user = result.user;
       return user;
     } on FirebaseAuthException catch (e) {
