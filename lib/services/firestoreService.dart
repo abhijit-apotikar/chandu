@@ -27,6 +27,7 @@ class FirestoreService {
       fireStoreInstance.collection('users').add({
         'docId': user1.uid,
         'pubUserId': userId,
+        'course': false,
       });
 
       return true;

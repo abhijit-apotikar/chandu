@@ -96,6 +96,7 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       dynamic userExistence = await fsService.checkUserExistence(result.user);
+      dynamic courseFlag = await fsService.checkCourse(result.user);
       if (userExistence == true) {
         await _addUDocFlagToSF();
       }
