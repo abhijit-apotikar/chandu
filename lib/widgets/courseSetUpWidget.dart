@@ -19,6 +19,10 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
     prefs.setBool('courseFlag', true);
   }
 
+  String course = "B.Sc.";
+  String group = 'PMCS';
+  String sem = "I";
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -113,6 +117,9 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                 }).toList(),
                                 onChanged: (String newCourse) {
                                   setUpModel.chngCurCourse(newCourse);
+                                  setState(() {
+                                    course = setUpModel.curCourse;
+                                  });
                                 },
                               );
                             },
@@ -162,6 +169,9 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                 }).toList(),
                                 onChanged: (String newSubComb) {
                                   setUpModel.chngCurSubComb(newSubComb);
+                                  setState(() {
+                                    course = setUpModel.curSubComb;
+                                  });
                                 },
                               );
                             },
@@ -211,6 +221,9 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                 }).toList(),
                                 onChanged: (String newSem) {
                                   setUpModel.chngCurSem(newSem);
+                                  setState(() {
+                                    course = setUpModel.curSem;
+                                  });
                                 },
                               );
                             },
@@ -232,8 +245,10 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                             setState(() {
                               // userIdStatus.courseSetUpStatus(true);
                             });
+                            await _fsService.setCourse(
+                                cUser, course, group, sem);
                             await _addCourseFlagToSF();
-                            svm.setCourseFlag(true);
+                            await svm.setCourseFlag(true);
                           }),
                     ],
                   ),

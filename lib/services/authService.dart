@@ -108,18 +108,17 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       dynamic userExistence = await fsService.checkUserExistence(result.user);
-
       if (userExistence == true) {
         await _addUDocFlagToSF();
+
         dynamic courseFlag = await fsService.checkCourse(result.user);
         if (courseFlag == true) {
           await _addCourseFlagToSF();
         }
       }
-
-      svm.setUDocFlag(await _getUDocFlagFromSF());
-      svm.setCourseFlag(await _getCourseFlagFromSF());
-      svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
+      await svm.setUDocFlag(await _getUDocFlagFromSF());
+      await svm.setCourseFlag(await _getCourseFlagFromSF());
+      await svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
 
       User user = result.user;
       return user;

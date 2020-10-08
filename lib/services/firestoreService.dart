@@ -28,6 +28,9 @@ class FirestoreService {
         'docId': user1.uid,
         'pubUserId': userId,
         'course': false,
+        'curCourse': null,
+        'curGroup': null,
+        'curSem': null,
       });
 
       return true;
@@ -70,10 +73,29 @@ class FirestoreService {
         .collection('users')
         .where('docId', isEqualTo: user1.uid)
         .get();
-    if (curUser.docs[0].data()['course'] == false) {
-      return false;
-    } else if (curUser.docs[0].data()['course'] == true) {
-      return true;
+    if (curUser.docs.isNotEmpty) {
+      if (curUser.docs[0].data()['course'] == false) {
+        return false;
+      } else if (curUser.docs[0].data()['course'] == true) {
+        return true;
+      }
     }
+  }
+
+  Future setCourse(
+      dynamic user1, String course, String group, String sem) async {
+    QuerySnapshot curDoc = await fireStoreInstance
+        .collection('users')
+        .where('docId', isEqualTo: user1.uid)
+        .get();
+    await curDoc.docs[0].data().update('curCourse', (value) => course);
+    await curDoc.docs[0].data().update('curGroup', (value) => group);
+    await curDoc.docs[0].data().update('curSem', (value) => sem);
+    await fireStoreInstance
+        .collection('users')
+        .where('docId', isEqualTo: user1.uid)
+        .get()
+        .then(
+            (value) => value.docs[0].data().update('course', (value) => true));
   }
 }
