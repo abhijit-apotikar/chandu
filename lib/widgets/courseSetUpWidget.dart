@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ------- my packages ---------------
 import '../services/firestoreService.dart';
 import '../models/set_up_model.dart';
+import '../models/stateVariablesModel.dart';
 
 class CourseSetUpWidget extends StatefulWidget {
   @override
@@ -12,12 +14,17 @@ class CourseSetUpWidget extends StatefulWidget {
 }
 
 class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
+  _addCourseFlagToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('courseFlag', true);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     final cUser = Provider.of<User>(context);
-
+    StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
     final FirestoreService _fsService = new FirestoreService();
     return Scaffold(
         body: Container(
@@ -225,6 +232,8 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                             setState(() {
                               // userIdStatus.courseSetUpStatus(true);
                             });
+                            await _addCourseFlagToSF();
+                            svm.setCourseFlag(true);
                           }),
                     ],
                   ),
