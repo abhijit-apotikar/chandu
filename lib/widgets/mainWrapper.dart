@@ -30,9 +30,7 @@ class MainWrapper extends StatelessWidget {
               ? WelcomeWidget()
               : (courseFlag ? HomePageWidget() : CourseSetUpWidget());
         } else {
-          return !firstVisitFlag
-              ? WelcomeWidget()
-              : (courseFlag ? UserIdSetUpWidget() : CourseSetUpWidget());
+          return !firstVisitFlag ? WelcomeWidget() : UserIdSetUpWidget();
         }
       } else {
         return VerificationWidget();
