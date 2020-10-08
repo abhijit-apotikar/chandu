@@ -63,4 +63,17 @@ class FirestoreService {
       return true;
     }
   }
+
+  Future checkCourse(dynamic user1) async {
+    //QuerySnapshot curUser = await fireStoreInstance.collection('users').where('course',isEqualTo:true).get();
+    QuerySnapshot curUser = await fireStoreInstance
+        .collection('users')
+        .where('docId', isEqualTo: user1.uid)
+        .get();
+    if (curUser.docs[0].data()['course'] == false) {
+      return false;
+    } else if (curUser.docs[0].data()['course'] == true) {
+      return true;
+    }
+  }
 }

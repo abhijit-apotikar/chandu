@@ -24,6 +24,11 @@ showLogOutDialog(
     prefs.setBool('firstVisitFlag', false);
   }
 
+  _removeCourseFlagFromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('courseFlag', false);
+  }
+
   // set up the buttons
   Widget yesButton = OutlineButton(
       color: Colors.white,
@@ -43,8 +48,10 @@ showLogOutDialog(
         await _authService.signOutFromGoogle();
         await _removeUDocFlagFromSF();
         await _removeFirstVisitFlagFromSF();
+        await _removeCourseFlagFromSF();
         await _svm.setUDocFlag(false);
         await _svm.setFirstVisitFlag(false);
+        await _svm.setCourseFlag(false);
         /*  userIdStatus.setHaveUserId(null);
         userIdStatus.setIsUserIdAvailable(null);
         userIdStatus.setIsCourseSetUpDone(null);

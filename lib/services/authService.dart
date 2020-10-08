@@ -17,6 +17,11 @@ class AuthService {
     prefs.setBool('uDocFlag', true);
   }
 
+  _addCourseFlagToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('courseFlag', true);
+  }
+
   _getUDocFlagFromSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Return bool
@@ -28,6 +33,13 @@ class AuthService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Return bool
     bool firstVisitFlag = prefs.getBool('firstVisitFlag') ?? false;
+    return firstVisitFlag;
+  }
+
+  _getCourseFlagFromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    bool firstVisitFlag = prefs.getBool('courseFlag') ?? false;
     return firstVisitFlag;
   }
 
@@ -100,8 +112,12 @@ class AuthService {
       if (userExistence == true) {
         await _addUDocFlagToSF();
       }
+      if (courseFlag == true) {
+        await _addCourseFlagToSF();
+      }
       svm.setUDocFlag(await _getUDocFlagFromSF());
       svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
+      svm.setCourseFlag(await _getCourseFlagFromSF());
       User user = result.user;
       return user;
     } on FirebaseAuthException catch (e) {
