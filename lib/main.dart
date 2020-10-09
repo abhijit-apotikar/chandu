@@ -14,6 +14,7 @@ import './widgets/my_quiz_widget.dart';
 import './widgets/result_widget.dart';
 import './widgets/review_questions_widget.dart';
 import './widgets/registerWidget.dart';
+import './widgets/courseSetUpWidget.dart';
 
 import './services/authService.dart';
 import './models/stateVariablesModel.dart';
@@ -62,6 +63,9 @@ class MyApp extends StatelessWidget {
                   ),
               '/RegisterWidget': (context) => Scaffold(
                     body: RegisterWidget(),
+                  ),
+              '/CourseSetUpWidget': (context) => Scaffold(
+                    body: CourseSetUpWidget(),
                   ),
             }),
       ),

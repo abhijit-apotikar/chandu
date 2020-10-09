@@ -61,6 +61,32 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10,), Card(
+                  margin: EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                            child: Text(
+                              'Change Course Set Up',
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 24,
+                                color: Colors.red,
+                              ),
+                            ),
+                            onTap: () {
+                            Navigator.of(context).pushNamed('/CourseSetUpWidget');
+                            }),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

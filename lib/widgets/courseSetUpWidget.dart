@@ -118,7 +118,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                 onChanged: (String newCourse) {
                                   setUpModel.chngCurCourse(newCourse);
                                   setState(() {
-                                    course = setUpModel.curCourse;
+                                    course = newCourse;
                                   });
                                 },
                               );
@@ -170,7 +170,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                 onChanged: (String newSubComb) {
                                   setUpModel.chngCurSubComb(newSubComb);
                                   setState(() {
-                                    course = setUpModel.curSubComb;
+                                    group = newSubComb;
                                   });
                                 },
                               );
@@ -222,7 +222,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                 onChanged: (String newSem) {
                                   setUpModel.chngCurSem(newSem);
                                   setState(() {
-                                    course = setUpModel.curSem;
+                                    sem = newSem;
                                   });
                                 },
                               );
@@ -247,8 +247,12 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                             });
                             await _fsService.setCourse(
                                 cUser, course, group, sem);
-                            await _addCourseFlagToSF();
-                            await svm.setCourseFlag(true);
+                            if (svm.getCourseFlag()) {
+                              Navigator.of(context).pop();
+                            } else {
+                              await _addCourseFlagToSF();
+                              await svm.setCourseFlag(true);
+                            }
                           }),
                     ],
                   ),

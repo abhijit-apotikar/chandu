@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ---------- my packages -------------------
 import '../services/authService.dart';
 import '../models/stateVariablesModel.dart';
-//import '../models/userIdStatus.dart';
 
 showLogOutDialog(
   BuildContext context,
   String msg,
   AuthService _authService,
   StateVariablesModel _svm,
-  //UserIdStatus userIdStatus,
 ) {
   _removeUDocFlagFromSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -52,10 +49,6 @@ showLogOutDialog(
         await _svm.setUDocFlag(false);
         await _svm.setFirstVisitFlag(false);
         await _svm.setCourseFlag(false);
-        /*  userIdStatus.setHaveUserId(null);
-        userIdStatus.setIsUserIdAvailable(null);
-        userIdStatus.setIsCourseSetUpDone(null);
-        userIdStatus.setCurUserId(null);*/
       });
   Widget noButton = OutlineButton(
     color: Colors.white,
