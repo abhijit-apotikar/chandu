@@ -32,7 +32,7 @@ class AuthService {
   _getFirstVisitFlagFromSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Return bool
-    bool firstVisitFlag = prefs.getBool('firstVisitFlag') ?? false;
+    bool firstVisitFlag = prefs.getBool('firstVisitFlag') ?? true;
     return firstVisitFlag;
   }
 
@@ -111,13 +111,13 @@ class AuthService {
       if (userExistence == true) {
         await _addUDocFlagToSF();
 
-        dynamic courseFlag = await fsService.checkCourse(result.user);
+        /* dynamic courseFlag = await fsService.checkCourse(result.user);
         if (courseFlag == true) {
           await _addCourseFlagToSF();
-        }
+        }*/
       }
       await svm.setUDocFlag(await _getUDocFlagFromSF());
-      await svm.setCourseFlag(await _getCourseFlagFromSF());
+      // await svm.setCourseFlag(await _getCourseFlagFromSF());
       await svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
 
       User user = result.user;

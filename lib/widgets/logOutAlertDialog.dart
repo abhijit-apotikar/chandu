@@ -18,7 +18,7 @@ showLogOutDialog(
 
   _removeFirstVisitFlagFromSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('firstVisitFlag', false);
+    prefs.setBool('firstVisitFlag', true);
   }
 
   _removeCourseFlagFromSF() async {
@@ -47,7 +47,7 @@ showLogOutDialog(
         await _removeFirstVisitFlagFromSF();
         await _removeCourseFlagFromSF();
         await _svm.setUDocFlag(false);
-        await _svm.setFirstVisitFlag(false);
+        await _svm.setFirstVisitFlag(true);
         await _svm.setCourseFlag(false);
       });
   Widget noButton = OutlineButton(

@@ -160,12 +160,6 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                                 'Wrong credentials, try again';
                                             showAlertDialog(context, error);
                                           });
-                                        } else if (!result.emailVerified) {
-                                          setState(() {
-                                            _isLoading = false;
-                                            error = 'Email id not verified.';
-                                            showAlertDialog(context, error);
-                                          });
                                         }
                                       }
                                     },

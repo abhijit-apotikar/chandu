@@ -5,7 +5,7 @@ class StateVariablesModel with ChangeNotifier {
   bool _firstVisitFlag;
   bool _courseFlag;
   getUDocFlag() => _uDocFlag ?? false;
-  getFirstVisitFlag() => _firstVisitFlag ?? false;
+  getFirstVisitFlag() => _firstVisitFlag ?? true;
   getCourseFlag() => _courseFlag ?? false;
   setUDocFlag(dynamic flag) async {
     if (flag == true) {

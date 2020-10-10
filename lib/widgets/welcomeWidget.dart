@@ -8,7 +8,7 @@ import '../models/stateVariablesModel.dart';
 
 _addFirstVisitFlagToSF() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool('firstVisitFlag', true);
+  prefs.setBool('firstVisitFlag', false);
 }
 
 class WelcomeWidget extends StatelessWidget {
@@ -40,7 +40,7 @@ class WelcomeWidget extends StatelessWidget {
                   child: Text("Continue"),
                   onPressed: () async {
                     _addFirstVisitFlagToSF();
-                    stateVariablesModel.setFirstVisitFlag(true);
+                    stateVariablesModel.setFirstVisitFlag(false);
                   }),
             ],
           ),
