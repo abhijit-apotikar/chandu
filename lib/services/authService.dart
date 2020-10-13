@@ -116,9 +116,9 @@ class AuthService {
           await _addCourseFlagToSF();
         }*/
       }
-      await svm.setUDocFlag(await _getUDocFlagFromSF());
+      //await svm.setUDocFlag(await _getUDocFlagFromSF());
       // await svm.setCourseFlag(await _getCourseFlagFromSF());
-      await svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
+      // await svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
 
       User user = result.user;
       return user;

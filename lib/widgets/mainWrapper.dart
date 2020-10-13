@@ -64,7 +64,7 @@ class _MainWrapperState extends State<MainWrapper> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     final svm = Provider.of<StateVariablesModel>(context);
-    _setVariables(svm);
+    if (svm.getFirstVisitFlag() == true) _setVariables(svm);
     dynamic firstVisitFlag = svm.getFirstVisitFlag();
     dynamic userDocFlag = svm.getUDocFlag();
     dynamic courseFlag = svm.getCourseFlag();
@@ -89,7 +89,7 @@ class _MainWrapperState extends State<MainWrapper> {
             } else {
               return CourseSetUpWidget();
             }
-          } else {
+          } else if (userDocFlag == false) {
             return UserIdSetUpWidget();
           }
         }

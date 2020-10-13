@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:oktoast/oktoast.dart';
 
 // ---------- my packages -------------------
 import '../services/authService.dart';
@@ -49,6 +50,9 @@ showLogOutDialog(
         await _svm.setUDocFlag(false);
         await _svm.setFirstVisitFlag(true);
         await _svm.setCourseFlag(false);
+        showToast(' Logged out. ',
+            textStyle: TextStyle(fontFamily: 'Nunito'),
+            position: ToastPosition.bottom);
       });
   Widget noButton = OutlineButton(
     color: Colors.white,

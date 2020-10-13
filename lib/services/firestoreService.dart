@@ -85,18 +85,23 @@ class FirestoreService {
   Future setCourse(
       dynamic user1, String course, String group, String sem) async {
     String docId;
-    await fireStoreInstance
-        .collection('users')
-        .where('docId', isEqualTo: user1.uid)
-        .get()
-        .then((value) {
-      docId = value.docs[0].id;
-    });
-    await fireStoreInstance.collection('users').doc(docId).update({
-      'course': true,
-      'curCourse': course,
-      'curGroup': group,
-      'curSem': sem
-    });
+    try {
+      await fireStoreInstance
+          .collection('users')
+          .where('docId', isEqualTo: user1.uid)
+          .get()
+          .then((value) {
+        docId = value.docs[0].id;
+      });
+      await fireStoreInstance.collection('users').doc(docId).update({
+        'course': true,
+        'curCourse': course,
+        'curGroup': group,
+        'curSem': sem
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

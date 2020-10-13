@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-
+import 'package:oktoast/oktoast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../services/authService.dart';
@@ -160,6 +160,11 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                                 'Wrong credentials, try again';
                                             showAlertDialog(context, error);
                                           });
+                                        } else {
+                                          showToast(' Logged In. ',
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'Nunito'),
+                                              position: ToastPosition.bottom);
                                         }
                                       }
                                     },
