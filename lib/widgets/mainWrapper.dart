@@ -89,7 +89,7 @@ class _MainWrapperState extends State<MainWrapper> {
             } else {
               return CourseSetUpWidget();
             }
-          } else if (userDocFlag == false) {
+          } else {
             return UserIdSetUpWidget();
           }
         }

@@ -5,8 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // ---------------- my packages -----------------------
 import '../widgets/loadingWidget.dart';
-
-import '../services/firestoreService.dart';
 import '../services/authService.dart';
 
 class VerificationWidget extends StatefulWidget {
@@ -24,9 +22,7 @@ class _VerificationWidgetState extends State<VerificationWidget> {
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     final user = Provider.of<User>(context);
     final AuthService _authService = new AuthService();
-    final FirestoreService _fsService = new FirestoreService();
 
-    String userId;
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(

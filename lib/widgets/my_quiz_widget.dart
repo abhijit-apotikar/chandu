@@ -945,7 +945,42 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                         ),
                       ),
                     ),
-                    Expanded(child: SizedBox()),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Attempted : ',
+                                style: TextStyle(
+                                    fontFamily: 'Nunito', fontSize: 18),
+                              ),
+                               Text(
+                                '$_queAttempted',
+                                style: TextStyle(
+                                    fontFamily: 'Nunito', fontSize: 22,fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Marked for Review : ',
+                                style: TextStyle(
+                                    fontFamily: 'Nunito', fontSize: 18),
+                              ),
+                               Text(
+                                '$_queMarkedForReview',
+                                style: TextStyle(
+                                    fontFamily: 'Nunito', fontSize: 22,fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                     Card(
                       margin: const EdgeInsets.all(0),
                       child: Container(

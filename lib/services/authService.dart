@@ -1,12 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../services/firestoreService.dart';
-import '../models/stateVariablesModel.dart';
 
 class AuthService {
   //FirebaseAuth instance-------------------
@@ -15,32 +12,6 @@ class AuthService {
   _addUDocFlagToSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('uDocFlag', true);
-  }
-
-  _addCourseFlagToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('courseFlag', true);
-  }
-
-  _getUDocFlagFromSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return bool
-    bool uDocFlag = prefs.getBool('uDocFlag') ?? false;
-    return uDocFlag;
-  }
-
-  _getFirstVisitFlagFromSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return bool
-    bool firstVisitFlag = prefs.getBool('firstVisitFlag') ?? true;
-    return firstVisitFlag;
-  }
-
-  _getCourseFlagFromSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return bool
-    bool firstVisitFlag = prefs.getBool('courseFlag') ?? false;
-    return firstVisitFlag;
   }
 
   //---------FirebaseUser Stream----------
@@ -97,13 +68,9 @@ class AuthService {
   }
 
   // ----Sign in with email & password-------
-  Future signInWithEmailAndPassword(
-      String email, String password, BuildContext context) async {
+  Future signInWithEmailAndPassword(String email, String password) async {
     FirestoreService fsService = FirestoreService();
-    StateVariablesModel svm = Provider.of<StateVariablesModel>(
-      context,
-      listen: false,
-    );
+
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);

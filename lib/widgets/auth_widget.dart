@@ -151,7 +151,7 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
 
                                         dynamic result = await _authService
                                             .signInWithEmailAndPassword(
-                                                email, password, context);
+                                                email, password);
 
                                         if (result == null) {
                                           setState(() {
