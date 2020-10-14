@@ -69,7 +69,19 @@ class _MainWrapperState extends State<MainWrapper> {
     dynamic userDocFlag = svm.getUDocFlag();
     dynamic courseFlag = svm.getCourseFlag();
 
-    if (user == null) {
+    return Scaffold(
+        body: user == null
+            ? AuthScreenWidget()
+            : (user.emailVerified
+                ? (firstVisitFlag == true
+                    ? WelcomeWidget()
+                    : (userDocFlag == true
+                        ? (courseFlag == true
+                            ? HomePageWidget()
+                            : CourseSetUpWidget())
+                        : UserIdSetUpWidget()))
+                : VerificationWidget()));
+    /*if (user == null) {
       return AuthScreenWidget();
     } else {
       if (user.emailVerified) {
@@ -96,6 +108,6 @@ class _MainWrapperState extends State<MainWrapper> {
       } else {
         return VerificationWidget();
       }
-    }
+    }*/
   }
 }
