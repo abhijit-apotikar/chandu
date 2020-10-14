@@ -105,12 +105,11 @@ class FirestoreService {
     }
   }
 
-  Future getCourses() async {
-    List<String> courseList = [];
-    QuerySnapshot courses = await fireStoreInstance.collection('courses').get();
-    for (int i = 0; i < courses.docs.length; i++) {
+ /* Future getCourses() async {
+    //List<String> courseList = [];
+    return Stream<QuerySnapshot> courses = await fireStoreInstance.collection('courses').snapshots();
+   /* for (int i = 0; i < courses.docs.length; i++) {
       courseList.add(courses.docs[0].data()['cName']);
-    }
-    return courseList;
-  }
+    }*/
+  }*/
 }

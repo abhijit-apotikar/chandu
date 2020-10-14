@@ -81,33 +81,5 @@ class _MainWrapperState extends State<MainWrapper> {
                             : CourseSetUpWidget())
                         : UserIdSetUpWidget()))
                 : VerificationWidget()));
-    /*if (user == null) {
-      return AuthScreenWidget();
-    } else {
-      if (user.emailVerified) {
-        /* if (userDocFlag == true) {
-          return !firstVisitFlag
-              ? WelcomeWidget()
-              : (courseFlag ? HomePageWidget() : CourseSetUpWidget());
-        } else {
-          return !firstVisitFlag ? WelcomeWidget() : UserIdSetUpWidget();
-        }*/
-        if (firstVisitFlag == true) {
-          return WelcomeWidget();
-        } else {
-          if (userDocFlag == true) {
-            if (courseFlag == true) {
-              return HomePageWidget();
-            } else {
-              return CourseSetUpWidget();
-            }
-          } else {
-            return UserIdSetUpWidget();
-          }
-        }
-      } else {
-        return VerificationWidget();
-      }
-    }*/
   }
 }

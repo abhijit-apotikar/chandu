@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 class SetUpModel with ChangeNotifier {
-  String curCourse = "B.Sc.";
-  String curSubComb = "PMCS";
+  String curCourse = "B.E.";
+  String curSubComb = "Civil";
   String curSem = "I";
   String curSub = "PHY";
 
-  List<String> courseList = <String>[
+  /* List<String> courseList = <String>[
     "B.Sc.",
     "B.A.",
     "B.Sc.(Home Science)",
@@ -29,7 +29,7 @@ class SetUpModel with ChangeNotifier {
     "IV",
     "V",
     "VI",
-  ];
+  ];*/
 
   List<String> subList = <String>[
     "PHY",
