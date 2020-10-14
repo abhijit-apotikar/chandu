@@ -51,6 +51,7 @@ class SetUpModel with ChangeNotifier {
     curSem = newSem;
     notifyListeners();
   }
+
   void chngCurSub(String newSub) {
     curSub = newSub;
     notifyListeners();
