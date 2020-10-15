@@ -406,7 +406,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                           .setCourseFlag(true);
                                                     }
                                                     showToast(
-                                                        ' Course set up successful. In future you can change this set up through settings. ',
+                                                        ' Course set up successful. ',
                                                         textStyle: TextStyle(
                                                             fontFamily:
                                                                 'Nunito'),
