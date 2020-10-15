@@ -152,22 +152,8 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                 }
                               }
                             }
-                            debugPrint(
-                                '${snapshots.data.documents[0].data()['cScheme']['branches'].length} @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                            return new /* Card(
-                              child: Container(
-                                child: ListView.builder(
-                                    itemCount: snapshots.data.documents.length,
-                                    itemBuilder: (context, index) {
-                                      DocumentSnapshot data =
-                                          snapshots.data.documents[index];
-                                      return Card(
-                                        child: Text('${data.data()['cName']}'),
-                                      );
-                                    }),
-                              ),
-                            );*/
-                                Container(
+
+                            return new Container(
                               child: ChangeNotifierProvider<SetUpModel>(
                                 create: (context) => SetUpModel(),
                                 child: Column(
@@ -190,10 +176,11 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                         Consumer<SetUpModel>(
                                           builder:
                                               (context, setUpModel, child) {
-                                            /*setUpModel
-                                                .chngCurCourse(courseList[0]);*/
                                             return DropdownButton(
-                                              value: setUpModel.curCourse,
+                                              value: setUpModel.curCourse ==
+                                                      courseList[0]
+                                                  ? courseList[0]
+                                                  : course,
                                               icon: Icon(Icons.arrow_downward),
                                               iconSize: 24,
                                               elevation: 16,
@@ -218,9 +205,15 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                               onChanged: (String newCourse) {
                                                 setUpModel
                                                     .chngCurCourse(newCourse);
+                                                groupList.clear();
+                                                semList.clear();
                                                 setState(() {
                                                   course = newCourse;
                                                 });
+                                                setUpModel.chngCurSubComb(
+                                                    groupList[0]);
+                                                setUpModel
+                                                    .chngCurSem(semList[0]);
                                               },
                                             );
                                           },
@@ -247,10 +240,11 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                         Consumer<SetUpModel>(
                                           builder:
                                               (context, setUpModel, child) {
-                                            setUpModel
-                                                .chngCurSubComb(groupList[0]);
                                             return DropdownButton(
-                                              value: setUpModel.curSubComb,
+                                              value: groupList.contains(
+                                                      setUpModel.curSubComb)
+                                                  ? setUpModel.curSubComb
+                                                  : groupList[0],
                                               icon: Icon(Icons.arrow_downward),
                                               iconSize: 24,
                                               elevation: 16,
@@ -304,9 +298,11 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                         Consumer<SetUpModel>(
                                           builder:
                                               (context, setUpModel, child) {
-                                            setUpModel.chngCurSem(semList[0]);
                                             return DropdownButton(
-                                              value: setUpModel.curSem,
+                                              value: semList.contains(
+                                                      setUpModel.curSem)
+                                                  ? setUpModel.curSem
+                                                  : semList[0],
                                               icon: Icon(Icons.arrow_downward),
                                               iconSize: 24,
                                               elevation: 16,
