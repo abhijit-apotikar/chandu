@@ -111,7 +111,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               myModel.titleText,
                               style: TextStyle(
                                 fontSize: 32,
-                                // fontFamily: 'Ultra',
+                               fontFamily: 'Nunito',
                               ),
                             );
                     },
