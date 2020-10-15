@@ -24,6 +24,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
   String course = "B.E.";
   String group = 'Civil';
   String sem = "I";
+  GlobalKey _scaffold = GlobalKey();
 
   bool isLoading = false;
 
@@ -35,6 +36,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
     StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
     final FirestoreService _fsService = new FirestoreService();
     return Scaffold(
+        key: _scaffold,
         body: isLoading
             ? LoadingWidget()
             : Container(
@@ -210,8 +212,10 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                 setState(() {
                                                   course = newCourse;
                                                 });
+
                                                 setUpModel.chngCurSubComb(
                                                     groupList[0]);
+
                                                 setUpModel
                                                     .chngCurSem(semList[0]);
                                               },
@@ -355,9 +359,17 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                               await _fsService.setCourse(
                                                   cUser, course, group, sem);
                                           if (result == true) {
-                                            if (svm.getCourseFlag()) {
-                                              Navigator.of(context).pop();
+                                            if (await svm.getCourseFlag()) {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
+                                              Navigator.of(
+                                                      _scaffold.currentContext)
+                                                  .pop();
                                             } else {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
                                               await _addCourseFlagToSF();
                                               await svm.setCourseFlag(true);
                                             }
