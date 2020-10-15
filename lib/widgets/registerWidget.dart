@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import '../services/authService.dart';
 
@@ -15,7 +16,10 @@ class RegisterWidget extends StatefulWidget {
 class _RegisterWidgetState extends State<RegisterWidget> {
   bool loading = false;
   bool _agreedToTerms = false;
+  bool _consent = true;
   final _formKey = GlobalKey<FormState>();
+  bool _obscureText1 = true;
+  bool _obscureText2 = true;
 
   ///------------textField e-mail,password local variables--------
   String email = '';
@@ -45,6 +49,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               ),
               iconTheme: new IconThemeData(
                 size: 20,
+                color: Colors.white,
               ),
             ),
             body: SingleChildScrollView(
@@ -52,7 +57,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 children: <Widget>[
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 40,
+                      vertical: 20,
                       horizontal: 20,
                     ),
                     child: Form(
@@ -71,21 +76,67 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               });
                             },
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 10),
                           TextFormField(
                             style: myTextFormFieldTextStyle,
                             decoration: textFormFieldDecoration.copyWith(
-                                hintText: 'Password'),
+                              hintText: 'Enter a Password',
+                              suffixIcon: GestureDetector(
+                                  child: _obscureText1
+                                      ? Icon(Feather.eye)
+                                      : Icon(Feather.eye_off),
+                                  onTap: () {
+                                    setState(() {
+                                      _obscureText1 = !_obscureText1;
+                                    });
+                                  }),
+                            ),
                             validator: (val) => val.length < 6
-                                ? 'Password should be atleast 6 characters long'
-                                : null,
-                            obscureText: true,
+                                ? 'Password must be atleast 6 characters long'
+                                : (val.contains(new RegExp(r'[A-Z]'))
+                                    ? (val.contains(new RegExp(r'[a-z]'))
+                                        ? (val.contains(new RegExp(r'[0-9]'))
+                                            ? (val.contains(new RegExp(
+                                                    r'[@&%=\$+\-_^\.;:]'))
+                                                ? null
+                                                : 'Password must contain atleast one from @&%=\$+\-_^\.;:')
+                                            : 'Password must contain atleast 1 number')
+                                        : 'Password must contain atleast 1 small letter')
+                                    : 'Password must contain atleast 1 capital letter'),
+                            obscureText: _obscureText1,
                             onChanged: (val) {
                               password = val;
                             },
                           ),
                           SizedBox(
-                            height: 20.0,
+                            height: 10.0,
+                          ),
+                          TextFormField(
+                            style: myTextFormFieldTextStyle,
+                            decoration: textFormFieldDecoration.copyWith(
+                              hintText: 'Confirm Password',
+                              suffixIcon: GestureDetector(
+                                  child: _obscureText2
+                                      ? Icon(Feather.eye)
+                                      : Icon(Feather.eye_off),
+                                  onTap: () {
+                                    setState(() {
+                                      _obscureText2 = !_obscureText2;
+                                    });
+                                  }),
+                            ),
+                            validator: (val) => (val != password)
+                                ? 'Passwords don\'t match'
+                                : (val.length < 6
+                                    ? 'Password must be confirmed'
+                                    : null),
+                            obscureText: _obscureText2,
+                            onChanged: (val) {
+                              password = val;
+                            },
+                          ),
+                          SizedBox(
+                            height: 10.0,
                           ),
                           Container(
                             padding: const EdgeInsets.all(10.0),
@@ -96,39 +147,38 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               ),
                               borderRadius: new BorderRadius.circular(20),
                             ),
-                            child: Column(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'Terms & Conditions',
-                                      style: TextStyle(
-                                        fontFamily: 'Nunito',
-                                        fontSize: 18,
-                                      ),
+                                Text(
+                                  ' Read our ',
+                                  style: TextStyle(fontFamily: 'Nunito'),
+                                ),
+                                GestureDetector(
+                                  child: Text(
+                                    ' Terms & Conditions ',
+                                    style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  ],
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed('/TermsAndConditionsWidget');
+                                  },
                                 ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Flexible(
+                                /* Flexible(
                                       child: Text(
                                         'Your email will be used in no way other than for identification purpose and account related correspondence.',
                                         style: TextStyle(fontFamily: 'Nunito'),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    ),*/
                               ],
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 5,
                           ),
                           CheckboxListTile(
                             title: Text(
@@ -140,15 +190,18 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               if (_agreedToTerms == false) {
                                 setState(() {
                                   _agreedToTerms = true;
+                                  _consent = true;
                                 });
                               } else if (_agreedToTerms = true) {
                                 setState(() {
                                   _agreedToTerms = false;
+                                  _consent = false;
                                 });
                               }
                             },
-                            subtitle: !_agreedToTerms
-                                ? Padding(
+                            subtitle: _consent
+                                ? null
+                                : Padding(
                                     padding: EdgeInsets.fromLTRB(12.0, 0, 0, 0),
                                     child: Text(
                                       'You need to agree to the Terms & Conditions before proceeding.',
@@ -157,10 +210,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                           fontSize: 12,
                                           fontFamily: 'Nunito'),
                                     ),
-                                  )
-                                : null,
+                                  ),
                           ),
-                          SizedBox(height: 30),
+                          SizedBox(height: 10),
                           Material(
                             elevation: 5,
                             color: Colors.amber[300],
@@ -191,6 +243,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                   } else {
                                     Navigator.pop(context);
                                   }
+                                } else if (_agreedToTerms == false) {
+                                  setState(() {
+                                    _consent = false;
+                                  });
                                 }
                               },
                               child: Text(

@@ -15,6 +15,7 @@ import './widgets/result_widget.dart';
 import './widgets/review_questions_widget.dart';
 import './widgets/registerWidget.dart';
 import './widgets/courseSetUpWidget.dart';
+import './widgets/termsAndConditionsWidget.dart';
 
 import './services/authService.dart';
 import './models/stateVariablesModel.dart';
@@ -66,6 +67,9 @@ class MyApp extends StatelessWidget {
                   ),
               '/CourseSetUpWidget': (context) => Scaffold(
                     body: CourseSetUpWidget(),
+                  ),
+              '/TermsAndConditionsWidget': (context) => Scaffold(
+                    body: TermsAndConditionsWidget(),
                   ),
             }),
       ),
