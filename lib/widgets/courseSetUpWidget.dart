@@ -376,38 +376,56 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                       .checkBranchAvailability(
                                                           course, group);
                                               if (branchAvailability) {
-                                                dynamic result =
-                                                    await _fsService.setCourse(
-                                                        cUser,
-                                                        course,
-                                                        group,
-                                                        sem);
-                                                if (result == true) {
-                                                  if (await svm
-                                                      .getCourseFlag()) {
+                                                bool semAvailability =
+                                                    await _fsService
+                                                        .checkSemAvailability(
+                                                            course, group, sem);
+                                                if (semAvailability) {
+                                                  dynamic result =
+                                                      await _fsService
+                                                          .setCourse(
+                                                              cUser,
+                                                              course,
+                                                              group,
+                                                              sem);
+                                                  if (result == true) {
+                                                    if (await svm
+                                                        .getCourseFlag()) {
+                                                      setState(() {
+                                                        isLoading = false;
+                                                      });
+                                                      Navigator.of(_scaffold
+                                                              .currentContext)
+                                                          .pop();
+                                                    } else {
+                                                      setState(() {
+                                                        isLoading = false;
+                                                      });
+                                                      await _addCourseFlagToSF();
+                                                      await svm
+                                                          .setCourseFlag(true);
+                                                    }
+                                                    showToast(
+                                                        ' Course set up successful. In future you can change this set up through settings. ',
+                                                        textStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Nunito'),
+                                                        position: ToastPosition
+                                                            .bottom);
                                                     setState(() {
                                                       isLoading = false;
                                                     });
-                                                    Navigator.of(_scaffold
-                                                            .currentContext)
-                                                        .pop();
-                                                  } else {
-                                                    setState(() {
-                                                      isLoading = false;
-                                                    });
-                                                    await _addCourseFlagToSF();
-                                                    await svm
-                                                        .setCourseFlag(true);
                                                   }
+                                                } else {
+                                                  setState(() {
+                                                    isLoading = false;
+                                                  });
                                                   showToast(
-                                                      ' Course set up successful. In future you can change this set up through settings. ',
+                                                      ' Sorry, Selected sem not available. ',
                                                       textStyle: TextStyle(
                                                           fontFamily: 'Nunito'),
                                                       position:
                                                           ToastPosition.bottom);
-                                                  setState(() {
-                                                    isLoading = false;
-                                                  });
                                                 }
                                               } else {
                                                 setState(() {

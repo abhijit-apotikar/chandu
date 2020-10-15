@@ -138,7 +138,7 @@ class FirestoreService {
       if (qs.docs[0].data()['cScheme']['branches'][i]['bName'] == bName) {
         if (qs.docs[0]
             .data()['cScheme']['branches'][i]['aSems']
-            .contains('sem')) {
+            .contains(sem)) {
           return true;
         } else {
           return false;
