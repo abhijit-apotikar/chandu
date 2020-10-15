@@ -27,6 +27,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
 
   bool groupSelect = false;
   bool semSelect = false;
+  bool courseAvailability = false;
 
   GlobalKey _scaffold = GlobalKey();
 
@@ -118,7 +119,8 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                         .data()['cName'] ==
                                     course) {
                                   groupList.add(snapshots.data.documents[i]
-                                      .data()['cScheme']['branches'][j]);
+                                          .data()['cScheme']['branches'][j]
+                                      ['bName']);
                                 }
                               }
                             }
@@ -215,6 +217,8 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                 semList.clear();
                                                 setState(() {
                                                   course = newCourse;
+                                                  groupSelect = false;
+                                                  semSelect = false;
                                                 });
 
                                                 setUpModel.chngCurSubComb(
@@ -362,33 +366,70 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                               // userIdStatus.courseSetUpStatus(true);
                                               isLoading = true;
                                             });
-                                            dynamic result =
-                                                await _fsService.setCourse(
-                                                    cUser, course, group, sem);
-                                            if (result == true) {
-                                              if (await svm.getCourseFlag()) {
-                                                setState(() {
-                                                  isLoading = false;
-                                                });
-                                                Navigator.of(_scaffold
-                                                        .currentContext)
-                                                    .pop();
+                                            bool courseAvailability =
+                                                await _fsService
+                                                    .checkCourseAvailability(
+                                                        course);
+                                            if (courseAvailability) {
+                                              bool branchAvailability =
+                                                  await _fsService
+                                                      .checkBranchAvailability(
+                                                          course, group);
+                                              if (branchAvailability) {
+                                                dynamic result =
+                                                    await _fsService.setCourse(
+                                                        cUser,
+                                                        course,
+                                                        group,
+                                                        sem);
+                                                if (result == true) {
+                                                  if (await svm
+                                                      .getCourseFlag()) {
+                                                    setState(() {
+                                                      isLoading = false;
+                                                    });
+                                                    Navigator.of(_scaffold
+                                                            .currentContext)
+                                                        .pop();
+                                                  } else {
+                                                    setState(() {
+                                                      isLoading = false;
+                                                    });
+                                                    await _addCourseFlagToSF();
+                                                    await svm
+                                                        .setCourseFlag(true);
+                                                  }
+                                                  showToast(
+                                                      ' Course set up successful. In future you can change this set up through settings. ',
+                                                      textStyle: TextStyle(
+                                                          fontFamily: 'Nunito'),
+                                                      position:
+                                                          ToastPosition.bottom);
+                                                  setState(() {
+                                                    isLoading = false;
+                                                  });
+                                                }
                                               } else {
                                                 setState(() {
                                                   isLoading = false;
                                                 });
-                                                await _addCourseFlagToSF();
-                                                await svm.setCourseFlag(true);
+                                                showToast(
+                                                    ' Sorry, Selected branch not available. ',
+                                                    textStyle: TextStyle(
+                                                        fontFamily: 'Nunito'),
+                                                    position:
+                                                        ToastPosition.bottom);
                                               }
+                                            } else {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
                                               showToast(
-                                                  ' Course set up successful. ',
+                                                  ' Sorry, Selected course not available. ',
                                                   textStyle: TextStyle(
                                                       fontFamily: 'Nunito'),
                                                   position:
                                                       ToastPosition.bottom);
-                                              setState(() {
-                                                isLoading = false;
-                                              });
                                             }
                                           } else if (!groupSelect) {
                                             showToast(
@@ -411,7 +452,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                           },
                         ),
                       ),
-                      Container(
+                      /*Container(
                         padding: EdgeInsets.all(10),
                         height: size.height * 0.15,
                         child: Card(
@@ -430,7 +471,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                             ),
                           ),
                         ),
-                      ),
+                      ),*/
                     ]),
               ));
   }

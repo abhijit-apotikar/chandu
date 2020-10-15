@@ -105,11 +105,53 @@ class FirestoreService {
     }
   }
 
- /* Future getCourses() async {
+  Future checkCourseAvailability(String cName) async {
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('courses')
+        .where('cName', isEqualTo: cName)
+        .get();
+    bool availability = qs.docs[0].data()['availability'];
+    return availability;
+  }
+
+  Future checkBranchAvailability(String cName, String bName) async {
+    bool availability;
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('courses')
+        .where('cName', isEqualTo: cName)
+        .get();
+    for (int i = 0; i < qs.docs[0].data()['cScheme']['branches'].length; i++) {
+      if (qs.docs[0].data()['cScheme']['branches'][i]['bName'] == bName) {
+        availability =
+            qs.docs[0].data()['cScheme']['branches'][i]['availability'];
+      }
+    }
+    return availability;
+  }
+
+  Future checkSemAvailability(String cName, String bName, String sem) async {
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('courses')
+        .where('cName', isEqualTo: cName)
+        .get();
+    for (int i = 0; i < qs.docs[0].data()['cScheme']['branches'].length; i++) {
+      if (qs.docs[0].data()['cScheme']['branches'][i]['bName'] == bName) {
+        if (qs.docs[0]
+            .data()['cScheme']['branches'][i]['aSems']
+            .contains('sem')) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
+    /* Future getCourses() async {
     //List<String> courseList = [];
     return Stream<QuerySnapshot> courses = await fireStoreInstance.collection('courses').snapshots();
    /* for (int i = 0; i < courses.docs.length; i++) {
       courseList.add(courses.docs[0].data()['cName']);
     }*/
   }*/
+  }
 }
