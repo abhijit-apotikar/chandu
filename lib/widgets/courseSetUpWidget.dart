@@ -24,6 +24,10 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
   String course = "B.E.";
   String group = 'Civil';
   String sem = "I";
+
+  bool groupSelect = false;
+  bool semSelect = false;
+
   GlobalKey _scaffold = GlobalKey();
 
   bool isLoading = false;
@@ -275,6 +279,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                     .chngCurSubComb(newSubComb);
                                                 setState(() {
                                                   group = newSubComb;
+                                                  groupSelect = true;
                                                 });
                                               },
                                             );
@@ -332,6 +337,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                 setUpModel.chngCurSem(newSem);
                                                 setState(() {
                                                   sem = newSem;
+                                                  semSelect = true;
                                                 });
                                               },
                                             );
@@ -351,36 +357,51 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                           ),
                                         ),
                                         onPressed: () async {
-                                          setState(() {
-                                            // userIdStatus.courseSetUpStatus(true);
-                                            isLoading = true;
-                                          });
-                                          dynamic result =
-                                              await _fsService.setCourse(
-                                                  cUser, course, group, sem);
-                                          if (result == true) {
-                                            if (await svm.getCourseFlag()) {
+                                          if (groupSelect && semSelect) {
+                                            setState(() {
+                                              // userIdStatus.courseSetUpStatus(true);
+                                              isLoading = true;
+                                            });
+                                            dynamic result =
+                                                await _fsService.setCourse(
+                                                    cUser, course, group, sem);
+                                            if (result == true) {
+                                              if (await svm.getCourseFlag()) {
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
+                                                Navigator.of(_scaffold
+                                                        .currentContext)
+                                                    .pop();
+                                              } else {
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
+                                                await _addCourseFlagToSF();
+                                                await svm.setCourseFlag(true);
+                                              }
+                                              showToast(
+                                                  ' Course set up successful. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
                                               setState(() {
                                                 isLoading = false;
                                               });
-                                              Navigator.of(
-                                                      _scaffold.currentContext)
-                                                  .pop();
-                                            } else {
-                                              setState(() {
-                                                isLoading = false;
-                                              });
-                                              await _addCourseFlagToSF();
-                                              await svm.setCourseFlag(true);
                                             }
+                                          } else if (!groupSelect) {
                                             showToast(
-                                                ' Course set up successful. ',
+                                                ' You must explicitly select group. ',
                                                 textStyle: TextStyle(
                                                     fontFamily: 'Nunito'),
                                                 position: ToastPosition.bottom);
-                                            setState(() {
-                                              isLoading = false;
-                                            });
+                                          } else if (!semSelect) {
+                                            showToast(
+                                                ' You must explicitly select sem. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
                                           }
                                         }),
                                   ],
