@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:my_proc/widgets/my_list_widget.dart';
 import 'package:oktoast/oktoast.dart';
@@ -6,9 +7,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
+// ---------------- my packages ------------------------
 import './widgets/mainWrapper.dart';
 import './widgets/homePageWidget.dart';
-
 import './widgets/que_list_widget.dart';
 import './widgets/my_quiz_widget.dart';
 import './widgets/result_widget.dart';
@@ -17,7 +18,6 @@ import './widgets/registerWidget.dart';
 import './widgets/courseSetUpWidget.dart';
 import './widgets/termsAndConditionsWidget.dart';
 import './widgets/passwordResetWidget.dart';
-
 import './services/authService.dart';
 import './models/stateVariablesModel.dart';
 
@@ -35,6 +35,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: OKToast(

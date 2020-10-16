@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // ---------------- my packages ---------------------------------
 import '../widgets/loadingWidget.dart';
-import '../widgets/alertDialog.dart';
 import '../services/authService.dart';
 import '../services/firestoreService.dart';
 
@@ -118,7 +117,7 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                             });
                                           }),
                                     ),
-                                    validator: (val) => val.length < 6
+                                    validator: (val) => val.isEmpty
                                         ? 'Password should not be empty'
                                         : null,
                                     obscureText: _obscureText,
@@ -156,13 +155,33 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                               .signInWithEmailAndPassword(
                                                   email, password);
 
-                                          if (result == null) {
-                                            setState(() {
-                                              _isLoading = false;
-                                              error =
-                                                  'Wrong credentials, try again';
-                                              showAlertDialog(context, error);
-                                            });
+                                          if (result == '101') {
+                                            _isLoading = false;
+                                            showToast(' Wrong password. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
+                                          } else if (result == '102') {
+                                            _isLoading = false;
+                                            showToast(
+                                                ' Email appears to be malformed. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
+                                          } else if (result == '103') {
+                                            _isLoading = false;
+                                            showToast(
+                                                ' Email is not associated with any account. You can try registring with this email. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
+                                          } else if (result == '104') {
+                                            _isLoading = false;
+                                            showToast(
+                                                ' Requested account is currently disabled. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
                                           } else {
                                             showToast(' Logged In. ',
                                                 textStyle: TextStyle(
@@ -197,12 +216,26 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                           dynamic result = await _authService
                                               .signInWithGoogle();
 
-                                          if (result == null) {
-                                            _isLoading = false;
-                                            debugPrint(
-                                                'trouble signing in -------------------------');
+                                          if (result == '101') {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                            showToast(' Login canceled. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
+                                          } else if (result == '102') {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                            showToast(' Login canceled. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
                                           } else {
-                                            _isLoading = false;
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
                                             dynamic userExistenceResult =
                                                 await _fsService
                                                     .checkUserExistence(result);

@@ -104,7 +104,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                 children: [
                   InkWell(
                     child: Container(
-                      width: size.width * .4,
+                      width: size.width * 0.4,
                       height: size.height * 0.1,
                       child: Card(
                         color: Colors.green,
@@ -170,38 +170,47 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                             ),
                             onTap: () {
                               setState(() {
-                                _markedForReview = !_markedForReview;
-                                if (_markedForReview) {
-                                  showToast(
-                                      'Current question added to review list.',
-                                      textStyle:
-                                          TextStyle(fontFamily: 'Nunito'),
-                                      position: ToastPosition.bottom);
-                                } else {
-                                  showToast(
-                                      'Current question removed from review list.',
-                                      textStyle:
-                                          TextStyle(fontFamily: 'Nunito'),
-                                      position: ToastPosition.bottom);
-                                }
+                                if (!_presentSubmitDialog) {
+                                  _markedForReview = !_markedForReview;
 
-                                if (_reviewList
-                                    .where((element) => element.containsKey(
-                                        '${myQueList.queList[index].queId}'))
-                                    .isEmpty) {
-                                  _queMarkedForReview++;
+                                  if (_markedForReview) {
+                                    showToast(
+                                        'Current question added to review list.',
+                                        textStyle:
+                                            TextStyle(fontFamily: 'Nunito'),
+                                        position: ToastPosition.bottom);
+                                  } else {
+                                    showToast(
+                                        'Current question removed from review list.',
+                                        textStyle:
+                                            TextStyle(fontFamily: 'Nunito'),
+                                        position: ToastPosition.bottom);
+                                  }
 
-                                  _reviewList.add({
-                                    '${myQueList.queList[index].queId}': true
-                                  });
-                                } else {
-                                  _queMarkedForReview--;
-
-                                  _reviewList
-                                      .firstWhere((element) => element.containsKey(
+                                  if (_reviewList
+                                      .where((element) => element.containsKey(
                                           '${myQueList.queList[index].queId}'))
-                                      .remove(
-                                          '${myQueList.queList[index].queId}');
+                                      .isEmpty) {
+                                    _queMarkedForReview++;
+
+                                    _reviewList.add({
+                                      '${myQueList.queList[index].queId}': true
+                                    });
+                                  } else {
+                                    _queMarkedForReview--;
+
+                                    _reviewList
+                                        .firstWhere((element) =>
+                                            element.containsKey(
+                                                '${myQueList.queList[index].queId}'))
+                                        .remove(
+                                            '${myQueList.queList[index].queId}');
+                                  }
+                                } else {
+                                  showToast(' Action not allowed. ',
+                                      textStyle:
+                                          TextStyle(fontFamily: 'Nunito'),
+                                      position: ToastPosition.bottom);
                                 }
                               });
                             },
@@ -969,76 +978,84 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                           height: MediaQuery.of(context).size.height,
                           width: size.width * 0.2,
                           child: InkWell(
-                            child: Icon(
-                              Icons.arrow_back,
-                              size: 42,
-                            ),
-                            onTap: () {
-                              if (index > 0) {
-                                setState(() {
-                                  index = index - 1;
-                                  _markedForReview = _reviewList.isEmpty
-                                      ? false
-                                      : (_reviewList
+                              child: Icon(
+                                Icons.arrow_back,
+                                size: 42,
+                              ),
+                              onTap: () {
+                                if (!_presentSubmitDialog) {
+                                  if (index > 0) {
+                                    setState(() {
+                                      index = index - 1;
+
+                                      _markedForReview = _reviewList.isEmpty
+                                          ? false
+                                          : (_reviewList
+                                                  .where((element) =>
+                                                      element.containsKey(
+                                                          '${myQueList.queList[index].queId}'))
+                                                  .isEmpty
+                                              ? false
+                                              : true);
+                                      _curMarked = _testAttempt
                                               .where((element) =>
                                                   element.containsKey(
                                                       '${myQueList.queList[index].queId}'))
                                               .isEmpty
-                                          ? false
-                                          : true);
-                                  _curMarked = _testAttempt
-                                          .where((element) => element.containsKey(
-                                              '${myQueList.queList[index].queId}'))
-                                          .isEmpty
-                                      ? null
-                                      : _testAttempt
-                                          .firstWhere((element) =>
-                                              element.containsKey(
-                                                  '${myQueList.queList[index].queId}'))
-                                          .entries
-                                          .toList()
-                                          .elementAt(0)
-                                          .value;
-                                });
-                              } else {
-                                showToast(
-                                  'This is the first question.',
-                                  position: ToastPosition.bottom,
-                                  backgroundColor: Colors.white,
-                                  radius: 5.0,
-                                  textStyle: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
-                                    fontFamily: 'Nunito',
-                                  ),
-                                );
-                              }
-                            },
-                          ),
+                                          ? null
+                                          : _testAttempt
+                                              .firstWhere((element) =>
+                                                  element.containsKey(
+                                                      '${myQueList.queList[index].queId}'))
+                                              .entries
+                                              .toList()
+                                              .elementAt(0)
+                                              .value;
+                                    });
+                                  } else {
+                                    showToast(
+                                      'This is the first question.',
+                                      position: ToastPosition.bottom,
+                                      backgroundColor: Colors.white,
+                                      radius: 5.0,
+                                      textStyle: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.black,
+                                        fontFamily: 'Nunito',
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  showToast(' Action not allowed. ',
+                                      textStyle:
+                                          TextStyle(fontFamily: 'Nunito'),
+                                      position: ToastPosition.bottom);
+                                }
+                              }),
                         ),
                       ),
                       Expanded(
                           child: Column(
                         children: [
-                          Divider(
+                          /*Divider(
                             height: 1,
-                            thickness: 1,
-                          ),
+                            thickness: 2,
+                          ),*/
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Center(
                                 child: Text(
-                                  'Quick Navigate Buttons',
+                                  'Quick Navigation Buttons',
                                   style: TextStyle(fontFamily: 'Nunito'),
                                 ),
                               ),
                             ],
                           ),
-                          Divider(
+                          /* Divider(
                             height: 1,
                             thickness: 1,
-                          ),
+                          ),*/
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -1063,7 +1080,16 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                           ),
                                           onTap: () {
                                             setState(() {
-                                              index = 0;
+                                              if (!_presentSubmitDialog) {
+                                                index = 0;
+                                              } else {
+                                                showToast(
+                                                    ' Action not allowed. ',
+                                                    textStyle: TextStyle(
+                                                        fontFamily: 'Nunito'),
+                                                    position:
+                                                        ToastPosition.bottom);
+                                              }
                                             });
                                           }),
                                     ),
@@ -1116,11 +1142,20 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                           ),
                                           onTap: () {
                                             setState(() {
-                                              index =
-                                                  (myQueList.queList.length ~/
-                                                              2)
-                                                          .floor() -
-                                                      1;
+                                              if (!_presentSubmitDialog) {
+                                                index =
+                                                    (myQueList.queList.length ~/
+                                                                2)
+                                                            .floor() -
+                                                        1;
+                                              } else {
+                                                showToast(
+                                                    ' Action not allowed. ',
+                                                    textStyle: TextStyle(
+                                                        fontFamily: 'Nunito'),
+                                                    position:
+                                                        ToastPosition.bottom);
+                                              }
                                             });
                                           }),
                                     ),
@@ -1148,9 +1183,19 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                           ),
                                           onTap: () {
                                             setState(() {
-                                              index = (myQueList.queList.length)
-                                                      .toInt() -
-                                                  1;
+                                              if (!_presentSubmitDialog) {
+                                                index =
+                                                    (myQueList.queList.length)
+                                                            .toInt() -
+                                                        1;
+                                              } else {
+                                                showToast(
+                                                    ' Action not allowed. ',
+                                                    textStyle: TextStyle(
+                                                        fontFamily: 'Nunito'),
+                                                    position:
+                                                        ToastPosition.bottom);
+                                              }
                                             });
                                           }),
                                     ),
@@ -1173,43 +1218,50 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                               size: 42,
                             ),
                             onTap: () {
-                              if (index < myQueList.queList.length - 1) {
-                                setState(() {
-                                  index = index + 1;
-                                  _markedForReview = _reviewList.isEmpty
-                                      ? false
-                                      : (_reviewList
-                                              .where((element) =>
-                                                  element.containsKey(
-                                                      '${myQueList.queList[index].queId}'))
-                                              .isEmpty
-                                          ? false
-                                          : true);
-                                  _curMarked = _testAttempt
-                                          .where((element) => element.containsKey(
-                                              '${myQueList.queList[index].queId}'))
-                                          .isEmpty
-                                      ? null
-                                      : _testAttempt
-                                          .firstWhere((element) =>
-                                              element.containsKey(
-                                                  '${myQueList.queList[index].queId}'))
-                                          .entries
-                                          .toList()
-                                          .elementAt(0)
-                                          .value;
-                                });
+                              if (!_presentSubmitDialog) {
+                                if (index < myQueList.queList.length - 1) {
+                                  setState(() {
+                                    index = index + 1;
+
+                                    _markedForReview = _reviewList.isEmpty
+                                        ? false
+                                        : (_reviewList
+                                                .where((element) =>
+                                                    element.containsKey(
+                                                        '${myQueList.queList[index].queId}'))
+                                                .isEmpty
+                                            ? false
+                                            : true);
+                                    _curMarked = _testAttempt
+                                            .where((element) => element.containsKey(
+                                                '${myQueList.queList[index].queId}'))
+                                            .isEmpty
+                                        ? null
+                                        : _testAttempt
+                                            .firstWhere((element) =>
+                                                element.containsKey(
+                                                    '${myQueList.queList[index].queId}'))
+                                            .entries
+                                            .toList()
+                                            .elementAt(0)
+                                            .value;
+                                  });
+                                } else {
+                                  showToast(
+                                    'This is the last question.',
+                                    position: ToastPosition.bottom,
+                                    backgroundColor: Colors.white,
+                                    radius: 5.0,
+                                    textStyle: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.black,
+                                        fontFamily: 'Nunito'),
+                                  );
+                                }
                               } else {
-                                showToast(
-                                  'This is the last question.',
-                                  position: ToastPosition.bottom,
-                                  backgroundColor: Colors.white,
-                                  radius: 5.0,
-                                  textStyle: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.black,
-                                      fontFamily: 'Nunito'),
-                                );
+                                showToast(' Action not allowed. ',
+                                    textStyle: TextStyle(fontFamily: 'Nunito'),
+                                    position: ToastPosition.bottom);
                               }
                             },
                           ),

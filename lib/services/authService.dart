@@ -41,8 +41,13 @@ class AuthService {
       }
       User user = authResult.user;
       return user;
-    } catch (e) {
+    } on PlatformException catch (e) {
+      if (e.code == 'sign_in_canceled') {
+        return '101';
+      }
+    } on NoSuchMethodError catch (e) {
       print(e.toString());
+      return '102';
     }
   }
 
@@ -65,9 +70,11 @@ class AuthService {
       User user = result.user;
       return user;
     } on FirebaseAuthException catch (e) {
-      print(
-          '${e.code}    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-      return null;
+      if (e.code == "email-already-in-use") {
+        return '101';
+      } else if (e.code == 'invalid-email') {
+        return '102';
+      }
     } on PlatformException catch (e) {
       print('${e.code}  -----------------------------------------------');
     }
@@ -86,8 +93,15 @@ class AuthService {
       User user = result.user;
       return user;
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
-      return null;
+      if (e.code == "wrong-password") {
+        return '101';
+      } else if (e.code == "invalid-email") {
+        return '102';
+      } else if (e.code == "user-not-found") {
+        return '103';
+      } else if (e.code == "user-disabled") {
+        return '104';
+      }
     } on PlatformException catch (e) {
       print(e.toString());
       return null;
@@ -117,7 +131,12 @@ class AuthService {
     try {
       await _auth.sendPasswordResetEmail(email: email);
       return true;
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return '101';
+      } else if (e.code == 'invalid-email') {
+        return '102';
+      }
       print(e.toString());
       return false;
     }

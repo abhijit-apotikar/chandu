@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 
 import '../shared/constants.dart';
 import '../services/authService.dart';
@@ -48,14 +49,18 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.check_box,size: 28,color: Colors.green,),
+                            Icon(
+                              Icons.check_box,
+                              size: 28,
+                              color: Colors.green,
+                            ),
                             Text(
                               'Link Sent',
                               style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  ),
+                                fontFamily: 'Nunito',
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
                             )
                           ],
                         ),
@@ -123,6 +128,28 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
                                   setState(() {
                                     isLoading = false;
                                     linkSent = true;
+                                  });
+                                  showToast(' Reset link email sent ',
+                                      textStyle:
+                                          TextStyle(fontFamily: 'Nunito'),
+                                      position: ToastPosition.bottom);
+                                } else if (result == '101') {
+                                  setState(() {
+                                    isLoading = false;
+                                    showToast(
+                                        ' There is no user record corresponding to the entered email. ',
+                                        textStyle:
+                                            TextStyle(fontFamily: 'Nunito'),
+                                        position: ToastPosition.bottom);
+                                  });
+                                } else if (result == '102') {
+                                  setState(() {
+                                    isLoading = false;
+                                    showToast(
+                                        ' Email appears to be malformed. ',
+                                        textStyle:
+                                            TextStyle(fontFamily: 'Nunito'),
+                                        position: ToastPosition.bottom);
                                   });
                                 }
                               }

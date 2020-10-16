@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:oktoast/oktoast.dart';
 
+//-------------- my packages ----------------------------------
 import '../services/authService.dart';
-
 import '../widgets/loadingWidget.dart';
-import '../widgets/alertDialog.dart';
-
 import '../shared/constants.dart';
 
 class RegisterWidget extends StatefulWidget {
@@ -168,12 +167,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                         .pushNamed('/TermsAndConditionsWidget');
                                   },
                                 ),
-                                /* Flexible(
-                                      child: Text(
-                                        'Your email will be used in no way other than for identification purpose and account related correspondence.',
-                                        style: TextStyle(fontFamily: 'Nunito'),
-                                      ),
-                                    ),*/
                               ],
                             ),
                           ),
@@ -227,21 +220,30 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                       await _auth.registerWithEmailAndPassword(
                                           email, password);
 
-                                  if (result == null) {
+                                  if (result == '101') {
                                     setState(() {
                                       loading = false;
-                                      error = 'Please enter a valid email id';
-                                      showAlertDialog(context, error);
+                                      showToast(
+                                          ' Email already registered with some other account. ',
+                                          textStyle:
+                                              TextStyle(fontFamily: 'Nunito'),
+                                          position: ToastPosition.bottom);
                                     });
-                                  } else if (result == '101') {
+                                  } else if (result == '102') {
                                     setState(() {
                                       loading = false;
-                                      error =
-                                          'Given email is already accosiated with an account.';
-                                      showAlertDialog(context, error);
+                                      showToast(
+                                          ' Email appears to be malformed. ',
+                                          textStyle:
+                                              TextStyle(fontFamily: 'Nunito'),
+                                          position: ToastPosition.bottom);
                                     });
                                   } else {
                                     Navigator.pop(context);
+                                    showToast(' Registered successfuly. ',
+                                        textStyle:
+                                            TextStyle(fontFamily: 'Nunito'),
+                                        position: ToastPosition.bottom);
                                   }
                                 } else if (_agreedToTerms == false) {
                                   setState(() {
