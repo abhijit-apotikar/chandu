@@ -16,6 +16,7 @@ import './widgets/review_questions_widget.dart';
 import './widgets/registerWidget.dart';
 import './widgets/courseSetUpWidget.dart';
 import './widgets/termsAndConditionsWidget.dart';
+import './widgets/passwordResetWidget.dart';
 
 import './services/authService.dart';
 import './models/stateVariablesModel.dart';
@@ -70,6 +71,9 @@ class MyApp extends StatelessWidget {
                   ),
               '/TermsAndConditionsWidget': (context) => Scaffold(
                     body: TermsAndConditionsWidget(),
+                  ),
+              '/PasswordResetWidget': (context) => Scaffold(
+                    body: PasswordResetWidget(),
                   ),
             }),
       ),

@@ -3,12 +3,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../services/authService.dart';
+// ---------------- my packages ---------------------------------
 import '../widgets/loadingWidget.dart';
-
 import '../widgets/alertDialog.dart';
 import '../widgets/annonymousSignInWarning.dart';
-
+import '../services/authService.dart';
 import '../services/firestoreService.dart';
 
 class AuthScreenWidget extends StatefulWidget {
@@ -297,13 +296,19 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                     SizedBox(
                                       width: 3,
                                     ),
-                                    Text(
-                                      'Reset Password',
-                                      style: TextStyle(
-                                          fontFamily: 'Nunito',
-                                          //fontSize: 14,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
+                                    InkWell(
+                                      child: Text(
+                                        'Reset Password',
+                                        style: TextStyle(
+                                            fontFamily: 'Nunito',
+                                            //fontSize: 14,
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .pushNamed('/PasswordResetWidget');
+                                      },
                                     ),
                                   ],
                                 ),
