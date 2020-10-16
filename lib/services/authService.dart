@@ -26,6 +26,7 @@ class AuthService {
   Future signInWithGoogle() async {
     GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     GoogleSignInAuthentication gSA = await googleSignInAccount.authentication;
+    FirestoreService fsService = FirestoreService();
 
     final AuthCredential credential = GoogleAuthProvider.credential(
       idToken: gSA.idToken,
@@ -33,6 +34,11 @@ class AuthService {
     );
     try {
       dynamic authResult = await _auth.signInWithCredential(credential);
+      dynamic userExistence =
+          await fsService.checkUserExistence(authResult.user);
+      if (userExistence == true) {
+        await _addUDocFlagToSF();
+      }
       User user = authResult.user;
       return user;
     } catch (e) {
@@ -100,9 +106,13 @@ class AuthService {
 
   //--------------sign in Annonymously-----------------
   Future signInAnnonymouslyToMyApp() async {
+    FirestoreService fsService = FirestoreService();
     try {
       UserCredential result = await _auth.signInAnonymously();
-      print(result.user);
+      dynamic userExistence = await fsService.checkUserExistence(result.user);
+      if (userExistence == true) {
+        await _addUDocFlagToSF();
+      }
       return result.user;
     } on FirebaseAuth catch (e) {
       print(e.toString());

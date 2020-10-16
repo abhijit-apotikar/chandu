@@ -72,7 +72,7 @@ class _MainWrapperState extends State<MainWrapper> {
     return Scaffold(
         body: user == null
             ? AuthScreenWidget()
-            : (user.emailVerified
+            : (user.emailVerified || user.isAnonymous
                 ? (firstVisitFlag == true
                     ? WelcomeWidget()
                     : (userDocFlag == true
