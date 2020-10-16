@@ -354,7 +354,7 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                      "You are trying to log in annonymously. In this case your data will not persist across app installs if you uninstall the app. Do you still want to continue?",
+                                      "You are trying to log in anonymously. In this case your data will not persist across app installs if you uninstall the app. Do you still want to continue?",
                                       style: TextStyle(
                                         fontFamily: 'Nunito',
                                         fontSize: 18,
