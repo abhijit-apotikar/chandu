@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -80,8 +81,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
 
     return WillPopScope(
       onWillPop: () async {
-        showAlertDialog(
-            context, 'Going back not allowed.');
+        showAlertDialog(context, 'Going back not allowed.');
         return false;
       },
       child: Scaffold(
@@ -152,7 +152,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                   height: pdTop.top,
                 ),
                 Container(
-                  height: size.height * 0.1,
+                  height: size.height * 0.105,
                   child: Row(
                     children: [
                       Card(
@@ -209,41 +209,73 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                         ),
                       ),
                       Expanded(
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                ((_start1) / 3600) < 10
-                                    ? '0' +
-                                        '${((_start1) / 3600).floor()}' +
-                                        ':'
-                                    : '${((_start1) / 3600).floor()}' + ':',
-                                style: TextStyle(
-                                    fontFamily: 'Nunito', fontSize: 42),
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    ((_start1) / 3600) < 10
+                                        ? '0' +
+                                            '${((_start1) / 3600).floor()}' +
+                                            ':'
+                                        : '${((_start1) / 3600).floor()}' + ':',
+                                    style: TextStyle(
+                                        fontFamily: 'Nunito', fontSize: 38),
+                                  ),
+                                  Text(
+                                    ((((_start1) % 3600) / 60).floor()) < 10
+                                        ? '0' +
+                                            '${(((_start1) % 3600) / 60).floor()}' +
+                                            ':'
+                                        : '${(((_start1) % 3600) / 60).floor()}' +
+                                            ':',
+                                    style: TextStyle(
+                                        fontFamily: 'Nunito', fontSize: 38),
+                                  ),
+                                  Text(
+                                    (((_start1) % 3600) % 60).floor() < 10
+                                        ? ((_start1) == 0
+                                            ? '00'
+                                            : '0' +
+                                                '${(((_start1) % 3600) % 60).floor()}')
+                                        : '${(((_start1) % 3600) % 60).floor()}',
+                                    style: TextStyle(
+                                        fontFamily: 'Nunito', fontSize: 38),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                ((((_start1) % 3600) / 60).floor()) < 10
-                                    ? '0' +
-                                        '${(((_start1) % 3600) / 60).floor()}' +
-                                        ':'
-                                    : '${(((_start1) % 3600) / 60).floor()}' +
-                                        ':',
-                                style: TextStyle(
-                                    fontFamily: 'Nunito', fontSize: 42),
-                              ),
-                              Text(
-                                (((_start1) % 3600) % 60).floor() < 10
-                                    ? ((_start1) == 0
-                                        ? '00'
-                                        : '0' +
-                                            '${(((_start1) % 3600) % 60).floor()}')
-                                    : '${(((_start1) % 3600) % 60).floor()}',
-                                style: TextStyle(
-                                    fontFamily: 'Nunito', fontSize: 42),
-                              ),
-                            ],
-                          ),
+                            ),
+                            Divider(
+                              thickness: 2,
+                              height: 1,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Attempted : ',
+                                  style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  '$_queAttempted',
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              thickness: 2,
+                              height: 1,
+                            ),
+                          ],
                         ),
                       ),
                       Card(
@@ -330,7 +362,12 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                           children: [
                                             RaisedButton(
                                               color: Colors.yellow,
-                                              child: Text('Ok'),
+                                              child: Text('Ok',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
                                               onPressed: () {
                                                 setState(() {
                                                   _tmpBool = true;
@@ -393,6 +430,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                     fontFamily: 'Nunito',
                                                     fontSize: 32,
                                                     fontWeight: FontWeight.bold,
+                                                    //color: Colors.red,
                                                   ),
                                                 ),
                                               ],
@@ -424,7 +462,12 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               children: [
                                                 RaisedButton(
                                                   color: Colors.yellow,
-                                                  child: Text('Yes'),
+                                                  child: Text('Yes',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Nunito',
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
                                                   onPressed: () {
                                                     setState(() {
                                                       _tmpBool = true;
@@ -451,7 +494,14 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                   width: 10,
                                                 ),
                                                 RaisedButton(
-                                                  child: Text('Cancel'),
+                                                  child: Text(
+                                                    'No',
+                                                    style: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                   onPressed: () {
                                                     setState(() {
                                                       _tmpBoolCancel = true;
@@ -968,45 +1018,150 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                         ),
                       ),
                       Expanded(
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Attempted : ',
-                                  style: TextStyle(
-                                      fontFamily: 'Nunito', fontSize: 18),
+                          child: Column(
+                        children: [
+                          Divider(
+                            height: 1,
+                            thickness: 1,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Text(
+                                  'Quick Navigate Buttons',
+                                  style: TextStyle(fontFamily: 'Nunito'),
                                 ),
-                                Text(
-                                  '$_queAttempted',
-                                  style: TextStyle(
-                                      fontFamily: 'Nunito',
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 1,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SizedBox(width: 2.0),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 1.0, bottom: 1.0),
+                                child: Card(
+                                  margin: const EdgeInsets.all(0),
+                                  child: Container(
+                                    // height: MediaQuery.of(context).size.height,
+                                    height: size.height * 0.065,
+                                    width: size.width * 0.16,
+                                    child: Center(
+                                      child: InkWell(
+                                          child: Text(
+                                            'first',
+                                            style: TextStyle(
+                                                fontFamily: 'Nunito',
+                                                // fontWeight: FontWeight.bold,
+                                                fontSize: 22),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              index = 0;
+                                            });
+                                          }),
+                                    ),
+                                  ),
                                 ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Marked for Review : ',
-                                  style: TextStyle(
-                                      fontFamily: 'Nunito', fontSize: 18),
+                              ),
+                              SizedBox(
+                                width: 2.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 1.0, bottom: 1.0),
+                                child: Card(
+                                  margin: const EdgeInsets.all(0),
+                                  child: Container(
+                                    //height: MediaQuery.of(context).size.height,
+                                    height: size.height * 0.065,
+                                    width: size.width * 0.18,
+                                    child: Center(
+                                      child: InkWell(
+                                          child: Text(
+                                            ((myQueList.queList.length ~/ 2)
+                                                        .floor()
+                                                        .toString()) ==
+                                                    '1'
+                                                ? '1st'
+                                                : (((myQueList.queList.length ~/
+                                                                2)
+                                                            .floor()
+                                                            .toString()) ==
+                                                        '2'
+                                                    ? '2nd'
+                                                    : (((myQueList.queList
+                                                                        .length ~/
+                                                                    2)
+                                                                .floor()
+                                                                .toString()) ==
+                                                            '3'
+                                                        ? '3rd'
+                                                        : (((myQueList.queList
+                                                                        .length ~/
+                                                                    2)
+                                                                .floor()
+                                                                .toString()) +
+                                                            'th'))),
+                                            style: TextStyle(
+                                                fontFamily: 'Nunito',
+                                                // fontWeight: FontWeight.bold,
+                                                fontSize: 22),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              index =
+                                                  (myQueList.queList.length ~/
+                                                              2)
+                                                          .floor() -
+                                                      1;
+                                            });
+                                          }),
+                                    ),
+                                  ),
                                 ),
-                                Text(
-                                  '$_queMarkedForReview',
-                                  style: TextStyle(
-                                      fontFamily: 'Nunito',
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(width: 2.0),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 1.0, bottom: 1.0),
+                                child: Card(
+                                  margin: const EdgeInsets.all(0),
+                                  child: Container(
+                                    // height: MediaQuery.of(context).size.height,
+                                    height: size.height * 0.065,
+                                    width: size.width * 0.18,
+                                    child: Center(
+                                      child: InkWell(
+                                          child: Text(
+                                            'last',
+                                            style: TextStyle(
+                                                fontFamily: 'Nunito',
+                                                // fontWeight: FontWeight.bold,
+                                                fontSize: 22),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              index = (myQueList.queList.length)
+                                                      .toInt() -
+                                                  1;
+                                            });
+                                          }),
+                                    ),
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                              ),
+                              SizedBox(width: 2.0),
+                            ],
+                          ),
+                        ],
+                      )),
                       Card(
                         margin: const EdgeInsets.all(0),
                         child: Container(

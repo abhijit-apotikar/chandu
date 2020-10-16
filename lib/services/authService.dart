@@ -76,23 +76,13 @@ class AuthService {
   // ----Sign in with email & password-------
   Future signInWithEmailAndPassword(String email, String password) async {
     FirestoreService fsService = FirestoreService();
-
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       dynamic userExistence = await fsService.checkUserExistence(result.user);
       if (userExistence == true) {
         await _addUDocFlagToSF();
-
-        /* dynamic courseFlag = await fsService.checkCourse(result.user);
-        if (courseFlag == true) {
-          await _addCourseFlagToSF();
-        }*/
       }
-      //await svm.setUDocFlag(await _getUDocFlagFromSF());
-      // await svm.setCourseFlag(await _getCourseFlagFromSF());
-      // await svm.setFirstVisitFlag(await _getFirstVisitFlagFromSF());
-
       User user = result.user;
       return user;
     } on FirebaseAuthException catch (e) {
