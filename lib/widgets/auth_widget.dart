@@ -407,40 +407,51 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
-                                    height: 40.0,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Version : ',
-                                        style: TextStyle(
-                                          fontFamily: 'Nunito',
-                                        ),
+                                  SizedBox(height: 20.0,),
+                                  Expanded(
+                                    child: Container(
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Version : ',
+                                                style: TextStyle(
+                                                  fontFamily: 'Nunito',
+                                                ),
+                                              ),
+                                              Text(
+                                                '$_version',
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Build Number : ',
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                              ),
+                                              Text(
+                                                '$_buildNumber',
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        '$_version',
-                                        style: TextStyle(
-                                            fontFamily: 'Nunito',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Build Number : ',
-                                        style: TextStyle(fontFamily: 'Nunito'),
-                                      ),
-                                      Text(
-                                        '$_buildNumber',
-                                        style: TextStyle(
-                                            fontFamily: 'Nunito',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               )),
