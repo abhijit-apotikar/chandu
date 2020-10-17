@@ -215,8 +215,15 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                           });
                                           dynamic result = await _authService
                                               .signInWithGoogle();
-
-                                          if (result == '101') {
+                                          if (result == null) {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                            showToast(' Login canceled. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
+                                          } else if (result == '101') {
                                             setState(() {
                                               _isLoading = false;
                                             });

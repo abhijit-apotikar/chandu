@@ -25,6 +25,9 @@ class AuthService {
   //-------sign in with googleSignIn-----------
   Future signInWithGoogle() async {
     GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    if (googleSignInAccount == null) {
+      return null;
+    }
     GoogleSignInAuthentication gSA = await googleSignInAccount.authentication;
     FirestoreService fsService = FirestoreService();
 
