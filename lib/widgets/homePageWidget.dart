@@ -208,7 +208,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                //Text('${_setUpModel.subList[0]}'),
                 Text('${_setUpModel.subList[0]}'),
+                Text('${_setUpModel.subList[1]}'),
+                Text('${_setUpModel.subList[2]}'),
+                Text('${_setUpModel.subList[3]}'),
+                Text('${_setUpModel.subList[4]}'),
+                Text('${_setUpModel.subList[5]}'),
+                Text('${_setUpModel.subList.length}'),
+
                 RaisedButton(
                     child: Text('Select'),
                     onPressed: () {

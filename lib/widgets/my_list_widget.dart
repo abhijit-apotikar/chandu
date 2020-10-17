@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:my_proc/my_arguments/my_arguments1.dart';
 import '../my_arguments/my_arguments1.dart';
 import '../my_arguments/my_arguments2.dart';
 import '../widgets/my_quiz_widget.dart';
+import '../models/set_up_model.dart';
 
-class MyListWidget extends StatelessWidget {
+class MyListWidget extends StatefulWidget {
+  @override
+  _MyListWidgetState createState() => _MyListWidgetState();
+}
+
+class _MyListWidgetState extends State<MyListWidget> {
   @override
   Widget build(BuildContext context) {
     RouteSettings settings = ModalRoute.of(context).settings;
@@ -13,6 +20,7 @@ class MyListWidget extends StatelessWidget {
     List<Map<String, String>> contentArray = myArguments1.contentArray;
     Size size = MediaQuery.of(context).size;
     EdgeInsets pdTop = MediaQuery.of(context).padding;
+    SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -68,7 +76,7 @@ class MyListWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             height: size.height * 0.8,
             child: ListView.builder(
-                itemCount: contentArray.length,
+                itemCount: _setUpModel.subList.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     child: Container(
@@ -80,22 +88,23 @@ class MyListWidget extends StatelessWidget {
                           color: Colors.transparent,
                           child: Center(
                               child: Text(
-                            contentArray[index]['title'],
+                            _setUpModel.subList[index],
                             style: TextStyle(
                               fontFamily: 'Nunito',
-                              fontSize: 24,
+                              //fontSize: 24,
                             ),
                           )),
                         )),
                     onTap: () {
                       if (contentArray[index]['listType'] == 'test') {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return MyQuizWidget(
-                              int.parse(contentArray[index]['hours']),
-                              int.parse(contentArray[index]['minutes']),
-                              int.parse(contentArray[index]['seconds']));
-                        },));
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return MyQuizWidget(
+                                int.parse(contentArray[index]['hours']),
+                                int.parse(contentArray[index]['minutes']),
+                                int.parse(contentArray[index]['seconds']));
+                          },
+                        ));
                       } else {
                         MyArguments2 myArguments2 =
                             new MyArguments2(contentArray[index]['title']);
