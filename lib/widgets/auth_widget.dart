@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info/package_info.dart';
 
 // ---------------- my packages ---------------------------------
 import '../widgets/loadingWidget.dart';
@@ -22,6 +23,8 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
   bool _isLoading = false;
   bool _obscureText = true;
   int _index = 0;
+  String _version;
+  String _buildNumber;
 
   ///------------textField e-mail,password local variables--------
   String email = '';
@@ -34,9 +37,16 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double pt = MediaQuery.of(context).padding.top;
+
     final FirestoreService _fsService = new FirestoreService();
     final ConnectivityCheckUpService _cCService =
         new ConnectivityCheckUpService();
+
+    // ------------------ package info ------------------------
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      _version = packageInfo.version;
+      _buildNumber = packageInfo.buildNumber;
+    });
     // final cUser = Provider.of<User>(context);
     // final userIdStatus = Provider.of<UserIdStatus>(context);
 
@@ -44,6 +54,7 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
       body: _isLoading
           ? LoadingWidget()
           : Container(
+              margin: const EdgeInsets.all(0.0),
               decoration: BoxDecoration(
                 gradient: new LinearGradient(
                     colors: [
@@ -393,6 +404,41 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                           Navigator.of(context).pushNamed(
                                               '/PasswordResetWidget');
                                         },
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 40.0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Version : ',
+                                        style: TextStyle(
+                                          fontFamily: 'Nunito',
+                                        ),
+                                      ),
+                                      Text(
+                                        '$_version',
+                                        style: TextStyle(
+                                            fontFamily: 'Nunito',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Build Number : ',
+                                        style: TextStyle(fontFamily: 'Nunito'),
+                                      ),
+                                      Text(
+                                        '$_buildNumber',
+                                        style: TextStyle(
+                                            fontFamily: 'Nunito',
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
