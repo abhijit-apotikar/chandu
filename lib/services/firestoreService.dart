@@ -136,22 +136,57 @@ class FirestoreService {
         .get();
     for (int i = 0; i < qs.docs[0].data()['cScheme']['branches'].length; i++) {
       if (qs.docs[0].data()['cScheme']['branches'][i]['bName'] == bName) {
-        if (qs.docs[0]
-            .data()['cScheme']['branches'][i]['aSems']
-            .contains(sem)) {
-          return true;
-        } else {
-          return false;
+        for (int j = 0;
+            j < qs.docs[0].data()['cScheme']['branches'][i]['aSems'].length;
+            j++) {
+          if (qs.docs[0].data()['cScheme']['branches'][i]['aSems'][j]
+                  ['semName'] ==
+              sem) {
+            return true;
+          } else {
+            return false;
+          }
         }
       }
-    }
 
-    /* Future getCourses() async {
+      /* Future getCourses() async {
     //List<String> courseList = [];
     return Stream<QuerySnapshot> courses = await fireStoreInstance.collection('courses').snapshots();
    /* for (int i = 0; i < courses.docs.length; i++) {
       courseList.add(courses.docs[0].data()['cName']);
     }*/
   }*/
+    }
+  }
+
+  Future getSubjects(User user1, String cName, String bName, String sem) async {
+    List<String> subList = [];
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('courses')
+        .where('cName', isEqualTo: cName)
+        .get();
+    for (int i = 0; i < qs.docs[0].data()['cScheme']['branches'].length; i++) {
+      if (qs.docs[0].data()['cScheme']['branches'][i]['bName'] == bName) {
+        for (int j = 0;
+            j < qs.docs[0].data()['cScheme']['branches'][i]['aSems'].length;
+            j++) {
+          if (qs.docs[0].data()['cScheme']['branches'][i]['aSems'][j]
+                  ['semName'] ==
+              sem) {
+            for (int k = 0;
+                k <
+                    qs.docs[0]
+                        .data()['cScheme']['branches'][i]['aSems'][j]
+                            ['subjects']
+                        .length;
+                k++) {
+              subList.add(qs.docs[0].data()['cScheme']['branches'][i]['aSems']
+                  [j]['subjects'][k]['subName']);
+            }
+          }
+        }
+      } else {}
+    }
+    return subList;
   }
 }

@@ -39,6 +39,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     final cUser = Provider.of<User>(context);
     StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
+    SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     final FirestoreService _fsService = new FirestoreService();
     return Scaffold(
         key: _scaffold,
@@ -353,41 +354,52 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                       height: 20,
                                     ),
                                     RaisedButton(
-                                        child: Text(
-                                          'Submit',
-                                          style: TextStyle(
-                                            fontFamily: 'Nunito',
-                                            fontSize: 24,
-                                          ),
+                                      child: Text(
+                                        'Submit',
+                                        style: TextStyle(
+                                          fontFamily: 'Nunito',
+                                          fontSize: 24,
                                         ),
-                                        onPressed: () async {
-                                          if (groupSelect && semSelect) {
-                                            setState(() {
-                                              // userIdStatus.courseSetUpStatus(true);
-                                              isLoading = true;
-                                            });
-                                            bool courseAvailability =
+                                      ),
+                                      onPressed: () async {
+                                        if (groupSelect && semSelect) {
+                                          setState(() {
+                                            // userIdStatus.courseSetUpStatus(true);
+                                            isLoading = true;
+                                          });
+                                          bool courseAvailability =
+                                              await _fsService
+                                                  .checkCourseAvailability(
+                                                      course);
+                                          if (courseAvailability) {
+                                            bool branchAvailability =
                                                 await _fsService
-                                                    .checkCourseAvailability(
-                                                        course);
-                                            if (courseAvailability) {
-                                              bool branchAvailability =
+                                                    .checkBranchAvailability(
+                                                        course, group);
+                                            if (branchAvailability) {
+                                              bool semAvailability =
                                                   await _fsService
-                                                      .checkBranchAvailability(
-                                                          course, group);
-                                              if (branchAvailability) {
-                                                bool semAvailability =
-                                                    await _fsService
-                                                        .checkSemAvailability(
-                                                            course, group, sem);
-                                                if (semAvailability) {
-                                                  dynamic result =
+                                                      .checkSemAvailability(
+                                                          course, group, sem);
+                                              if (semAvailability) {
+                                                dynamic result =
+                                                    await _fsService.setCourse(
+                                                        cUser,
+                                                        course,
+                                                        group,
+                                                        sem);
+                                                if (result == true) {
+                                                  List<String> _subList =
                                                       await _fsService
-                                                          .setCourse(
+                                                          .getSubjects(
                                                               cUser,
                                                               course,
                                                               group,
                                                               sem);
+                                                  if (_subList.isNotEmpty) {
+                                                    _setUpModel
+                                                        .setSubjects(_subList);
+                                                  }
                                                   if (result == true) {
                                                     if (await svm
                                                         .getCourseFlag()) {
@@ -462,7 +474,9 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                     fontFamily: 'Nunito'),
                                                 position: ToastPosition.bottom);
                                           }
-                                        }),
+                                        }
+                                      },
+                                    )
                                   ],
                                 ),
                               ),
