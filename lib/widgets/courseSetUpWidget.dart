@@ -39,6 +39,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     final cUser = Provider.of<User>(context);
     StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
+    SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     final FirestoreService _fsService = new FirestoreService();
     return Scaffold(
         key: _scaffold,
@@ -281,6 +282,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                               onChanged: (String newSubComb) {
                                                 setUpModel
                                                     .chngCurSubComb(newSubComb);
+
                                                 setState(() {
                                                   group = newSubComb;
                                                   groupSelect = true;
@@ -339,6 +341,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                               }).toList(),
                                               onChanged: (String newSem) {
                                                 setUpModel.chngCurSem(newSem);
+
                                                 setState(() {
                                                   sem = newSem;
                                                   semSelect = true;
@@ -389,6 +392,17 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                               group,
                                                               sem);
                                                   if (result == true) {
+                                                    List<String> _subList =
+                                                        await _fsService
+                                                            .getSubjects(
+                                                                cUser,
+                                                                course,
+                                                                group,
+                                                                sem);
+                                                    if (_subList.isNotEmpty) {
+                                                      _setUpModel.setSubjects(
+                                                          _subList);
+                                                    }
                                                     if (await svm
                                                         .getCourseFlag()) {
                                                       setState(() {

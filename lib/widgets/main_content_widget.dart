@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// ----------------------- my packages -----------------------
 import '../models/my_list_model.dart';
+import '../models/set_up_model.dart';
 import '../my_arguments/my_arguments1.dart';
 
 class MainContentWidget extends StatelessWidget {
@@ -7,6 +11,7 @@ class MainContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     MyListModel mlm = new MyListModel();
+    SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
 
     return SingleChildScrollView(
       child: Column(
@@ -24,7 +29,7 @@ class MainContentWidget extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'See Chapterwise M.C.Q.\'s',
+                    'Chapterwise ${_setUpModel.curSub} M.C.Q.\'s',
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 18,
@@ -56,7 +61,7 @@ class MainContentWidget extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'See Previous Examwise M.C.Q.\'s',
+                    'Previous Examwise ${_setUpModel.curSub} M.C.Q.\'s',
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 18,
@@ -88,7 +93,7 @@ class MainContentWidget extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'Take a TEST',
+                    'Take a ${_setUpModel.curSub} TEST',
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 18,

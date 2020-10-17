@@ -13,18 +13,6 @@ import '../widgets/courseSetUpWidget.dart';
 import '../models/stateVariablesModel.dart';
 
 class MainWrapper extends StatefulWidget {
-  /*dynamic setUserDocFlag(StateVariablesModel svm) async {
-    return await svm.getUDocFlag();
-  }
-
-  dynamic setFirstVisitFlag(StateVariablesModel svm) async {
-    return await svm.getFirstVisitFlag();
-  }
-
-  dynamic setCourseFlag(StateVariablesModel svm) async {
-    return await svm.getCourseFlag();
-  }*/
-
   @override
   _MainWrapperState createState() => _MainWrapperState();
 }

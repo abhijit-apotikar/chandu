@@ -20,16 +20,21 @@ import './widgets/termsAndConditionsWidget.dart';
 import './widgets/passwordResetWidget.dart';
 import './services/authService.dart';
 import './models/stateVariablesModel.dart';
+import './models/set_up_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SyncfusionLicense.registerLicense(
       'NT8mJyc2IWhia31ifWN9Z2FoYmF8YGJ8ampqanNiYmlmamlmanMDHmgyMTs6OTonfTIjPCc6ODIhYmZlEzQ+Mjo/fTA8Pg==');
-  runApp(
-    ChangeNotifierProvider<StateVariablesModel>(
-        create: (_) => StateVariablesModel(), child: MyApp()),
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<StateVariablesModel>(
+          create: (_) => StateVariablesModel()),
+      ChangeNotifierProvider<SetUpModel>(create: (_) => SetUpModel()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

@@ -32,10 +32,26 @@ class SetUpModel with ChangeNotifier {
   ];*/
 
   List<String> subList = <String>[
-    "PHY",
+    /*  "PHY",
     "MTH",
-    "CPS",
+    "CPS",*/
   ];
+
+  List<String> electivesList = <String>[];
+
+  setSubjects(List<String> listFrDb) async {
+    for (int i = 0; i < listFrDb.length; i++) {
+      subList.add(listFrDb[i]);
+    }
+    notifyListeners();
+  }
+
+  setElectives(List<String> listFrDb) async {
+    for (int i = 0; i < listFrDb.length; i++) {
+      electivesList.add(listFrDb[i]);
+    }
+    notifyListeners();
+  }
 
   void chngCurCourse(String newCourse) {
     curCourse = newCourse;
