@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/loadingWidget.dart';
 import '../services/authService.dart';
 import '../services/firestoreService.dart';
+import '../services/connectivityCheckUpService.dart';
 
 class AuthScreenWidget extends StatefulWidget {
   @override
@@ -34,6 +35,8 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
     Size size = MediaQuery.of(context).size;
     double pt = MediaQuery.of(context).padding.top;
     final FirestoreService _fsService = new FirestoreService();
+    final ConnectivityCheckUpService _cCService =
+        new ConnectivityCheckUpService();
     // final cUser = Provider.of<User>(context);
     // final userIdStatus = Provider.of<UserIdStatus>(context);
 
@@ -150,40 +153,58 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                           setState(() {
                                             _isLoading = true;
                                           });
+                                          var connectivityResult =
+                                              await _cCService
+                                                  .checkConnectivity();
+                                          if (connectivityResult == true) {
+                                            dynamic result = await _authService
+                                                .signInWithEmailAndPassword(
+                                                    email, password);
 
-                                          dynamic result = await _authService
-                                              .signInWithEmailAndPassword(
-                                                  email, password);
-
-                                          if (result == '101') {
-                                            _isLoading = false;
-                                            showToast(' Wrong password. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
-                                          } else if (result == '102') {
-                                            _isLoading = false;
-                                            showToast(
-                                                ' Email appears to be malformed. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
-                                          } else if (result == '103') {
-                                            _isLoading = false;
-                                            showToast(
-                                                ' Email is not associated with any account. You can try registring with this email. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
-                                          } else if (result == '104') {
-                                            _isLoading = false;
-                                            showToast(
-                                                ' Requested account is currently disabled. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
+                                            if (result == '101') {
+                                              _isLoading = false;
+                                              showToast(' Wrong password. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
+                                            } else if (result == '102') {
+                                              _isLoading = false;
+                                              showToast(
+                                                  ' Email appears to be malformed. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
+                                            } else if (result == '103') {
+                                              _isLoading = false;
+                                              showToast(
+                                                  ' Email is not associated with any account. You can try registring with this email. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
+                                            } else if (result == '104') {
+                                              _isLoading = false;
+                                              showToast(
+                                                  ' Requested account is currently disabled. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
+                                            } else {
+                                              showToast(' Logged In. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
+                                            }
                                           } else {
-                                            showToast(' Logged In. ',
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                            showToast(
+                                                ' Internet connection not available. ',
                                                 textStyle: TextStyle(
                                                     fontFamily: 'Nunito'),
                                                 position: ToastPosition.bottom);
@@ -213,51 +234,69 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                           setState(() {
                                             _isLoading = true;
                                           });
-                                          dynamic result = await _authService
-                                              .signInWithGoogle();
-                                          if (result == null) {
-                                            setState(() {
-                                              _isLoading = false;
-                                            });
-                                            showToast(' Login canceled. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
-                                          } else if (result == '101') {
-                                            setState(() {
-                                              _isLoading = false;
-                                            });
-                                            showToast(' Login canceled. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
-                                          } else if (result == '102') {
-                                            setState(() {
-                                              _isLoading = false;
-                                            });
-                                            showToast(' Login canceled. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
+                                          var connectivityResult =
+                                              await _cCService
+                                                  .checkConnectivity();
+                                          if (connectivityResult == true) {
+                                            dynamic result = await _authService
+                                                .signInWithGoogle();
+                                            if (result == null) {
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                              showToast(' Login canceled. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
+                                            } else if (result == '101') {
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                              showToast(' Login canceled. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
+                                            } else if (result == '102') {
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                              showToast(' Login canceled. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito'),
+                                                  position:
+                                                      ToastPosition.bottom);
+                                            } else {
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                              dynamic userExistenceResult =
+                                                  await _fsService
+                                                      .checkUserExistence(
+                                                          result);
+
+                                              if (userExistenceResult == true) {
+                                                dynamic userInfo =
+                                                    await _fsService
+                                                        .getUserInfo(result);
+                                                if (userInfo['pubUserId'] !=
+                                                    null) {
+                                                } else {}
+                                              }
+
+                                              debugPrint(
+                                                  'signed in +++++++++++++++++++++++');
+                                            }
                                           } else {
                                             setState(() {
                                               _isLoading = false;
                                             });
-                                            dynamic userExistenceResult =
-                                                await _fsService
-                                                    .checkUserExistence(result);
-
-                                            if (userExistenceResult == true) {
-                                              dynamic userInfo =
-                                                  await _fsService
-                                                      .getUserInfo(result);
-                                              if (userInfo['pubUserId'] !=
-                                                  null) {
-                                              } else {}
-                                            }
-
-                                            debugPrint(
-                                                'signed in +++++++++++++++++++++++');
+                                            showToast(
+                                                ' Internet connection not available. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                                position: ToastPosition.bottom);
                                           }
                                         },
                                       ),
@@ -414,15 +453,28 @@ class _AuthScreenWidgetState extends State<AuthScreenWidget> {
                                     _index = 0;
                                     _isLoading = true;
                                   });
-                                  var result = await _authService
-                                      .signInAnnonymouslyToMyApp();
-                                  if (result != null) {
-                                    showToast(' Logged In. ',
-                                        textStyle:
-                                            TextStyle(fontFamily: 'Nunito'),
-                                        position: ToastPosition.bottom);
+                                  var connectivityResult =
+                                      await _cCService.checkConnectivity();
+                                  if (connectivityResult) {
+                                    var result = await _authService
+                                        .signInAnnonymouslyToMyApp();
+                                    if (result != null) {
+                                      showToast(' Logged In. ',
+                                          textStyle:
+                                              TextStyle(fontFamily: 'Nunito'),
+                                          position: ToastPosition.bottom);
+                                    } else {
+                                      showToast(' Trouble logging in. ',
+                                          textStyle:
+                                              TextStyle(fontFamily: 'Nunito'),
+                                          position: ToastPosition.bottom);
+                                    }
                                   } else {
-                                    showToast(' Trouble logging in. ',
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                    showToast(
+                                        ' Internet connection not available. ',
                                         textStyle:
                                             TextStyle(fontFamily: 'Nunito'),
                                         position: ToastPosition.bottom);

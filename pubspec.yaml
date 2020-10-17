@@ -39,6 +39,7 @@ dependencies:
   flutter_spinkit:
   cloud_firestore:
   shared_preferences: ^0.5.12
+  connectivity: ^0.4.9+5
 
 dev_dependencies:
   flutter_test:

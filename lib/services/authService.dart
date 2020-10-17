@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+// ---------------- my packages ----------------------------
 import '../services/firestoreService.dart';
 
 class AuthService {

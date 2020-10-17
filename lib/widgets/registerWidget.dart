@@ -4,6 +4,7 @@ import 'package:oktoast/oktoast.dart';
 
 //-------------- my packages ----------------------------------
 import '../services/authService.dart';
+import '../services/connectivityCheckUpService.dart';
 import '../widgets/loadingWidget.dart';
 import '../shared/constants.dart';
 
@@ -26,7 +27,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   String error = '';
   @override
   Widget build(BuildContext context) {
-    AuthService _auth = new AuthService();
+    final AuthService _auth = new AuthService();
+    final ConnectivityCheckUpService _cCService =
+        new ConnectivityCheckUpService();
     // final userIdStatus = Provider.of<UserIdStatus>(context);
     return loading
         ? LoadingWidget()
@@ -216,31 +219,44 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                   setState(() {
                                     loading = true;
                                   });
-                                  dynamic result =
-                                      await _auth.registerWithEmailAndPassword(
-                                          email, password);
+                                  var connectivityResult =
+                                      await _cCService.checkConnectivity();
+                                  if (connectivityResult) {
+                                    dynamic result = await _auth
+                                        .registerWithEmailAndPassword(
+                                            email, password);
 
-                                  if (result == '101') {
-                                    setState(() {
-                                      loading = false;
-                                      showToast(
-                                          ' Email already registered with some other account. ',
+                                    if (result == '101') {
+                                      setState(() {
+                                        loading = false;
+                                        showToast(
+                                            ' Email already registered with some other account. ',
+                                            textStyle:
+                                                TextStyle(fontFamily: 'Nunito'),
+                                            position: ToastPosition.bottom);
+                                      });
+                                    } else if (result == '102') {
+                                      setState(() {
+                                        loading = false;
+                                        showToast(
+                                            ' Email appears to be malformed. ',
+                                            textStyle:
+                                                TextStyle(fontFamily: 'Nunito'),
+                                            position: ToastPosition.bottom);
+                                      });
+                                    } else {
+                                      Navigator.pop(context);
+                                      showToast(' Registered successfuly. ',
                                           textStyle:
                                               TextStyle(fontFamily: 'Nunito'),
                                           position: ToastPosition.bottom);
-                                    });
-                                  } else if (result == '102') {
-                                    setState(() {
-                                      loading = false;
-                                      showToast(
-                                          ' Email appears to be malformed. ',
-                                          textStyle:
-                                              TextStyle(fontFamily: 'Nunito'),
-                                          position: ToastPosition.bottom);
-                                    });
+                                    }
                                   } else {
-                                    Navigator.pop(context);
-                                    showToast(' Registered successfuly. ',
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    showToast(
+                                        ' Internet connection not available. ',
                                         textStyle:
                                             TextStyle(fontFamily: 'Nunito'),
                                         position: ToastPosition.bottom);

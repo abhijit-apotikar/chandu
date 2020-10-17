@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_proc/services/connectivityCheckUpService.dart';
 import 'package:oktoast/oktoast.dart';
 
+// --------------- my packages ------------------------
 import '../shared/constants.dart';
 import '../services/authService.dart';
 import '../widgets/loadingWidget.dart';
@@ -18,6 +20,8 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
   @override
   Widget build(BuildContext context) {
     final AuthService _authService = new AuthService();
+    final ConnectivityCheckUpService _cCService =
+        new ConnectivityCheckUpService();
     return isLoading
         ? LoadingWidget()
         : Scaffold(
@@ -122,35 +126,49 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                var result = await _authService
-                                    .requestPasswordReset(email.toLowerCase());
-                                if (result == true) {
+                                var connectivityResult =
+                                    await _cCService.checkConnectivity();
+                                if (connectivityResult) {
+                                  var result =
+                                      await _authService.requestPasswordReset(
+                                          email.toLowerCase());
+                                  if (result == true) {
+                                    setState(() {
+                                      isLoading = false;
+                                      linkSent = true;
+                                    });
+                                    showToast(' Reset link email sent ',
+                                        textStyle:
+                                            TextStyle(fontFamily: 'Nunito'),
+                                        position: ToastPosition.bottom);
+                                  } else if (result == '101') {
+                                    setState(() {
+                                      isLoading = false;
+                                      showToast(
+                                          ' There is no user record corresponding to the entered email. ',
+                                          textStyle:
+                                              TextStyle(fontFamily: 'Nunito'),
+                                          position: ToastPosition.bottom);
+                                    });
+                                  } else if (result == '102') {
+                                    setState(() {
+                                      isLoading = false;
+                                      showToast(
+                                          ' Email appears to be malformed. ',
+                                          textStyle:
+                                              TextStyle(fontFamily: 'Nunito'),
+                                          position: ToastPosition.bottom);
+                                    });
+                                  }
+                                } else {
                                   setState(() {
                                     isLoading = false;
-                                    linkSent = true;
                                   });
-                                  showToast(' Reset link email sent ',
+                                  showToast(
+                                      ' Internet connection not available. ',
                                       textStyle:
                                           TextStyle(fontFamily: 'Nunito'),
                                       position: ToastPosition.bottom);
-                                } else if (result == '101') {
-                                  setState(() {
-                                    isLoading = false;
-                                    showToast(
-                                        ' There is no user record corresponding to the entered email. ',
-                                        textStyle:
-                                            TextStyle(fontFamily: 'Nunito'),
-                                        position: ToastPosition.bottom);
-                                  });
-                                } else if (result == '102') {
-                                  setState(() {
-                                    isLoading = false;
-                                    showToast(
-                                        ' Email appears to be malformed. ',
-                                        textStyle:
-                                            TextStyle(fontFamily: 'Nunito'),
-                                        position: ToastPosition.bottom);
-                                  });
                                 }
                               }
                             },
