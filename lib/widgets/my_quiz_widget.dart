@@ -152,7 +152,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                   height: pdTop.top,
                 ),
                 Container(
-                  height: size.height * 0.105,
+                  height: size.height * 0.11,
                   child: Row(
                     children: [
                       Card(
@@ -267,14 +267,14 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                   'Attempted : ',
                                   style: TextStyle(
                                     fontFamily: 'Nunito',
-                                    fontSize: 16,
+                                    fontSize: 18,
                                   ),
                                 ),
                                 Text(
                                   '$_queAttempted',
                                   style: TextStyle(
                                       fontFamily: 'Nunito',
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red),
                                 ),
@@ -571,7 +571,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                         .queList[index].que,
                                                 style: TextStyle(
                                                   fontFamily: 'Nunito',
-                                                  fontSize: 22,
+                                                  fontSize: 18,
                                                 ),
                                               ),
                                             ),
@@ -598,7 +598,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                         'a)',
                                                         style: TextStyle(
                                                           fontFamily: 'Nunito',
-                                                          fontSize: 20,
+                                                          fontSize: 18,
                                                         ),
                                                       ),
                                                     ),
@@ -622,7 +622,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 'Nunito',
-                                                            fontSize: 20,
+                                                            fontSize: 18,
                                                           ),
                                                         ),
                                                       ),
@@ -694,7 +694,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                         'b)',
                                                         style: TextStyle(
                                                           fontFamily: 'Nunito',
-                                                          fontSize: 20,
+                                                          fontSize: 18,
                                                         ),
                                                       ),
                                                     ),
@@ -718,7 +718,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 'Nunito',
-                                                            fontSize: 20,
+                                                            fontSize: 18,
                                                           ),
                                                         ),
                                                       ),
@@ -790,7 +790,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                         'c)',
                                                         style: TextStyle(
                                                           fontFamily: 'Nunito',
-                                                          fontSize: 20,
+                                                          fontSize: 18,
                                                         ),
                                                       ),
                                                     ),
@@ -814,7 +814,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 'Nunito',
-                                                            fontSize: 20,
+                                                            fontSize: 18,
                                                           ),
                                                         ),
                                                       ),
@@ -886,7 +886,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                         'd)',
                                                         style: TextStyle(
                                                           fontFamily: 'Nunito',
-                                                          fontSize: 20,
+                                                          fontSize: 18,
                                                         ),
                                                       ),
                                                     ),
@@ -910,7 +910,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 'Nunito',
-                                                            fontSize: 20,
+                                                            fontSize: 18,
                                                           ),
                                                         ),
                                                       ),
