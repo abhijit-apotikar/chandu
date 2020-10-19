@@ -88,7 +88,7 @@ class _MyListWidgetState extends State<MyListWidget> {
                           color: Colors.transparent,
                           child: Center(
                               child: Text(
-                            _setUpModel.subList[index],
+                            _setUpModel.subList[index]['subName'],
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               //fontSize: 24,

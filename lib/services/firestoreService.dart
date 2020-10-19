@@ -159,8 +159,13 @@ class FirestoreService {
     }
   }
 
-  Future getSubjects(User user1, String cName, String bName, String sem) async {
-    List<String> subList = [];
+  Future getSetUpData(
+      User user1, String cName, String bName, String sem) async {
+    List<Map<String, dynamic>> subList = [];
+    Map<String, dynamic> setUpData = {};
+    int totalPapers;
+    int totalElectives;
+    int totalElectiveChoices = 0;
     QuerySnapshot qs = await fireStoreInstance
         .collection('courses')
         .where('cName', isEqualTo: cName)
@@ -173,6 +178,10 @@ class FirestoreService {
           if (qs.docs[0].data()['cScheme']['branches'][i]['aSems'][j]
                   ['semName'] ==
               sem) {
+            totalPapers = qs.docs[0].data()['cScheme']['branches'][i]['aSems']
+                [j]['totalPapers'];
+            totalElectives = qs.docs[0].data()['cScheme']['branches'][i]
+                ['aSems'][j]['totalElectives'];
             for (int k = 0;
                 k <
                     qs.docs[0]
@@ -180,13 +189,26 @@ class FirestoreService {
                             ['subjects']
                         .length;
                 k++) {
-              subList.add(qs.docs[0].data()['cScheme']['branches'][i]['aSems']
-                  [j]['subjects'][k]['subName']);
+              subList.add({
+                'subName': qs.docs[0].data()['cScheme']['branches'][i]['aSems']
+                    [j]['subjects'][k]['subName'],
+                'isElective': qs.docs[0].data()['cScheme']['branches'][i]
+                    ['aSems'][j]['subjects'][k]['isElective']
+              });
+              if (qs.docs[0].data()['cScheme']['branches'][i]['aSems'][j]
+                      ['subjects'][k]['isElective'] ==
+                  true) {
+                totalElectiveChoices++;
+              }
             }
           }
         }
       } else {}
     }
-    return subList;
+    setUpData['totalPapers'] = totalPapers;
+    setUpData['totalElectives'] = totalElectives;
+    setUpData['totalElectiveChoices'] = totalElectiveChoices;
+    setUpData['subjects'] = subList;
+    return setUpData;
   }
 }

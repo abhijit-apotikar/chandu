@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // --------------- my packages -----------------------
 import '../models/my_list_model.dart';
+import '../models/set_up_model.dart';
 import '../my_arguments/my_arguments1.dart';
 
 class MainContentWidget extends StatelessWidget {
@@ -9,10 +11,58 @@ class MainContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     MyListModel mlm = new MyListModel();
-
+    SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            height: size.height * 0.1,
+            child: InkWell(
+              child: Card(
+                shadowColor: Colors.black45,
+                color: Colors.transparent,
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        'Current Subject',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text(
+                        '${_setUpModel.curSub}',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          //fontSize: 18,
+                        ),
+                      ),
+                    ]),
+                  ],
+                ),
+              ),
+              onTap: () {
+                /* MyArguments1 myArguments1 =
+                    new MyArguments1(mlm.title1, mlm.chapterList);
+                Navigator.pushNamed(context, '/MyListWidget',
+                    arguments: myArguments1);*/
+              },
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             padding: const EdgeInsets.only(left: 10, right: 10),
             height: size.height * 0.3,

@@ -6,6 +6,9 @@ class SetUpModel with ChangeNotifier {
   String curSubComb = "Civil";
   String curSem = "I";
   String curSub = "PHY";
+  int totalPapers;
+  int totalElectives;
+  int totalElectiveChoices;
 
   /* List<String> courseList = <String>[
     "B.Sc.",
@@ -31,16 +34,23 @@ class SetUpModel with ChangeNotifier {
     "VI",
   ];*/
 
-  List<String> subList = <String>[
+  List<Map<String, dynamic>> subList = [
     /* "PHY",
     "MTH",
     "CPS",*/
   ];
 
-  setSubjects(List<String> listFrDb) async {
-    for (int i = 0; i < listFrDb.length; i++) {
-      subList.add(listFrDb[i]);
+  setData(Map<String, dynamic> setUpData) async {
+    for (int i = 0; i < setUpData['subjects'].length; i++) {
+      subList.add({
+        'subName': setUpData['subjects'][i]['subName'],
+        'isElective': setUpData['subjects'][i]['isElective']
+      });
     }
+    curSub = setUpData['subjects'][0]['subName'];
+    totalPapers = setUpData['totalPapers'];
+    totalElectives = setUpData['totalElectives'];
+    totalElectiveChoices = setUpData['totalElectiveChoices'];
     notifyListeners();
   }
 

@@ -389,16 +389,17 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                         group,
                                                         sem);
                                                 if (result == true) {
-                                                  List<String> _subList =
+                                                  Map<String, dynamic>
+                                                      _setData =
                                                       await _fsService
-                                                          .getSubjects(
+                                                          .getSetUpData(
                                                               cUser,
                                                               course,
                                                               group,
                                                               sem);
-                                                  if (_subList.isNotEmpty) {
+                                                  if (_setData.isNotEmpty) {
                                                     _setUpModel
-                                                        .setSubjects(_subList);
+                                                        .setData(_setData);
                                                   }
                                                   if (result == true) {
                                                     if (await svm
