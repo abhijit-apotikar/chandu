@@ -251,6 +251,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         style: TextStyle(
                             fontFamily: 'Nunito', fontWeight: FontWeight.bold),
                       ),
+                      Text(
+                        '(Currently selected subject is marked in blue)',
+                        style: TextStyle(
+                            fontFamily: 'Nunito', fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
                 ),

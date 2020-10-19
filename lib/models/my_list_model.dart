@@ -1,15 +1,18 @@
-class MyListModel {
+import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
+
+class MyListModel extends ChangeNotifier {
   String title1 = 'Chapters';
   String title2 = 'Exams';
   String title3 = 'Test Scheme';
 
-  List<Map<String, String>> chapterList = [
-    {'title': 'Chapter 1', 'listType': 'questions'},
+  List<Map<String, dynamic>> chapterList = [
+    /* {'title': 'Chapter 1', 'listType': 'questions'},
     {'title': 'Chapter 2', 'listType': 'questions'},
     {'title': 'Chapter 3', 'listType': 'questions'},
     {'title': 'Chapter 4', 'listType': 'questions'},
     {'title': 'Chapter 5', 'listType': 'questions'},
-    {'title': 'Chapter 6', 'listType': 'questions'},
+    {'title': 'Chapter 6', 'listType': 'questions'},*/
   ];
   List<Map<String, String>> examList = [
     {'title': 'Winter-2017', 'listType': 'questions'},
@@ -41,4 +44,9 @@ class MyListModel {
       'listType': 'test'
     },
   ];
+
+  setChapterList(List<Map<String, dynamic>> chapterList1) {
+    chapterList = chapterList1;
+    notifyListeners();
+  }
 }

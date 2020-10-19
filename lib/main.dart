@@ -21,6 +21,7 @@ import './widgets/passwordResetWidget.dart';
 import './services/authService.dart';
 import './models/stateVariablesModel.dart';
 import './models/set_up_model.dart';
+import './models/my_list_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,9 @@ void main() async {
       ),
       ChangeNotifierProvider<SetUpModel>(
         create: (_) => SetUpModel(),
+      ),
+      ChangeNotifierProvider<MyListModel>(
+        create: (_) => MyListModel(),
       )
     ], child: MyApp()),
   );

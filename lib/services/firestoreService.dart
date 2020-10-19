@@ -159,8 +159,7 @@ class FirestoreService {
     }
   }
 
-  Future getSetUpData(
-      User user1, String cName, String bName, String sem) async {
+  Future getSetUpData(String cName, String bName, String sem) async {
     List<Map<String, dynamic>> subList = [];
     Map<String, dynamic> setUpData = {};
     int totalPapers;
@@ -210,5 +209,56 @@ class FirestoreService {
     setUpData['totalElectiveChoices'] = totalElectiveChoices;
     setUpData['subjects'] = subList;
     return setUpData;
+  }
+
+  Future getChapters(
+      String cName, String bName, String semName, String subName) async {
+    List<Map<String, dynamic>> chapterList = [];
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('courses')
+        .where('cName', isEqualTo: cName)
+        .get();
+
+    for (int i = 0; i < qs.docs[0].data()['cScheme']['branches'].length; i++) {
+      if (qs.docs[0].data()['cScheme']['branches'][i]['bName'] == bName) {
+        for (int j = 0;
+            j < qs.docs[0].data()['cScheme']['branches'][i]['aSems'].length;
+            j++) {
+          if (qs.docs[0].data()['cScheme']['branches'][i]['aSems'][j]
+                  ['semName'] ==
+              semName) {
+            for (int k = 0;
+                k <
+                    qs.docs[0]
+                        .data()['cScheme']['branches'][i]['aSems'][j]
+                            ['subjects']
+                        .length;
+                k++) {
+              if (qs.docs[0].data()['cScheme']['branches'][i]['aSems'][j]
+                      ['subjects'][k]['subName'] ==
+                  subName) {
+                for (int l = 0;
+                    l <
+                        qs.docs[0]
+                            .data()['cScheme']['branches'][i]['aSems'][j]
+                                ['subjects'][k]['chapters']
+                            .length;
+                    l++) {
+                  chapterList.add({
+                    'chapterName': qs.docs[0].data()['cScheme']['branches'][i]
+                            ['aSems'][j]['subjects'][k]['chapters'][l]
+                        ['chapterName'],
+                    'isAvailable': qs.docs[0].data()['cScheme']['branches'][i]
+                            ['aSems'][j]['subjects'][k]['chapters'][l]
+                        ['isAvailable']
+                  });
+                }
+              }
+            }
+          }
+        }
+      } else {}
+    }
+    return chapterList;
   }
 }

@@ -85,8 +85,7 @@ class MainContentWidget extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                MyArguments1 myArguments1 =
-                    new MyArguments1(mlm.title1, mlm.chapterList);
+                MyArguments1 myArguments1 = new MyArguments1(mlm.title1);
                 Navigator.pushNamed(context, '/MyListWidget',
                     arguments: myArguments1);
               },
@@ -117,8 +116,7 @@ class MainContentWidget extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                MyArguments1 myArguments1 =
-                    new MyArguments1(mlm.title2, mlm.examList);
+                MyArguments1 myArguments1 = new MyArguments1(mlm.title2);
                 Navigator.pushNamed(context, '/MyListWidget',
                     arguments: myArguments1);
               },
@@ -149,8 +147,7 @@ class MainContentWidget extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                MyArguments1 myArguments1 =
-                    new MyArguments1(mlm.title3, mlm.testSchemeList);
+                MyArguments1 myArguments1 = new MyArguments1(mlm.title3);
                 Navigator.pushNamed(context, '/MyListWidget',
                     arguments: myArguments1);
               },
