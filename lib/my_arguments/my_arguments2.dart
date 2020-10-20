@@ -1,4 +1,5 @@
-class MyArguments2{
+class MyArguments2 {
   final String titleString;
-  MyArguments2(this.titleString);
+  final String curSecTitle;
+  MyArguments2(this.titleString, this.curSecTitle);
 }

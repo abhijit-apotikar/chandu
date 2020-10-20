@@ -287,4 +287,26 @@ class FirestoreService {
     }
     return testSchemeList;
   }
+
+  Future getChapterQuestions(String _chapName) async {
+    List<Map<String, dynamic>> questionList = [];
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('questions')
+        .where('chapterName', isEqualTo: _chapName)
+        .get();
+    for (int i = 0; i < qs.docs[0].data()['questions'].length; i++) {
+      questionList.add({
+        'que': qs.docs[0].data()['questions'][i]['que'],
+        'options': [
+          qs.docs[0].data()['questions'][i]['options'][0],
+          qs.docs[0].data()['questions'][i]['options'][1],
+          qs.docs[0].data()['questions'][i]['options'][2],
+          qs.docs[0].data()['questions'][i]['options'][3],
+        ],
+        'ans': qs.docs[0].data()['questions'][i]['ans'],
+        'queId': qs.docs[0].data()['questions'][i]['queId']
+      });
+    }
+    return questionList;
+  }
 }

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 // ------------------ my packages -----------------------
 import '../my_arguments/my_arguments1.dart';
 import '../my_arguments/my_arguments2.dart';
-import '../widgets/my_quiz_widget.dart';
 import '../widgets/loadingWidget.dart';
 import '../models/set_up_model.dart';
 import '../models/my_list_model.dart';
@@ -27,6 +26,16 @@ class _MyListWidgetState extends State<MyListWidget> {
     MyListModel _myListModel = Provider.of<MyListModel>(context);
     final FirestoreService _fService = new FirestoreService();
 
+    var _future;
+    if (titleString == "Chapters") {
+      _future = _fService.getChapters(_setUpModel.curCourse,
+          _setUpModel.curSubComb, _setUpModel.curSem, _setUpModel.curSub);
+    } else if (titleString == "Exams") {
+      _future = _fService.getPreviousExams();
+    } else {
+      _future = _fService.getTestSchemes();
+    }
+
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -41,19 +50,14 @@ class _MyListWidgetState extends State<MyListWidget> {
             tileMode: TileMode.clamp),
       ),
       child: FutureBuilder(
-        future: titleString == 'Chapters'
-            ? _fService.getChapters(_setUpModel.curCourse,
-                _setUpModel.curSubComb, _setUpModel.curSem, _setUpModel.curSub)
-            : (titleString == 'Exams'
-                ? _fService.getPreviousExams()
-                : _fService.getTestSchemes()),
+        future: _future,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             titleString == 'Chapters'
                 ? _myListModel.setChapterList(snapshot.data)
-                : (titleString == 'Exams'
+                : titleString == 'Exams'
                     ? _myListModel.setExamList(snapshot.data)
-                    : _myListModel.setTestSchemeList(snapshot.data));
+                    : _myListModel.setTestSchemeList(snapshot.data);
             return Column(children: [
               SizedBox(
                 height: pdTop.top,
@@ -125,7 +129,20 @@ class _MyListWidgetState extends State<MyListWidget> {
                                 ),
                               )),
                             )),
-                        onTap: () {},
+                        onTap: () {
+                          String curSecTitle;
+                          if (titleString == 'Chapters') {
+                            curSecTitle =
+                                _myListModel.chapterList[index]['chapterName'];
+                          } else if (titleString == 'Exams') {
+                            curSecTitle =
+                                _myListModel.examList[index]['examName'];
+                          }
+                          MyArguments2 myArguments2 =
+                              new MyArguments2(titleString, curSecTitle);
+                          Navigator.pushNamed(context, '/MyQueListWidget',
+                              arguments: myArguments2);
+                        },
                       );
                     }),
               ),

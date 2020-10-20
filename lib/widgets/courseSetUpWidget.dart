@@ -9,7 +9,6 @@ import '../widgets/loadingWidget.dart';
 import '../services/firestoreService.dart';
 import '../models/set_up_model.dart';
 import '../models/stateVariablesModel.dart';
-import '../models/my_list_model.dart';
 
 class CourseSetUpWidget extends StatefulWidget {
   @override
@@ -40,8 +39,6 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     final cUser = Provider.of<User>(context);
     StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
-    SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
-    MyListModel _myListModel = Provider.of<MyListModel>(context);
     final FirestoreService _fsService = new FirestoreService();
     return Scaffold(
         key: _scaffold,

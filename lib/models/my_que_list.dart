@@ -2,7 +2,7 @@ import './my_que_model.dart';
 
 class MyQueList {
   List<MyQueModel> queList = [
-    MyQueModel(
+    /*MyQueModel(
       'A try block can be followed by?',
       'catch block',
       'finally block',
@@ -71,6 +71,6 @@ class MyQueList {
       false,
       0,
       0,
-    ),
+    ),*/
   ];
 }

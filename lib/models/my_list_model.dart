@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
 class MyListModel extends ChangeNotifier {
   String title1 = 'Chapters';
