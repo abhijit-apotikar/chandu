@@ -64,13 +64,14 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(width: 10),
-                  Text(
-                    titleString,
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 32,
-                      // fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      curSecTitle,
+                      style: TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 16,
+                        // fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -172,11 +173,11 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                 children: [
                                                   Flexible(
                                                     child: Text(
-                                                      'Que.) ' +
+                                                      'Q.) ' +
                                                           myQueList[index].que,
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 20,
+                                                        fontSize: 18,
                                                       ),
                                                     ),
                                                   ),
@@ -185,68 +186,89 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                               SizedBox(height: 5),
                                               Row(
                                                 children: [
-                                                  Text(
-                                                    'a)' + myQueList[index].op1,
-                                                    style: TextStyle(
-                                                      fontFamily: 'Nunito',
-                                                      fontSize: 20,
-                                                      color: myQueList[index]
-                                                                  .ans ==
-                                                              myQueList[index]
-                                                                  .op1
-                                                          ? Colors.red
-                                                          : Colors.black,
+                                                  Expanded(
+                                                    child: Text(
+                                                      'a) ' +
+                                                          myQueList[index].op1,
+                                                      style: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 16,
+                                                        color: myQueList[index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op1
+                                                            ? Colors.red
+                                                            : Colors.black,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
+                                              SizedBox(
+                                                height: 5.0,
+                                              ),
                                               Row(
                                                 children: [
-                                                  Text(
-                                                    'b)' + myQueList[index].op2,
-                                                    style: TextStyle(
-                                                      fontFamily: 'Nunito',
-                                                      fontSize: 20,
-                                                      color: myQueList[index]
-                                                                  .ans ==
-                                                              myQueList[index]
-                                                                  .op2
-                                                          ? Colors.red
-                                                          : Colors.black,
+                                                  Expanded(
+                                                    child: Text(
+                                                      'b) ' +
+                                                          myQueList[index].op2,
+                                                      style: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 16,
+                                                        color: myQueList[index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op2
+                                                            ? Colors.red
+                                                            : Colors.black,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
+                                              SizedBox(
+                                                height: 5.0,
+                                              ),
                                               Row(
                                                 children: [
-                                                  Text(
-                                                    'c)' + myQueList[index].op3,
-                                                    style: TextStyle(
-                                                      fontFamily: 'Nunito',
-                                                      fontSize: 20,
-                                                      color: myQueList[index]
-                                                                  .ans ==
-                                                              myQueList[index]
-                                                                  .op3
-                                                          ? Colors.red
-                                                          : Colors.black,
+                                                  Expanded(
+                                                    child: Text(
+                                                      'c) ' +
+                                                          myQueList[index].op3,
+                                                      style: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 16,
+                                                        color: myQueList[index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op3
+                                                            ? Colors.red
+                                                            : Colors.black,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
+                                              SizedBox(
+                                                height: 5.0,
+                                              ),
                                               Row(
                                                 children: [
-                                                  Text(
-                                                    'd)' + myQueList[index].op4,
-                                                    style: TextStyle(
-                                                      fontFamily: 'Nunito',
-                                                      fontSize: 20,
-                                                      color: myQueList[index]
-                                                                  .ans ==
-                                                              myQueList[index]
-                                                                  .op4
-                                                          ? Colors.red
-                                                          : Colors.black,
+                                                  Expanded(
+                                                    child: Text(
+                                                      'd) ' +
+                                                          myQueList[index].op4,
+                                                      style: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 16,
+                                                        color: myQueList[index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op4
+                                                            ? Colors.red
+                                                            : Colors.black,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -310,12 +332,12 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                   Text('Que. No.: ',
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                       )),
                                                   Text(myQueList[index].queId,
                                                       style: TextStyle(
                                                           fontFamily: 'Nunito',
-                                                          fontSize: 20,
+                                                          fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           color: Colors
@@ -330,7 +352,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                   Text('Bookmark ',
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                       )),
                                                   InkWell(
                                                     child: Icon(
@@ -359,7 +381,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                         .toString(),
                                                     style: TextStyle(
                                                       fontFamily: 'Nunito',
-                                                      fontSize: 20,
+                                                      fontSize: 16,
                                                       color: Colors.grey,
                                                     ),
                                                   ),
@@ -371,7 +393,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     'Report: ',
                                                     style: TextStyle(
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 20),
+                                                        fontSize: 16),
                                                   ),
                                                   SizedBox(
                                                     width: 5,
@@ -403,7 +425,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                         .toString(),
                                                     style: TextStyle(
                                                       fontFamily: 'Nunito',
-                                                      fontSize: 20,
+                                                      fontSize: 16,
                                                       color: Colors.grey,
                                                     ),
                                                   ),
@@ -418,7 +440,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     'Added on: ',
                                                     style: TextStyle(
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 20),
+                                                        fontSize: 16),
                                                   ),
                                                   SizedBox(
                                                     width: 10,
@@ -431,7 +453,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     'Veteran: ',
                                                     style: TextStyle(
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 20),
+                                                        fontSize: 16),
                                                   ),
                                                   Text(
                                                       myQueList[index].veteran
@@ -439,7 +461,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                           : 'No',
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: Colors.redAccent,
@@ -455,7 +477,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     'Last Reviewed: ',
                                                     style: TextStyle(
                                                       fontFamily: 'Nunito',
-                                                      fontSize: 20,
+                                                      fontSize: 16,
                                                     ),
                                                   ),
                                                   SizedBox(
