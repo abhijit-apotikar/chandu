@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 class SetUpModel with ChangeNotifier {
-  String curCourse = "B.E.";
-  String curSubComb = "Civil";
-  String curSem = "I";
+  String curCourse = 'B.Sc.';
+  String curSubComb = "PMCS";
+  String curSem = "VI";
   String curSub = "PHY";
   int totalPapers;
   int totalElectives;

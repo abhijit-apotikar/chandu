@@ -22,9 +22,9 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
     prefs.setBool('courseFlag', true);
   }
 
-  String course = "B.E.";
-  String group = 'Civil';
-  String sem = "I";
+  String course = "B.Sc.";
+  String group = 'PMCS';
+  String sem = "VI";
 
   bool groupSelect = false;
   bool semSelect = false;
@@ -391,7 +391,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                         group,
                                                         sem);
                                                 if (result == true) {
-                                                  Map<String, dynamic>
+                                                  /* Map<String, dynamic>
                                                       _setData =
                                                       await _fsService
                                                           .getSetUpData(course,
@@ -412,7 +412,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                       .isNotEmpty) {
                                                     _myListModel.setChapterList(
                                                         _setListModel);
-                                                  }
+                                                  }*/
                                                   if (result == true) {
                                                     if (await svm
                                                         .getCourseFlag()) {

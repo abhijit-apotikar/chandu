@@ -14,15 +14,15 @@ class MyListModel extends ChangeNotifier {
     {'title': 'Chapter 5', 'listType': 'questions'},
     {'title': 'Chapter 6', 'listType': 'questions'},*/
   ];
-  List<Map<String, String>> examList = [
-    {'title': 'Winter-2017', 'listType': 'questions'},
+  List<Map<String, dynamic>> examList = [
+    /* {'title': 'Winter-2017', 'listType': 'questions'},
     {'title': 'Summer-2018', 'listType': 'questions'},
     {'title': 'Winter-2018', 'listType': 'questions'},
     {'title': 'Summer-2019', 'listType': 'questions'},
-    {'title': 'Winter-2019', 'listType': 'questions'},
+    {'title': 'Winter-2019', 'listType': 'questions'},*/
   ];
-  List<Map<String, String>> testSchemeList = [
-    {
+  List<Map<String, dynamic>> testSchemeList = [
+    /* {
       'title': '10 M.C.Q.\'s 15 Minutes',
       'hours': '0',
       'minutes': '15',
@@ -42,11 +42,21 @@ class MyListModel extends ChangeNotifier {
       'minutes': '45',
       'seconds': '0',
       'listType': 'test'
-    },
+    },*/
   ];
 
   setChapterList(List<Map<String, dynamic>> chapterList1) {
     chapterList = chapterList1;
+    notifyListeners();
+  }
+
+  setExamList(List<Map<String, dynamic>> examList1) {
+    examList = examList1;
+    notifyListeners();
+  }
+
+  setTestSchemeList(List<Map<String, dynamic>> testSchemeList1) {
+    testSchemeList = testSchemeList1;
     notifyListeners();
   }
 }

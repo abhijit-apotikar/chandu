@@ -261,4 +261,30 @@ class FirestoreService {
     }
     return chapterList;
   }
+
+  Future getPreviousExams() async {
+    List<Map<String, dynamic>> prevExamList = [];
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('previousExams')
+        .where('category', isEqualTo: 'university')
+        .get();
+    for (int i = 0; i < qs.docs[0].data()['exams'].length; i++) {
+      prevExamList.add({'examName': qs.docs[0].data()['exams'][i]});
+    }
+    return prevExamList;
+  }
+
+  Future getTestSchemes() async {
+    List<Map<String, dynamic>> testSchemeList = [];
+    QuerySnapshot qs = await fireStoreInstance.collection('testSchemes').get();
+    for (int i = 0; i < qs.docs[0].data()['schemes'].length; i++) {
+      testSchemeList.add({
+        'title': qs.docs[0].data()['schemes'][i]['title'],
+        'hours': qs.docs[0].data()['schemes'][i]['hours'],
+        'minutes': qs.docs[0].data()['schemes'][i]['minutes'],
+        'seconds': qs.docs[0].data()['schemes'][i]['seconds'],
+      });
+    }
+    return testSchemeList;
+  }
 }
