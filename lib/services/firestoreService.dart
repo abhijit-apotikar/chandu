@@ -181,6 +181,8 @@ class FirestoreService {
                 [j]['totalPapers'];
             totalElectives = qs.docs[0].data()['cScheme']['branches'][i]
                 ['aSems'][j]['totalElectives'];
+            totalElectiveChoices = qs.docs[0].data()['cScheme']['branches'][i]
+                ['aSems'][j]['totalElectiveChoices'];
             for (int k = 0;
                 k <
                     qs.docs[0]
@@ -191,14 +193,16 @@ class FirestoreService {
               subList.add({
                 'subName': qs.docs[0].data()['cScheme']['branches'][i]['aSems']
                     [j]['subjects'][k]['subName'],
+                'isAvailable': qs.docs[0].data()['cScheme']['branches'][i]
+                    ['aSems'][j]['subjects'][k]['availability'],
                 'isElective': qs.docs[0].data()['cScheme']['branches'][i]
                     ['aSems'][j]['subjects'][k]['isElective']
               });
-              if (qs.docs[0].data()['cScheme']['branches'][i]['aSems'][j]
+              /* if (qs.docs[0].data()['cScheme']['branches'][i]['aSems'][j]
                       ['subjects'][k]['isElective'] ==
                   true) {
                 totalElectiveChoices++;
-              }
+              }*/
             }
           }
         }
@@ -290,23 +294,60 @@ class FirestoreService {
 
   Future getChapterQuestions(String _chapName) async {
     List<Map<String, dynamic>> questionList = [];
+    try {
+      QuerySnapshot qs = await fireStoreInstance
+          .collection('questions')
+          .where('chapterName', isEqualTo: _chapName)
+          .get();
+      for (int i = 0; i < qs.docs[0].data()['questions'].length; i++) {
+        questionList.add({
+          'que': qs.docs[0].data()['questions'][i]['que'],
+          'options': [
+            qs.docs[0].data()['questions'][i]['options'][0],
+            qs.docs[0].data()['questions'][i]['options'][1],
+            qs.docs[0].data()['questions'][i]['options'][2],
+            qs.docs[0].data()['questions'][i]['options'][3],
+          ],
+          'ans': qs.docs[0].data()['questions'][i]['ans'],
+          'queId': qs.docs[0].data()['questions'][i]['queId'],
+          'isVeteran': qs.docs[0].data()['questions'][i]['isVeteran'],
+        });
+      }
+      return questionList;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future getPreviousExamQuestions(String _examName, String _paperName) async {
+    List<Map<String, dynamic>> questionList = [];
     QuerySnapshot qs = await fireStoreInstance
         .collection('questions')
-        .where('chapterName', isEqualTo: _chapName)
+        .where('paperName', isEqualTo: _paperName)
         .get();
     for (int i = 0; i < qs.docs[0].data()['questions'].length; i++) {
-      questionList.add({
-        'que': qs.docs[0].data()['questions'][i]['que'],
-        'options': [
-          qs.docs[0].data()['questions'][i]['options'][0],
-          qs.docs[0].data()['questions'][i]['options'][1],
-          qs.docs[0].data()['questions'][i]['options'][2],
-          qs.docs[0].data()['questions'][i]['options'][3],
-        ],
-        'ans': qs.docs[0].data()['questions'][i]['ans'],
-        'queId': qs.docs[0].data()['questions'][i]['queId']
-      });
+      if (qs.docs[0].data()['questions'][i]['isVeteran'] == true &&
+          qs.docs[0]
+              .data()['questions'][i]['veteranExams']
+              .contains(_examName)) {
+        questionList.add({
+          'que': qs.docs[0].data()['questions'][i]['que'],
+          'options': [
+            qs.docs[0].data()['questions'][i]['options'][0],
+            qs.docs[0].data()['questions'][i]['options'][1],
+            qs.docs[0].data()['questions'][i]['options'][2],
+            qs.docs[0].data()['questions'][i]['options'][3],
+          ],
+          'ans': qs.docs[0].data()['questions'][i]['ans'],
+          'queId': qs.docs[0].data()['questions'][i]['queId'],
+          'isVeteran': qs.docs[0].data()['questions'][i]['isVeteran'],
+        });
+      }
     }
-    return questionList;
+    if (questionList.length == 0) {
+      return false;
+    } else {
+      return questionList;
+    }
   }
 }

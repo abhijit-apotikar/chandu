@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:oktoast/oktoast.dart';
 
 // ------------- my packages -------------
 import 'main_content_widget.dart';
@@ -17,19 +18,21 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget> {
   int _index = 0;
-  int _curMarked;
+  int _curMarked = 0;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     final FirestoreService _fService = new FirestoreService();
-    setState(() {
+
+    /* setState(() {
       if (_curMarked == null) {
         _curMarked = _setUpModel.subList
             .indexWhere((element) => element['subName'] == _setUpModel.curSub);
       }
-    });
+    });*/
 
     return Scaffold(
       body: Container(
@@ -91,7 +94,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             right: 10,
                                             top: size.height * 0.01,
                                             child: RaisedButton(
-                                              child: Text('Subject'),
+                                              child: Text(
+                                                'Subject',
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito'),
+                                              ),
                                               onPressed: () {
                                                 setState(() {
                                                   _index = 1;
@@ -256,7 +263,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           child: Column(
                             children: [
                               Text(
-                                'You have total ${_setUpModel.totalPapers} theory papers out of which ${(_setUpModel.totalPapers - _setUpModel.totalElectives)} are compulsory(marked with a yellow stripe) and ${_setUpModel.totalElectives} is elective which is to be chosen from among a set of ${_setUpModel.totalElectiveChoices} papers(marked with a red stripe). ',
+                                _setUpModel.totalElectives == 0
+                                    ? 'You have total ${_setUpModel.totalPapers} papers and all are compulsory'
+                                    : 'You have total ${_setUpModel.totalPapers} theory papers out of which ${(_setUpModel.totalPapers - _setUpModel.totalElectives)} are compulsory(marked with a yellow stripe) and ${_setUpModel.totalElectives} is elective which is to be chosen from among a set of ${_setUpModel.totalElectiveChoices} papers(marked with a red stripe). ',
                                 style: TextStyle(fontFamily: 'Nunito'),
                               ),
                               SizedBox(
@@ -268,12 +277,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     fontFamily: 'Nunito',
                                     fontWeight: FontWeight.bold),
                               ),
-                              /* Text(
-                                '(Currently selected subject is marked in blue)',
+                              Text(
+                                '(Current subject is marked in blue)',
                                 style: TextStyle(
                                     fontFamily: 'Nunito',
                                     fontWeight: FontWeight.bold),
-                              ),*/
+                              ),
                             ],
                           ),
                         ),
@@ -337,10 +346,30 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           ),
                                           onTap: () {
                                             setState(() {
-                                              _curMarked = index;
+                                              if (_setUpModel.subList[index]
+                                                      ['isAvailable'] ==
+                                                  true) {
+                                                String msg = _curMarked == index
+                                                    ? ' Current subject stands unchanged '
+                                                    : ' Current subject stands changed ';
+
+                                                _curMarked = index;
+                                                showToast(msg,
+                                                    textStyle: TextStyle(
+                                                        fontFamily: 'Nunito'),
+                                                    position:
+                                                        ToastPosition.center);
+                                                _setUpModel.chngCurSub(
+                                                    '${_setUpModel.subList[index]['subName']}');
+                                              } else {
+                                                showToast(
+                                                    ' This subject is not available. ',
+                                                    textStyle: TextStyle(
+                                                        fontFamily: 'Nunito'),
+                                                    position:
+                                                        ToastPosition.center);
+                                              }
                                             });
-                                            _setUpModel.chngCurSub(
-                                                '${_setUpModel.subList[index]['subName']}');
                                           },
                                         ),
                                       ),
@@ -353,7 +382,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                       RaisedButton(
                           child: Text(
-                            'Confirm Selection',
+                            'Close',
                             style: TextStyle(fontFamily: 'Nunito'),
                           ),
                           onPressed: () {

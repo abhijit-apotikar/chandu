@@ -74,7 +74,7 @@ class _MyListWidgetState extends State<MyListWidget> {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                   child: Row(
                     children: [
-                      SizedBox(width: 10),
+                      SizedBox(width: 20),
                       GestureDetector(
                         child: Icon(
                           Icons.arrow_back_ios,
@@ -115,19 +115,24 @@ class _MyListWidgetState extends State<MyListWidget> {
                               ),
                               color: Colors.transparent,
                               child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                titleString == 'Chapters'
-                                    ? _myListModel.chapterList[index]
-                                        ['chapterName']
-                                    : (titleString == 'Exams'
-                                        ? _myListModel.examList[index]
-                                            ['examName']
-                                        : _myListModel.testSchemeList[index]
-                                            ['title']),
-                                style: TextStyle(
-                                  fontFamily: 'Nunito',
+                                    titleString == 'Chapters'
+                                        ? _myListModel.chapterList[index]
+                                            ['chapterName']
+                                        : (titleString == 'Exams'
+                                            ? _myListModel.examList[index]
+                                                ['examName']
+                                            : _myListModel
+                                                    .testSchemeList[index]
+                                                ['title']),
+                                    style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                    ),
+                                  ),
                                 ),
-                              )),
+                              ),
                             )),
                         onTap: () {
                           String curSecTitle;

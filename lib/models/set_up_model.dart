@@ -44,6 +44,7 @@ class SetUpModel with ChangeNotifier {
     for (int i = 0; i < setUpData['subjects'].length; i++) {
       subList.add({
         'subName': setUpData['subjects'][i]['subName'],
+        'isAvailable': setUpData['subjects'][i]['isAvailable'],
         'isElective': setUpData['subjects'][i]['isElective']
       });
     }

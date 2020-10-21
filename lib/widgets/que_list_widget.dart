@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 
 //---------------- my packages --------------------------
 import '../widgets/loadingWidget.dart';
@@ -7,6 +8,7 @@ import '../widgets/loadingWidget.dart';
 import '../my_arguments/my_arguments2.dart';
 import '../services/firestoreService.dart';
 import '../models/my_que_model.dart';
+import '../models/set_up_model.dart';
 
 class MyQueListWidget extends StatefulWidget {
   @override
@@ -26,6 +28,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
     // MyQueList myQueList = new MyQueList();
     List<MyQueModel> myQueList = [];
     final FirestoreService _fService = new FirestoreService();
+    SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -54,7 +57,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: Row(
                 children: [
-                  SizedBox(width: 10),
+                  SizedBox(width: 20),
                   GestureDetector(
                     child: Icon(
                       Icons.arrow_back_ios,
@@ -79,9 +82,20 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
             ),
           ),
           FutureBuilder(
-              future: _fService.getChapterQuestions(curSecTitle),
+              future: titleString == 'Chapters'
+                  ? _fService.getChapterQuestions(curSecTitle)
+                  : _fService.getPreviousExamQuestions(
+                      curSecTitle, _setUpModel.curSub),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.hasError || snapshot.data == false) {
+                  return Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    height: size.height * 0.85,
+                    child: Center(
+                      child: Text('Sorry, No Questions Available.'),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
                   if (myQueList.isEmpty) {
                     for (int i = 0; i < snapshot.data.length; i++) {
                       myQueList.add(MyQueModel(
@@ -94,7 +108,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                           snapshot.data[i]['queId'],
                           false,
                           false,
-                          false,
+                          snapshot.data[i]['isVeteran'],
                           0,
                           0));
                     }
@@ -144,7 +158,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     onTap: () {},
                                                   ),
                                                   SizedBox(
-                                                    width: 10,
+                                                    width: 15,
                                                   ),
                                                   InkWell(
                                                     child: Icon(FontAwesome
@@ -152,7 +166,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     onTap: () {},
                                                   ),
                                                   SizedBox(
-                                                    width: 10,
+                                                    width: 15,
                                                   ),
                                                   InkWell(
                                                     child: Icon(Entypo
@@ -191,6 +205,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       'a) ' +
                                                           myQueList[index].op1,
                                                       style: TextStyle(
+                                                        fontWeight: myQueList[
+                                                                        index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op1
+                                                            ? FontWeight.bold
+                                                            : FontWeight.normal,
                                                         fontFamily: 'Nunito',
                                                         fontSize: 16,
                                                         color: myQueList[index]
@@ -214,6 +235,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       'b) ' +
                                                           myQueList[index].op2,
                                                       style: TextStyle(
+                                                        fontWeight: myQueList[
+                                                                        index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op2
+                                                            ? FontWeight.bold
+                                                            : FontWeight.normal,
                                                         fontFamily: 'Nunito',
                                                         fontSize: 16,
                                                         color: myQueList[index]
@@ -237,6 +265,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       'c) ' +
                                                           myQueList[index].op3,
                                                       style: TextStyle(
+                                                        fontWeight: myQueList[
+                                                                        index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op3
+                                                            ? FontWeight.bold
+                                                            : FontWeight.normal,
                                                         fontFamily: 'Nunito',
                                                         fontSize: 16,
                                                         color: myQueList[index]
@@ -260,6 +295,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       'd) ' +
                                                           myQueList[index].op4,
                                                       style: TextStyle(
+                                                        fontWeight: myQueList[
+                                                                        index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op4
+                                                            ? FontWeight.bold
+                                                            : FontWeight.normal,
                                                         fontFamily: 'Nunito',
                                                         fontSize: 16,
                                                         color: myQueList[index]
