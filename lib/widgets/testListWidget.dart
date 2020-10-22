@@ -85,7 +85,7 @@ class _TestListWidgetState extends State<TestListWidget> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   height: size.height * 0.85,
                   child: Center(
-                    child: Text('Sorry, No Questions Available.'),
+                    child: Text('Sorry, No tests available.'),
                   ),
                 );
               } else if (snapshot.hasData) {
