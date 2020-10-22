@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 // ------------------ my packages -----------------------
 import '../my_arguments/my_arguments1.dart';
 import '../my_arguments/my_arguments2.dart';
+import '../my_arguments/my_time_arguments.dart';
 import '../widgets/loadingWidget.dart';
 import '../models/set_up_model.dart';
 import '../models/my_list_model.dart';
@@ -124,8 +125,7 @@ class _MyListWidgetState extends State<MyListWidget> {
                                         : (titleString == 'Exams'
                                             ? _myListModel.examList[index]
                                                 ['examName']
-                                            : _myListModel
-                                                    .testSchemeList[index]
+                                            : _myListModel.testSchemeList[index]
                                                 ['title']),
                                     style: TextStyle(
                                       fontFamily: 'Nunito',
@@ -135,18 +135,31 @@ class _MyListWidgetState extends State<MyListWidget> {
                               ),
                             )),
                         onTap: () {
-                          String curSecTitle;
-                          if (titleString == 'Chapters') {
-                            curSecTitle =
-                                _myListModel.chapterList[index]['chapterName'];
-                          } else if (titleString == 'Exams') {
-                            curSecTitle =
-                                _myListModel.examList[index]['examName'];
+                          if (titleString == 'Test Scheme') {
+                            MyTimeArguments myTimeArguments =
+                                new MyTimeArguments(
+                                    'Tests',
+                                    _myListModel.testSchemeList[index]['hours'],
+                                    _myListModel.testSchemeList[index]
+                                        ['minutes'],
+                                    _myListModel.testSchemeList[index]
+                                        ['seconds']);
+                            Navigator.pushNamed(context, '/TestListWidget',
+                                arguments: myTimeArguments);
+                          } else {
+                            String curSecTitle;
+                            if (titleString == 'Chapters') {
+                              curSecTitle = _myListModel.chapterList[index]
+                                  ['chapterName'];
+                            } else if (titleString == 'Exams') {
+                              curSecTitle =
+                                  _myListModel.examList[index]['examName'];
+                            }
+                            MyArguments2 myArguments2 =
+                                new MyArguments2(titleString, curSecTitle);
+                            Navigator.pushNamed(context, '/MyQueListWidget',
+                                arguments: myArguments2);
                           }
-                          MyArguments2 myArguments2 =
-                              new MyArguments2(titleString, curSecTitle);
-                          Navigator.pushNamed(context, '/MyQueListWidget',
-                              arguments: myArguments2);
                         },
                       );
                     }),

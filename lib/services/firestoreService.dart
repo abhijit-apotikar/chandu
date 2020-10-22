@@ -350,4 +350,27 @@ class FirestoreService {
       return questionList;
     }
   }
+
+  Future getTests(
+      String _paperName, int _hours, int _minutes, int _seconds) async {
+    List<Map<String, dynamic>> testList = [];
+    try {
+      QuerySnapshot qs = await fireStoreInstance
+          .collection('tests')
+          .where('paperName', isEqualTo: _paperName)
+          .where('hours', isEqualTo: _hours)
+          .where('minutes', isEqualTo: _minutes)
+          .where('seconds', isEqualTo: _seconds)
+          .get();
+      for (int i = 0; i < qs.docs[0].data()['tests'].length; i++) {
+        testList.add({
+          'testName': qs.docs[0].data()['tests'][i]['testName'],
+          'attempts': qs.docs[0].data()['tests'][i]['attempts']
+        });
+      }
+      return testList;
+    } catch (e) {
+      return false;
+    }
+  }
 }
