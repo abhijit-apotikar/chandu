@@ -4,6 +4,7 @@ import '../widgets/my_quiz_widget.dart';
 showAlertDialogReappear(
   BuildContext context,
   String msg,
+  String _testName,
   int _hours,
   int _minutes,
   int _seconds,
@@ -25,7 +26,7 @@ showAlertDialogReappear(
       onPressed: () {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) {
-          return MyQuizWidget(_hours, _minutes, _seconds);
+          return MyQuizWidget(_testName, _hours, _minutes, _seconds);
         }), ModalRoute.withName('/HomeScreenWidget'));
       });
   Widget noButton = OutlineButton(

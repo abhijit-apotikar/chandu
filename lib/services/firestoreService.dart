@@ -373,4 +373,55 @@ class FirestoreService {
       return false;
     }
   }
+
+  Future getTestQuestions(String _paperName, String _testName, int _hours,
+      int _minutes, int _seconds) async {
+    List<String> questionIdList = [];
+    List<Map<String, dynamic>> questionList = [];
+    try {
+      QuerySnapshot qs = await fireStoreInstance
+          .collection('tests')
+          .where('hours', isEqualTo: _hours)
+          .where('minutes', isEqualTo: _minutes)
+          .where('seconds', isEqualTo: _seconds)
+          .get();
+      for (int i = 0; i < qs.docs[0].data()['tests'].length; i++) {
+        if (qs.docs[0].data()['tests'][i]['testName'] == _testName) {
+          for (int j = 0;
+              j < qs.docs[0].data()['tests'][i]['questions'].length;
+              j++) {
+            questionIdList.add(qs.docs[0].data()['tests'][i]['questions'][j]);
+          }
+        }
+      }
+
+      QuerySnapshot qs2 = await fireStoreInstance
+          .collection('questions')
+          .where('paperName', isEqualTo: _paperName)
+          .get();
+
+      for (int k = 0; k < qs2.docs.length; k++) {
+        for (int i = 0; i < qs2.docs[k].data()['questions'].length; i++) {
+          if (questionIdList
+              .contains(qs2.docs[k].data()['questions'][i]['queId'])) {
+            questionList.add({
+              'queId': qs2.docs[k].data()['questions'][i]['queId'],
+              'que': qs2.docs[k].data()['questions'][i]['que'],
+              'options': [
+                qs2.docs[k].data()['questions'][i]['options'][0],
+                qs2.docs[k].data()['questions'][i]['options'][1],
+                qs2.docs[k].data()['questions'][i]['options'][2],
+                qs2.docs[k].data()['questions'][i]['options'][3],
+              ],
+              'ans': qs2.docs[k].data()['questions'][i]['ans'],
+            });
+          }
+        }
+      }
+
+      return questionList;
+    } catch (e) {
+      return false;
+    }
+  }
 }

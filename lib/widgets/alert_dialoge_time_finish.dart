@@ -5,6 +5,7 @@ import '../my_arguments/test_arguments.dart';
 showAlertDialog(
     BuildContext context,
     String msg,
+    String testName,
     List<Map<String, String>> testAttempt,
     List<Map<String, bool>> reviewList,
     int totalQue,
@@ -26,7 +27,7 @@ showAlertDialog(
           fontFamily: 'Nunito'),
     ),
     onPressed: () {
-      TestArguments testArguments = new TestArguments(
+      TestArguments testArguments = new TestArguments(testName,
           testAttempt, reviewList, totalQue, _hours, _minutes, _seconds);
       Navigator.of(context).pushReplacementNamed(
         '/ResultWidget',

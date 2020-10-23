@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import './widgets/mainWrapper.dart';
 import './widgets/homePageWidget.dart';
 import './widgets/que_list_widget.dart';
-import './widgets/my_quiz_widget.dart';
 import './widgets/result_widget.dart';
 import './widgets/review_questions_widget.dart';
 import './widgets/registerWidget.dart';
@@ -68,9 +67,6 @@ class MyApp extends StatelessWidget {
                   ),
               '/MyQueListWidget': (context) => Scaffold(
                     body: MyQueListWidget(),
-                  ),
-              '/MyQuizWidget': (context) => Scaffold(
-                    body: MyQuizWidget(0, 0, 10),
                   ),
               '/ResultWidget': (context) => Scaffold(
                     body: ResultWidget(),

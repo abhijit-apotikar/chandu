@@ -175,6 +175,7 @@ class _ResultWidgetState extends State<ResultWidget> {
                           showAlertDialogReappear(
                               context,
                               msg,
+                              testArguments.testName,
                               testArguments.hours,
                               testArguments.minutes,
                               testArguments.seconds);

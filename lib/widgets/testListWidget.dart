@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 // ------------------ my packages -----------------------
 import '../my_arguments/my_time_arguments.dart';
 import '../widgets/loadingWidget.dart';
+import '../widgets/my_quiz_widget.dart';
 import '../models/set_up_model.dart';
 import '../services/firestoreService.dart';
 
@@ -115,7 +116,17 @@ class _TestListWidgetState extends State<TestListWidget> {
                                   ),
                                 ),
                               )),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return MyQuizWidget(
+                                    snapshot.data[index]['testName'],
+                                    _hours,
+                                    _minutes,
+                                    _seconds);
+                              },
+                            ));
+                          },
                         );
                       }),
                 );
