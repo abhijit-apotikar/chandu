@@ -81,7 +81,8 @@ class _TestListWidgetState extends State<TestListWidget> {
             future: _fService.getTests(
                 _setUpModel.curSub, _hours, _minutes, _seconds),
             builder: (context, snapshot) {
-              if (snapshot.hasError || snapshot.data == false) {
+              if (snapshot.hasError ||
+                  snapshot.data == false) {
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   height: size.height * 0.85,
@@ -98,24 +99,41 @@ class _TestListWidgetState extends State<TestListWidget> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           child: Container(
-                              height: size.height * 0.1,
                               child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                color: Colors.transparent,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            color: Colors.transparent,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
                                       snapshot.data[index]['testName'],
+                                      style: TextStyle(
+                                        fontFamily: 'Nunito',
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Test Setter: ${snapshot.data[index]['testSetter']}',
                                       style: TextStyle(
                                         fontFamily: 'Nunito',
                                       ),
                                     ),
-                                  ),
+                                    Text(
+                                      'Attempts: ${snapshot.data[index]['attempts']}',
+                                      style: TextStyle(
+                                        fontFamily: 'Nunito',
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              )),
+                              ),
+                            ),
+                          )),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {

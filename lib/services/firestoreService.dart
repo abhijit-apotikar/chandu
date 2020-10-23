@@ -358,34 +358,67 @@ class FirestoreService {
       QuerySnapshot qs = await fireStoreInstance
           .collection('tests')
           .where('paperName', isEqualTo: _paperName)
-          .where('hours', isEqualTo: _hours)
-          .where('minutes', isEqualTo: _minutes)
-          .where('seconds', isEqualTo: _seconds)
           .get();
-      for (int i = 0; i < qs.docs[0].data()['tests'].length; i++) {
-        testList.add({
+      for (int i = 0; i < qs.docs.length; i++) {
+        if (qs.docs[i].data()['duration']['hours'] == _hours &&
+            qs.docs[i].data()['duration']['minutes'] == _minutes &&
+            qs.docs[i].data()['duration']['seconds'] == _seconds) {
+          testList.add({
+            'testName': qs.docs[i].data()['testName'],
+            'testSetter': qs.docs[i].data()['testSetter'],
+            'attempts': qs.docs[i].data()['attempts']
+          });
+        }
+        /*testList.add({
           'testName': qs.docs[0].data()['tests'][i]['testName'],
+          'testSetter': qs.docs[0].data()['tests'][i]['testSetter'],
           'attempts': qs.docs[0].data()['tests'][i]['attempts']
-        });
+        });*/
       }
-      return testList;
+      return testList.isEmpty ? false : testList;
     } catch (e) {
       return false;
     }
   }
 
-  Future getTestQuestions(String _paperName, String _testName, int _hours,
-      int _minutes, int _seconds) async {
+  Future getTestDocumentId(String _testName) async {
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('tests')
+        .where('testName', isEqualTo: _testName)
+        .get();
+    String docId = qs.docs[0].id;
+    return docId;
+  }
+
+  Future increaseTestAttempCount(String _docId, String _testName) async {
+    int attempts;
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('tests')
+        .where('testName', isEqualTo: _testName)
+        .get();
+    attempts = qs.docs[0].data()['attempts'] + 1;
+    await fireStoreInstance
+        .collection('tests')
+        .doc(_docId)
+        .update({'attempts': attempts});
+    return true;
+  }
+
+  Future getTestQuestions(
+    String _paperName,
+    String _testName,
+  ) async {
     List<String> questionIdList = [];
     List<Map<String, dynamic>> questionList = [];
     try {
       QuerySnapshot qs = await fireStoreInstance
           .collection('tests')
-          .where('hours', isEqualTo: _hours)
-          .where('minutes', isEqualTo: _minutes)
-          .where('seconds', isEqualTo: _seconds)
+          .where('testName', isEqualTo: _testName)
           .get();
-      for (int i = 0; i < qs.docs[0].data()['tests'].length; i++) {
+      for (int i = 0; i < qs.docs[0].data()['questions'].length; i++) {
+        questionIdList.add(qs.docs[0].data()['questions'][i]);
+      }
+      /*for (int i = 0; i < qs.docs[0].data()['tests'].length; i++) {
         if (qs.docs[0].data()['tests'][i]['testName'] == _testName) {
           for (int j = 0;
               j < qs.docs[0].data()['tests'][i]['questions'].length;
@@ -393,7 +426,7 @@ class FirestoreService {
             questionIdList.add(qs.docs[0].data()['tests'][i]['questions'][j]);
           }
         }
-      }
+      }*/
 
       QuerySnapshot qs2 = await fireStoreInstance
           .collection('questions')
