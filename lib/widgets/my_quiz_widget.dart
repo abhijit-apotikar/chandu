@@ -1282,12 +1282,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                 .first
                                                                 .value
                                                                 .toString();
-                                                        /*.entries
-                                                            .toList()
-                                                            .elementAt(0)
-                                                            .value;*/
-                                                        debugPrint(
-                                                            '${_testAttempt} *******************back button****************');
                                                       });
                                                     } else {
                                                       showToast(
@@ -1583,8 +1577,6 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                               .toList()
                                                               .elementAt(0)
                                                               .value;
-                                                      debugPrint(
-                                                          '${_testAttempt} *******************next button****************');
                                                     });
                                                   } else {
                                                     showToast(

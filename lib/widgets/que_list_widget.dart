@@ -152,7 +152,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.end,
                                                 children: [
-                                                  InkWell(
+                                                 /* InkWell(
                                                     child:
                                                         Icon(Entypo.bookmark),
                                                     onTap: () {},
@@ -167,7 +167,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                   ),
                                                   SizedBox(
                                                     width: 15,
-                                                  ),
+                                                  ),*/
                                                   InkWell(
                                                     child: Icon(Entypo
                                                         .info_with_circle),
@@ -178,6 +178,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       });
                                                     },
                                                   ),
+                                                  SizedBox(width: 10.0,),
                                                 ],
                                               ),
                                               SizedBox(
@@ -213,7 +214,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                             ? FontWeight.bold
                                                             : FontWeight.normal,
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 16,
+                                                        fontSize: myQueList[
+                                                                        index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op1
+                                                            ? 16.5
+                                                            : 16,
                                                         color: myQueList[index]
                                                                     .ans ==
                                                                 myQueList[index]
@@ -243,7 +250,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                             ? FontWeight.bold
                                                             : FontWeight.normal,
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 16,
+                                                        fontSize: myQueList[
+                                                                        index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op2
+                                                            ? 16.5
+                                                            : 16,
                                                         color: myQueList[index]
                                                                     .ans ==
                                                                 myQueList[index]
@@ -273,7 +286,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                             ? FontWeight.bold
                                                             : FontWeight.normal,
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 16,
+                                                        fontSize: myQueList[
+                                                                        index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op3
+                                                            ? 16.5
+                                                            : 16,
                                                         color: myQueList[index]
                                                                     .ans ==
                                                                 myQueList[index]
@@ -303,7 +322,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                             ? FontWeight.bold
                                                             : FontWeight.normal,
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 16,
+                                                        fontSize: myQueList[
+                                                                        index]
+                                                                    .ans ==
+                                                                myQueList[index]
+                                                                    .op1
+                                                            ? 16.5
+                                                            : 16,
                                                         color: myQueList[index]
                                                                     .ans ==
                                                                 myQueList[index]
@@ -365,6 +390,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                         });
                                                       },
                                                     ),
+                                                    SizedBox(width: 10.0,),
                                                   ]),
                                               SizedBox(
                                                 height: 5,
@@ -389,7 +415,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                   ),
                                                 ],
                                               ),
-                                              Row(
+                                              /* Row(
                                                 children: [
                                                   Text('Bookmark ',
                                                       style: TextStyle(
@@ -488,7 +514,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     width: 10,
                                                   ),
                                                 ],
-                                              ),
+                                              ),*/
                                               Row(
                                                 children: [
                                                   Text(
@@ -513,7 +539,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                   ),
                                                 ],
                                               ),
-                                              Row(
+                                              /* Row(
                                                 children: [
                                                   Text(
                                                     'Last Reviewed: ',
@@ -526,7 +552,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     width: 5,
                                                   ),
                                                 ],
-                                              ),
+                                              ),*/
                                             ],
                                           ),
                                         ),

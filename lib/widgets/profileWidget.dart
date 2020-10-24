@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// -------------- my packages --------------------
+import '../models/set_up_model.dart';
+
 class ProfileWidget extends StatefulWidget {
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
@@ -16,6 +19,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     //MyListModel mlm = new MyListModel();
     final user = Provider.of<User>(context);
 //final userIdStatus = Provider.of<UserIdStatus>(context);
+    SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
 
     // _fsService.getUserInfo(cUser).then((value) => _userData.add(value));
     // String _userNameId = _userData[0]['pubUserId'];
@@ -28,8 +32,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ),
           Container(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            width: 150,
-            height: 150,
+            width: 120,
+            height: 120,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: new DecorationImage(
@@ -47,84 +51,168 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ),
           Container(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            height: size.height * 0.3,
+            height: size.height * 0.5,
             child: Column(
               children: [
-                Card(
-                  margin: EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'User ID: ',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 18,
-                          ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 2.0, right: 2.0, top: 8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'User Id: ',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 16,
                         ),
-                        Text(
-                          'user',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 18,
-                          ),
+                      ),
+                      Text(
+                        'user',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 16,
                         ),
+                      ),
 
-                        /*Text(
-                          'User ID: ',
+                      /*Text(
+                        'User ID: ',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 18,
+                        ),
+                      ),*/
+                    ],
+                  ),
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+                /* SizedBox(
+                  height: 10,
+                ),*/
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 2.0, right: 2.0, top: 8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Email: ',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 16,
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          user.isAnonymous ? "Annonymous User" : user.email,
                           style: TextStyle(
                             fontFamily: 'Nunito',
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
-                        ),*/
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                Divider(
+                  thickness: 2,
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 5.0,
                 ),
-                Card(
-                  margin: EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                Container(
+                  padding: const EdgeInsets.only(
+                      left: 2.0, right: 2.0, top: 8.0, bottom: 8.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2.0,
+                      color: Colors.black.withOpacity(0.15),
+                    ),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Email: ',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 18,
-                          ),
-                        ),
-                        Flexible(
-                          child: Text(
-                            user.isAnonymous ? "Annonymous User" : user.email,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Course set up',
                             style: TextStyle(
                               fontFamily: 'Nunito',
-                              fontSize: 18,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 2.0,
+                          right: 2.0,
                         ),
-                      ],
-                    ),
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Course:  ${_setUpModel.curCourse}',
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 2.0,
+                          right: 2.0,
+                        ),
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Group:  ${_setUpModel.curSubComb}',
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 2.0,
+                          right: 2.0,
+                        ),
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Sem:  ${_setUpModel.curSem}',
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  height: 10,
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 10,
           ),
         ],
       ),

@@ -16,7 +16,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   Widget build(BuildContext context) {
     AuthService _authService = new AuthService();
     StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
-    Size size = MediaQuery.of(context).size;
+   // Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
       child: Column(
@@ -26,66 +26,102 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           ),
           Container(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            height: size.height * 0.3,
+            // height: size.height * 0.3,
             child: Column(
               children: [
-                Card(
-                  margin: EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                            child: Text(
-                              'Log Out',
-                              style: TextStyle(
-                                fontFamily: 'Nunito',
-                                fontSize: 24,
-                                color: Colors.red,
-                              ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 2.0, right: 2.0, top: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                          child: Text(
+                            'Log Out',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 16,
+                              //color: Colors.red,
                             ),
-                            onTap: () {
-                              String msg = 'Do you really want to log out?';
-                              showLogOutDialog(
-                                context,
-                                msg,
-                                _authService,
-                                svm, /*userIdStatus*/
-                              );
-                            }),
-                      ],
-                    ),
+                          ),
+                          onTap: () {
+                            String msg = 'Do you really want to log out?';
+                            showLogOutDialog(
+                              context,
+                              msg,
+                              _authService,
+                              svm, /*userIdStatus*/
+                            );
+                          }),
+                    ],
                   ),
                 ),
-                SizedBox(height: 10,), Card(
-                  margin: EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                            child: Text(
-                              'Change Course Set Up',
-                              style: TextStyle(
-                                fontFamily: 'Nunito',
-                                fontSize: 24,
-                                color: Colors.red,
-                              ),
+                Divider(
+                  thickness: 2.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                          child: Text(
+                            'Change Course Set Up',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 16,
+                              //color: Colors.red,
                             ),
-                            onTap: () {
-                            Navigator.of(context).pushNamed('/CourseSetUpWidget');
-                            }),
-                      ],
-                    ),
+                          ),
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed('/CourseSetUpWidget');
+                          }),
+                    ],
                   ),
+                ),
+                Divider(
+                  thickness: 2.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Dark Mode',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 16,
+                          //color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(
+                  thickness: 2.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                          child: Text(
+                            'FAQ\'s',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 16,
+                              //color: Colors.red,
+                            ),
+                          ),
+                          onTap: () {}),
+                    ],
+                  ),
+                ),
+                Divider(
+                  thickness: 2.0,
                 ),
               ],
             ),

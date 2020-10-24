@@ -369,11 +369,6 @@ class FirestoreService {
             'attempts': qs.docs[i].data()['attempts']
           });
         }
-        /*testList.add({
-          'testName': qs.docs[0].data()['tests'][i]['testName'],
-          'testSetter': qs.docs[0].data()['tests'][i]['testSetter'],
-          'attempts': qs.docs[0].data()['tests'][i]['attempts']
-        });*/
       }
       return testList.isEmpty ? false : testList;
     } catch (e) {
@@ -418,15 +413,6 @@ class FirestoreService {
       for (int i = 0; i < qs.docs[0].data()['questions'].length; i++) {
         questionIdList.add(qs.docs[0].data()['questions'][i]);
       }
-      /*for (int i = 0; i < qs.docs[0].data()['tests'].length; i++) {
-        if (qs.docs[0].data()['tests'][i]['testName'] == _testName) {
-          for (int j = 0;
-              j < qs.docs[0].data()['tests'][i]['questions'].length;
-              j++) {
-            questionIdList.add(qs.docs[0].data()['tests'][i]['questions'][j]);
-          }
-        }
-      }*/
 
       QuerySnapshot qs2 = await fireStoreInstance
           .collection('questions')
@@ -456,5 +442,151 @@ class FirestoreService {
     } catch (e) {
       return false;
     }
+  }
+
+  Future getUserDocumentId(String _userId) async {
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('users')
+        .where('docId', isEqualTo: _userId)
+        .get();
+    String docId = qs.docs[0].id;
+    return docId;
+  }
+
+  Future writeAttempt(String _userId, String _paperName, String _testName,
+      List<Map<String, dynamic>> _testAttempt, int _score) async {
+    String _docId = await getUserDocumentId(_userId);
+    DocumentSnapshot qs =
+        await fireStoreInstance.collection('users').doc(_docId).get();
+    for (int i = 0; i <= qs.data()['totalTestAttempts']; i++) {
+      if (!qs.data().containsKey('testAttempt${i + 1}')) {
+        await fireStoreInstance.collection('users').doc(_docId).update({
+          'testAttempt${i + 1}': {
+            'paper': _paperName,
+            'testName': _testName,
+            'testAttempt': _testAttempt,
+            'score': _score
+          },
+          '$_paperName': true,
+          'totalTestAttempts': qs.data()['totalTestAttempts'] + 1,
+        });
+        break;
+      }
+    }
+  }
+
+  Future getTopperList(String _paperName, String _testName) async {
+    int _sumTotalMarks = 0;
+    int _averageMarks = 0;
+    List<Map<String, dynamic>> testTakerList = [];
+    List<Map<String, dynamic>> localTestTakerList = [];
+    List<Map<String, dynamic>> topperList = [];
+    Map<String, dynamic> avgMarksPlusTopperList = {};
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('users')
+        .where('$_paperName', isEqualTo: true)
+        .get();
+    for (int i = 0; i < qs.docs.length; i++) {
+      for (int j = 0; j < qs.docs[i].data()['totalTestAttempts']; j++) {
+        if (qs.docs[i].data().containsKey('testAttempt${j + 1}')) {
+          if (qs.docs[i].data()['testAttempt${j + 1}']['testName'] ==
+              _testName) {
+            localTestTakerList.add({
+              'userId': qs.docs[i].data()['pubUserId'],
+              'score': qs.docs[i].data()['testAttempt${j + 1}']['score'],
+            });
+          }
+        }
+      }
+      var temp1;
+      for (int i = 0; i < localTestTakerList.length; i++) {
+        for (int j = i + 1; j < localTestTakerList.length; j++) {
+          if (localTestTakerList[j]['score'] > localTestTakerList[i]['score']) {
+            temp1 = localTestTakerList[j];
+            localTestTakerList[j] = localTestTakerList[i];
+            localTestTakerList[i] = temp1;
+          }
+        }
+      }
+      testTakerList.add(localTestTakerList[0]);
+    }
+
+    for (int i = 0; i < testTakerList.length; i++) {
+      _sumTotalMarks = _sumTotalMarks + testTakerList[i]['score'];
+    }
+
+    var temp;
+    for (int i = 0; i < testTakerList.length; i++) {
+      for (int j = i + 1; j < testTakerList.length; j++) {
+        if (testTakerList[j]['score'] > testTakerList[i]['score']) {
+          temp = testTakerList[j];
+          testTakerList[j] = testTakerList[i];
+          testTakerList[i] = temp;
+        }
+      }
+    }
+
+    if (testTakerList.length <= 10) {
+      for (int i = 0; i < testTakerList.length; i++) {
+        topperList.add(testTakerList[i]);
+      }
+    } else {
+      for (int i = 0; i < 10; i++) {
+        topperList.add(testTakerList[i]);
+      }
+    }
+
+    _averageMarks = (_sumTotalMarks / testTakerList.length).ceil();
+    avgMarksPlusTopperList['averageMarks'] = _averageMarks;
+    avgMarksPlusTopperList['topperList'] = topperList;
+    return avgMarksPlusTopperList;
+  }
+
+  Future calcResult(String _userId, String _paperName, String _testName,
+      List<Map<String, dynamic>> _testAttempt) async {
+    int correct = 0;
+    int wrong = 0;
+    int nonAttempted = 0;
+    Map<String, dynamic> resultInfo = {};
+    Map<String, dynamic> _avgMarksPlusTopperList = {};
+
+    QuerySnapshot qs = await fireStoreInstance
+        .collection('questions')
+        .where('paperName', isEqualTo: _paperName)
+        .get();
+    for (int i = 0; i < qs.docs.length; i++) {
+      for (int j = 0; j < qs.docs[i].data()['questions'].length; j++) {
+        for (int k = 0; k < _testAttempt.length; k++) {
+          if (_testAttempt[k]
+              .containsKey(qs.docs[i].data()['questions'][j]['queId'])) {
+            if (_testAttempt[k]
+                    ['${qs.docs[i].data()['questions'][j]['queId']}'] ==
+                qs.docs[i].data()['questions'][j]['options']
+                    [qs.docs[i].data()['questions'][j]['ans']]) {
+              correct = correct + 1;
+            } else {
+              wrong = wrong + 1;
+            }
+          }
+        }
+      }
+    }
+
+    QuerySnapshot qs2 = await fireStoreInstance
+        .collection('tests')
+        .where('testName', isEqualTo: _testName)
+        .get();
+    int _testLength = qs2.docs[0].data()['questions'].length;
+    nonAttempted = _testLength - _testAttempt.length;
+    await writeAttempt(_userId, _paperName, _testName, _testAttempt, correct);
+    _avgMarksPlusTopperList = await getTopperList(_paperName, _testName);
+    resultInfo['correct'] = correct;
+    resultInfo['wrong'] = wrong;
+    resultInfo['nonAttempted'] = nonAttempted;
+    resultInfo['topperScore'] =
+        _avgMarksPlusTopperList['topperList'][0]['score'];
+    resultInfo['averageScore'] = _avgMarksPlusTopperList['averageMarks'];
+    resultInfo['topperList'] = _avgMarksPlusTopperList['topperList'];
+    return resultInfo;
   }
 }
