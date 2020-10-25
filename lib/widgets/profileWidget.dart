@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 // -------------- my packages --------------------
 import '../models/set_up_model.dart';
+import '../models/colorCodeNotifier.dart';
+import '../models/colorCodeModel.dart';
 
 class ProfileWidget extends StatefulWidget {
   @override
@@ -20,7 +22,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     final user = Provider.of<User>(context);
 //final userIdStatus = Provider.of<UserIdStatus>(context);
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
-
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCodeModel = _colorCodeNotifier.getColorCode();
     // _fsService.getUserInfo(cUser).then((value) => _userData.add(value));
     // String _userNameId = _userData[0]['pubUserId'];
 
@@ -64,6 +68,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 16,
+                          color: localColorCodeModel.textColor1,
                         ),
                       ),
                       Text(
@@ -71,6 +76,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 16,
+                          color: localColorCodeModel.textColor1,
                         ),
                       ),
 
@@ -86,6 +92,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 ),
                 Divider(
                   thickness: 2,
+                  color: localColorCodeModel.textColor3,
                 ),
                 /* SizedBox(
                   height: 10,
@@ -100,6 +107,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 16,
+                          color: localColorCodeModel.textColor1,
                         ),
                       ),
                       Flexible(
@@ -108,6 +116,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           style: TextStyle(
                             fontFamily: 'Nunito',
                             fontSize: 16,
+                            color: localColorCodeModel.textColor1,
                           ),
                         ),
                       ),
@@ -116,6 +125,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 ),
                 Divider(
                   thickness: 2,
+                  color: localColorCodeModel.textColor3,
                 ),
                 SizedBox(
                   height: 5.0,
@@ -126,7 +136,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 2.0,
-                      color: Colors.black.withOpacity(0.15),
+                      color: localColorCodeModel.textColor3,
                     ),
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -141,6 +151,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               fontFamily: 'Nunito',
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
+                              color: localColorCodeModel.textColor1,
                             ),
                           ),
                         ],
@@ -161,6 +172,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               style: TextStyle(
                                 fontFamily: 'Nunito',
                                 fontSize: 16,
+                                color: localColorCodeModel.textColor1,
                               ),
                             ),
                           ],
@@ -182,6 +194,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               style: TextStyle(
                                 fontFamily: 'Nunito',
                                 fontSize: 16,
+                                color: localColorCodeModel.textColor1,
                               ),
                             ),
                           ],
@@ -203,6 +216,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               style: TextStyle(
                                 fontFamily: 'Nunito',
                                 fontSize: 16,
+                                color: localColorCodeModel.textColor1,
                               ),
                             ),
                           ],

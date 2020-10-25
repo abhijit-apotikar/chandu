@@ -16,6 +16,8 @@ import '../data/test_statistics_data.dart';
 import '../widgets/alert_dialoge_reappear.dart';
 import '../services/firestoreService.dart';
 import '../widgets/loadingWidget.dart';
+import '../models/colorCodeModel.dart';
+import '../models/colorCodeNotifier.dart';
 
 class ResultWidget extends StatefulWidget {
   @override
@@ -85,6 +87,9 @@ class _ResultWidgetState extends State<ResultWidget> {
     FirestoreService _fService = new FirestoreService();
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     final _user = Provider.of<User>(context);
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
     List<ChartData1> chartData = [
       /* ChartData1('Correct', result[0]['correct'], Colors.green[400]),
       ChartData1('Wrong', result[1]['wrong'], Colors.redAccent),
@@ -115,8 +120,8 @@ class _ResultWidgetState extends State<ResultWidget> {
         decoration: BoxDecoration(
           gradient: new LinearGradient(
               colors: [
-                Color(0xffb2ff59),
-                Color(0xff69f0ae),
+                localColorCode.backGroundColor1,
+                localColorCode.backGroundColor2,
               ],
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -164,7 +169,7 @@ class _ResultWidgetState extends State<ResultWidget> {
                   Container(
                     height: size.height * 0.085,
                     child: Card(
-                      color: Colors.white,
+                      color: localColorCode.cardColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -174,10 +179,8 @@ class _ResultWidgetState extends State<ResultWidget> {
                         children: [
                           SizedBox(width: 10),
                           InkWell(
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 32,
-                            ),
+                            child: Icon(Icons.arrow_back_ios,
+                                size: 32, color: localColorCode.textColor1),
                             onTap: () {
                               Navigator.of(context).pop();
                             },
@@ -186,10 +189,11 @@ class _ResultWidgetState extends State<ResultWidget> {
                           Text(
                             'Test Result',
                             style: TextStyle(
-                              fontFamily: 'Nunito',
-                              fontSize: 32,
-                              // fontWeight: FontWeight.bold,
-                            ),
+                                fontFamily: 'Nunito',
+                                fontSize: 32,
+                                color: localColorCode.textColor1
+                                // fontWeight: FontWeight.bold,
+                                ),
                           ),
                           Expanded(
                             child: SizedBox(),
@@ -202,6 +206,10 @@ class _ResultWidgetState extends State<ResultWidget> {
                         onTap: () {},
                       ),*/
                           PopupMenuButton(
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: localColorCode.textColor1,
+                            ),
                             // initialValue: 0,
                             onSelected: (value) {
                               if (value == 0) {
@@ -254,7 +262,7 @@ class _ResultWidgetState extends State<ResultWidget> {
                             Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
-                              color: Colors.white,
+                              color: localColorCode.cardColor,
                               child: PageView(
                                 controller: _controller,
                                 onPageChanged: (value) {
@@ -292,6 +300,10 @@ class _ResultWidgetState extends State<ResultWidget> {
                                             explodeIndex: 0),
                                       ],
                                       legend: Legend(
+                                        textStyle: TextStyle(
+                                          fontFamily: 'Nunito',
+                                          color: localColorCode.textColor1,
+                                        ),
                                         isVisible: true,
                                         position: LegendPosition.bottom,
                                         overflowMode:
@@ -323,14 +335,24 @@ class _ResultWidgetState extends State<ResultWidget> {
                                     ),
                                   ),*/
                                       primaryXAxis: CategoryAxis(
-                                        title: AxisTitle(text: 'Scores'),
+                                        title: AxisTitle(
+                                            text: 'Scores',
+                                            textStyle: TextStyle(
+                                              fontFamily: 'Nunito',
+                                              color: localColorCode.textColor1,
+                                            )),
                                       ),
                                       primaryYAxis: NumericAxis(
                                         minimum: testStatisticsData
                                             .testList[0].minMarks,
                                         maximum: testStatisticsData
                                             .testList[0].maxMarks,
-                                        title: AxisTitle(text: 'Marks'),
+                                        title: AxisTitle(
+                                            text: 'Marks',
+                                            textStyle: TextStyle(
+                                              fontFamily: 'Nunito',
+                                              color: localColorCode.textColor1,
+                                            )),
                                         interval: 1,
                                       ),
                                       series: <ChartSeries>[
@@ -348,6 +370,11 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                     data.value,
                                             dataLabelSettings:
                                                 DataLabelSettings(
+                                              textStyle: TextStyle(
+                                                fontFamily: 'Nunito',
+                                                color:
+                                                    localColorCode.textColor1,
+                                              ),
                                               isVisible: true,
                                             )),
                                       ],
@@ -384,6 +411,8 @@ class _ResultWidgetState extends State<ResultWidget> {
                                           return Container(
                                             height: size.height * 0.1,
                                             child: Card(
+                                              color: localColorCode
+                                                  .topperListCardColor,
                                               child: Row(
                                                 children: [
                                                   Expanded(
@@ -411,6 +440,8 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
+                                                                color: localColorCode
+                                                                    .textColor1,
                                                               ),
                                                             ),
                                                     ),
@@ -422,8 +453,10 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                         // '${testStatisticsData.testList[0].topperList[index]['name']}',
                                                         '${snapshot.data['topperList'][index]['userId']}',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
+                                                          fontFamily: 'Nunito',
+                                                          color: localColorCode
+                                                              .textColor1,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -434,8 +467,10 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                         //'${testStatisticsData.testList[0].topperList[index]['score']}',
                                                         '${snapshot.data['topperList'][index]['score']}',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
+                                                          fontFamily: 'Nunito',
+                                                          color: localColorCode
+                                                              .textColor1,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -528,7 +563,7 @@ class _ResultWidgetState extends State<ResultWidget> {
                                         child: Icon(
                                           Icons.arrow_back_ios,
                                           size: 32,
-                                          color: Colors.grey,
+                                          color: localColorCode.textColor1,
                                         ),
                                         onTap: () {
                                           setState(() {
@@ -547,7 +582,14 @@ class _ResultWidgetState extends State<ResultWidget> {
                                             if (_controller.page == 0) {
                                               showToast(
                                                 'This is the first card.',
+                                                textStyle: TextStyle(
+                                                  fontFamily: 'Nunito',
+                                                  color: localColorCode
+                                                      .toastTextColor,
+                                                ),
                                                 position: ToastPosition.bottom,
+                                                backgroundColor: localColorCode
+                                                    .toastBackgroundColor,
                                               );
                                             } else if (_controller.page == 1) {
                                               _chartTitle = 'Breakdown';
@@ -583,7 +625,7 @@ class _ResultWidgetState extends State<ResultWidget> {
                                           child: Icon(
                                             Icons.arrow_forward_ios,
                                             size: 32,
-                                            color: Colors.grey,
+                                            color: localColorCode.textColor1,
                                           ),
                                           onTap: () {
                                             setState(
@@ -592,8 +634,16 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                 if (_controller.page == 2) {
                                                   showToast(
                                                     'This is the last card.',
+                                                    textStyle: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      color: localColorCode
+                                                          .toastTextColor,
+                                                    ),
                                                     position:
                                                         ToastPosition.bottom,
+                                                    backgroundColor:
+                                                        localColorCode
+                                                            .toastBackgroundColor,
                                                   );
                                                 } else if (_controller.page ==
                                                     1) {
@@ -625,6 +675,8 @@ class _ResultWidgetState extends State<ResultWidget> {
                                           margin: EdgeInsets.only(top: 8.0),
                                           height: size.height * 0.085,
                                           child: Card(
+                                            color: localColorCode
+                                                .topperListCardColor,
                                             // elevation: 0,
                                             child: Row(
                                               children: [
@@ -634,9 +686,12 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                     child: Text(
                                                       'Rank',
                                                       style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                        fontFamily: 'Nunito',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: localColorCode
+                                                            .textColor1,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -646,9 +701,12 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                     child: Text(
                                                       'Name',
                                                       style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                        fontFamily: 'Nunito',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: localColorCode
+                                                            .textColor1,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -658,13 +716,16 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                     child: Text(
                                                       'Score',
                                                       style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                        fontFamily: 'Nunito',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: localColorCode
+                                                            .textColor1,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                                Expanded(
+                                                /* Expanded(
                                                   flex: 3,
                                                   child: Center(
                                                     child: Text(
@@ -672,10 +733,10 @@ class _ResultWidgetState extends State<ResultWidget> {
                                                       style: TextStyle(
                                                           fontFamily: 'Nunito',
                                                           fontWeight:
-                                                              FontWeight.bold),
+                                                              FontWeight.bold,color: localColorCode.textColor1,),
                                                     ),
                                                   ),
-                                                ),
+                                                ),*/
                                               ],
                                             ),
                                           ),

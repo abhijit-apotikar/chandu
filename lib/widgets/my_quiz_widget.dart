@@ -10,6 +10,8 @@ import '../widgets/alertDialog.dart';
 import '../widgets/loadingWidget.dart';
 import '../services/firestoreService.dart';
 import '../models/set_up_model.dart';
+import '../models/colorCodeNotifier.dart';
+import '../models/colorCodeModel.dart';
 
 class MyQuizWidget extends StatefulWidget {
   final String _testName;
@@ -86,7 +88,9 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
     FirestoreService _fService = new FirestoreService();
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     List<Map<String, dynamic>> myQueList = [];
-
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
     return WillPopScope(
       onWillPop: () async {
         if (index != 0) {
@@ -99,8 +103,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
           decoration: BoxDecoration(
             gradient: new LinearGradient(
                 colors: [
-                  Color(0xffb2ff59),
-                  Color(0xff69f0ae),
+                  localColorCode.backGroundColor1,
+                  localColorCode.backGroundColor2,
                 ],
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
@@ -119,11 +123,23 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                   ),
                   builder: (context, snapshot) {
                     if (snapshot.hasError || snapshot.data == false) {
-                      return Text('Test failed to load');
+                      return Text(
+                        'Test failed to load',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          color: localColorCode.textColor1,
+                        ),
+                      );
                     } else if (snapshot.hasData) {
                       myQueList = snapshot.data;
                       return myQueList.length == 0
-                          ? Text('Test failed to load')
+                          ? Text(
+                              'Test failed to load',
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                                color: localColorCode.textColor1,
+                              ),
+                            )
                           : IndexedStack(index: _curIndex, children: [
                               Center(
                                 child: Column(
@@ -140,6 +156,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                             padding: const EdgeInsets.all(4.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
+                                                  width: 2.0,
                                                   color: Colors.blueAccent),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5.0)),
@@ -149,6 +166,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               style: TextStyle(
                                                 fontFamily: 'Nunito',
                                                 fontSize: 22,
+                                                color:
+                                                    localColorCode.textColor1,
                                               ),
                                             ),
                                           )
@@ -171,7 +190,10 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               child: Text(
                                                 'As soon as you press on the Start button, the test timer will start running, marking the start of the test. You can also give up the thought of taking up the test by pressing on the Cancel button or back button, if you wish to do so.',
                                                 style: TextStyle(
-                                                    fontFamily: 'Nunito'),
+                                                  fontFamily: 'Nunito',
+                                                  color:
+                                                      localColorCode.textColor1,
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
@@ -186,9 +208,11 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                   child: Center(
                                                     child: Text('Start',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            fontSize: 28)),
+                                                          fontFamily: 'Nunito',
+                                                          fontSize: 28,
+                                                          color: localColorCode
+                                                              .textColor1,
+                                                        )),
                                                   ),
                                                 ),
                                               ),
@@ -224,9 +248,13 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                     child: Center(
                                                       child: Text('Cancel',
                                                           style: TextStyle(
-                                                              fontFamily:
-                                                                  'Nunito',
-                                                              fontSize: 28)),
+                                                            fontFamily:
+                                                                'Nunito',
+                                                            fontSize: 28,
+                                                            color:
+                                                                localColorCode
+                                                                    .textColor1,
+                                                          )),
                                                     ),
                                                   ),
                                                 ),
@@ -252,6 +280,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                     child: Row(
                                       children: [
                                         Card(
+                                          color: localColorCode.cardColor,
                                           margin: const EdgeInsets.all(0),
                                           child: Container(
                                             height: MediaQuery.of(context)
@@ -277,19 +306,29 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           'Current question added to review list.',
                                                           textStyle: TextStyle(
                                                               fontFamily:
-                                                                  'Nunito'),
+                                                                  'Nunito',
+                                                              color: localColorCode
+                                                                  .toastTextColor),
                                                           position:
                                                               ToastPosition
-                                                                  .bottom);
+                                                                  .bottom,
+                                                          backgroundColor:
+                                                              localColorCode
+                                                                  .toastBackgroundColor);
                                                     } else {
                                                       showToast(
                                                           'Current question removed from review list.',
                                                           textStyle: TextStyle(
                                                               fontFamily:
-                                                                  'Nunito'),
+                                                                  'Nunito',
+                                                              color: localColorCode
+                                                                  .toastTextColor),
                                                           position:
                                                               ToastPosition
-                                                                  .bottom);
+                                                                  .bottom,
+                                                          backgroundColor:
+                                                              localColorCode
+                                                                  .toastBackgroundColor);
                                                     }
 
                                                     if (_reviewList
@@ -317,10 +356,15 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                     showToast(
                                                         ' Action not allowed. ',
                                                         textStyle: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
+                                                          fontFamily: 'Nunito',
+                                                          color: localColorCode
+                                                              .toastTextColor,
+                                                        ),
                                                         position: ToastPosition
-                                                            .bottom);
+                                                            .bottom,
+                                                        backgroundColor:
+                                                            localColorCode
+                                                                .toastBackgroundColor);
                                                   }
                                                 });
                                               },
@@ -343,8 +387,11 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           : '${((_start1) / 3600).floor()}' +
                                                               ':',
                                                       style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 38),
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 38,
+                                                        color: localColorCode
+                                                            .textColor1,
+                                                      ),
                                                     ),
                                                     Text(
                                                       ((((_start1) % 3600) / 60)
@@ -356,8 +403,11 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           : '${(((_start1) % 3600) / 60).floor()}' +
                                                               ':',
                                                       style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 38),
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 38,
+                                                        color: localColorCode
+                                                            .textColor1,
+                                                      ),
                                                     ),
                                                     Text(
                                                       (((_start1) % 3600) % 60)
@@ -369,8 +419,11 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                   '${(((_start1) % 3600) % 60).floor()}')
                                                           : '${(((_start1) % 3600) % 60).floor()}',
                                                       style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 38),
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 38,
+                                                        color: localColorCode
+                                                            .textColor1,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -378,6 +431,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               Divider(
                                                 thickness: 2,
                                                 height: 1,
+                                                color:
+                                                    localColorCode.textColor3,
                                               ),
                                               Row(
                                                 mainAxisAlignment:
@@ -388,6 +443,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                     style: TextStyle(
                                                       fontFamily: 'Nunito',
                                                       fontSize: 18,
+                                                      color: localColorCode
+                                                          .textColor1,
                                                     ),
                                                   ),
                                                   Text(
@@ -404,11 +461,14 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               Divider(
                                                 thickness: 2,
                                                 height: 1,
+                                                color:
+                                                    localColorCode.textColor3,
                                               ),
                                             ],
                                           ),
                                         ),
                                         Card(
+                                          color: localColorCode.cardColor,
                                           margin: const EdgeInsets.all(0),
                                           child: Container(
                                             height: MediaQuery.of(context)
@@ -725,7 +785,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           BorderRadius.circular(
                                                               20),
                                                     ),
-                                                    color: Colors.transparent,
+                                                    color: localColorCode
+                                                        .transparentCard,
                                                     child:
                                                         SingleChildScrollView(
                                                       child: Container(
@@ -774,6 +835,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                           'Nunito',
                                                                       fontSize:
                                                                           16,
+                                                                      color: localColorCode
+                                                                          .textColor1,
                                                                     ),
                                                                   ),
                                                                 ),
@@ -798,7 +861,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                         color: _curMarked ==
                                                                                 '${myQueList[index]['options'][0]}'
                                                                             ? Colors.blue
-                                                                            : Colors.white,
+                                                                            : localColorCode.optionCardColor,
                                                                         child:
                                                                             Padding(
                                                                           padding:
@@ -810,6 +873,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                                 TextStyle(
                                                                               fontFamily: 'Nunito',
                                                                               fontSize: 16,
+                                                                              color: localColorCode.textColor1,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -823,7 +887,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                             Card(
                                                                           color: _curMarked == '${myQueList[index]['options'][0]}'
                                                                               ? Colors.blue
-                                                                              : Colors.white,
+                                                                              : localColorCode.optionCardColor,
                                                                           margin:
                                                                               EdgeInsets.all(0),
                                                                           child:
@@ -836,6 +900,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                               style: TextStyle(
                                                                                 fontFamily: 'Nunito',
                                                                                 fontSize: 18,
+                                                                                color: localColorCode.textColor1,
                                                                               ),
                                                                             ),
                                                                           ),
@@ -902,7 +967,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                         color: _curMarked ==
                                                                                 '${myQueList[index]['options'][1]}'
                                                                             ? Colors.blue
-                                                                            : Colors.white,
+                                                                            : localColorCode.optionCardColor,
                                                                         margin:
                                                                             EdgeInsets.all(0),
                                                                         child:
@@ -916,6 +981,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                                 TextStyle(
                                                                               fontFamily: 'Nunito',
                                                                               fontSize: 16,
+                                                                              color: localColorCode.textColor1,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -929,7 +995,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                             Card(
                                                                           color: _curMarked == '${myQueList[index]['options'][1]}'
                                                                               ? Colors.blue
-                                                                              : Colors.white,
+                                                                              : localColorCode.optionCardColor,
                                                                           margin:
                                                                               EdgeInsets.all(0),
                                                                           child:
@@ -942,6 +1008,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                               style: TextStyle(
                                                                                 fontFamily: 'Nunito',
                                                                                 fontSize: 16,
+                                                                                color: localColorCode.textColor1,
                                                                               ),
                                                                             ),
                                                                           ),
@@ -1036,7 +1103,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                         color: _curMarked ==
                                                                                 '${myQueList[index]['options'][2]}'
                                                                             ? Colors.blue
-                                                                            : Colors.white,
+                                                                            : localColorCode.optionCardColor,
                                                                         margin:
                                                                             EdgeInsets.all(0),
                                                                         child:
@@ -1050,6 +1117,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                                 TextStyle(
                                                                               fontFamily: 'Nunito',
                                                                               fontSize: 16,
+                                                                              color: localColorCode.textColor1,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1063,7 +1131,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                             Card(
                                                                           color: _curMarked == '${myQueList[index]['options'][2]}'
                                                                               ? Colors.blue
-                                                                              : Colors.white,
+                                                                              : localColorCode.optionCardColor,
                                                                           margin:
                                                                               EdgeInsets.all(0),
                                                                           child:
@@ -1076,6 +1144,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                               style: TextStyle(
                                                                                 fontFamily: 'Nunito',
                                                                                 fontSize: 16,
+                                                                                color: localColorCode.textColor1,
                                                                               ),
                                                                             ),
                                                                           ),
@@ -1141,7 +1210,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                         color: _curMarked ==
                                                                                 '${myQueList[index]['options'][3]}'
                                                                             ? Colors.blue
-                                                                            : Colors.white,
+                                                                            : localColorCode.optionCardColor,
                                                                         margin:
                                                                             EdgeInsets.all(0),
                                                                         child:
@@ -1155,6 +1224,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                                 TextStyle(
                                                                               fontFamily: 'Nunito',
                                                                               fontSize: 16,
+                                                                              color: localColorCode.textColor1,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1168,7 +1238,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                             Card(
                                                                           color: _curMarked == '${myQueList[index]['options'][3]}'
                                                                               ? Colors.blue
-                                                                              : Colors.white,
+                                                                              : localColorCode.optionCardColor,
                                                                           margin:
                                                                               EdgeInsets.all(0),
                                                                           child:
@@ -1181,6 +1251,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                               style: TextStyle(
                                                                                 fontFamily: 'Nunito',
                                                                                 fontSize: 16,
+                                                                                color: localColorCode.textColor1,
                                                                               ),
                                                                             ),
                                                                           ),
@@ -1241,6 +1312,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                     child: Row(
                                       children: [
                                         Card(
+                                          color: localColorCode.cardColor,
                                           margin: const EdgeInsets.all(0),
                                           child: Container(
                                             height: MediaQuery.of(context)
@@ -1251,6 +1323,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                 child: Icon(
                                                   Icons.arrow_back,
                                                   size: 42,
+                                                  color:
+                                                      localColorCode.textColor1,
                                                 ),
                                                 onTap: () {
                                                   if (!_presentSubmitDialog) {
@@ -1289,23 +1363,30 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                         position: ToastPosition
                                                             .bottom,
                                                         backgroundColor:
-                                                            Colors.white,
+                                                            localColorCode
+                                                                .toastBackgroundColor,
                                                         radius: 5.0,
                                                         textStyle: TextStyle(
                                                           fontSize: 16.0,
-                                                          color: Colors.black,
+                                                          color: localColorCode
+                                                              .toastTextColor,
                                                           fontFamily: 'Nunito',
                                                         ),
                                                       );
                                                     }
                                                   } else {
                                                     showToast(
-                                                        ' Action not allowed. ',
-                                                        textStyle: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
-                                                        position: ToastPosition
-                                                            .bottom);
+                                                      ' Action not allowed. ',
+                                                      textStyle: TextStyle(
+                                                          fontFamily: 'Nunito',
+                                                          color: localColorCode
+                                                              .toastTextColor),
+                                                      position:
+                                                          ToastPosition.bottom,
+                                                      backgroundColor:
+                                                          localColorCode
+                                                              .toastBackgroundColor,
+                                                    );
                                                   }
                                                 }),
                                           ),
@@ -1325,7 +1406,10 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                   child: Text(
                                                     'Quick Navigation Buttons',
                                                     style: TextStyle(
-                                                        fontFamily: 'Nunito'),
+                                                      fontFamily: 'Nunito',
+                                                      color: localColorCode
+                                                          .textColor1,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -1345,6 +1429,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           top: 1.0,
                                                           bottom: 1.0),
                                                   child: Card(
+                                                    color: localColorCode
+                                                        .cardColor,
                                                     margin:
                                                         const EdgeInsets.all(0),
                                                     child: Container(
@@ -1357,10 +1443,13 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                             child: Text(
                                                               'first',
                                                               style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  // fontWeight: FontWeight.bold,
-                                                                  fontSize: 22),
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                // fontWeight: FontWeight.bold,
+                                                                fontSize: 22,
+                                                                color: localColorCode
+                                                                    .textColor1,
+                                                              ),
                                                             ),
                                                             onTap: () {
                                                               setState(() {
@@ -1380,13 +1469,19 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                           .toString();
                                                                 } else {
                                                                   showToast(
-                                                                      ' Action not allowed. ',
-                                                                      textStyle: TextStyle(
-                                                                          fontFamily:
-                                                                              'Nunito'),
-                                                                      position:
-                                                                          ToastPosition
-                                                                              .bottom);
+                                                                    ' Action not allowed. ',
+                                                                    textStyle: TextStyle(
+                                                                        fontFamily:
+                                                                            'Nunito',
+                                                                        color: localColorCode
+                                                                            .toastTextColor),
+                                                                    position:
+                                                                        ToastPosition
+                                                                            .bottom,
+                                                                    backgroundColor:
+                                                                        localColorCode
+                                                                            .toastBackgroundColor,
+                                                                  );
                                                                 }
                                                               });
                                                             }),
@@ -1403,6 +1498,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           top: 1.0,
                                                           bottom: 1.0),
                                                   child: Card(
+                                                    color: localColorCode
+                                                        .cardColor,
                                                     margin:
                                                         const EdgeInsets.all(0),
                                                     child: Container(
@@ -1430,10 +1527,13 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                           : (((myQueList.length ~/ 2).floor().toString()) +
                                                                               'th'))),
                                                               style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  // fontWeight: FontWeight.bold,
-                                                                  fontSize: 22),
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                // fontWeight: FontWeight.bold,
+                                                                fontSize: 22,
+                                                                color: localColorCode
+                                                                    .textColor1,
+                                                              ),
                                                             ),
                                                             onTap: () {
                                                               setState(() {
@@ -1456,13 +1556,21 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                           .toString();
                                                                 } else {
                                                                   showToast(
-                                                                      ' Action not allowed. ',
-                                                                      textStyle: TextStyle(
-                                                                          fontFamily:
-                                                                              'Nunito'),
-                                                                      position:
-                                                                          ToastPosition
-                                                                              .bottom);
+                                                                    ' Action not allowed. ',
+                                                                    textStyle:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Nunito',
+                                                                      color: localColorCode
+                                                                          .toastTextColor,
+                                                                    ),
+                                                                    position:
+                                                                        ToastPosition
+                                                                            .bottom,
+                                                                    backgroundColor:
+                                                                        localColorCode
+                                                                            .toastBackgroundColor,
+                                                                  );
                                                                 }
                                                               });
                                                             }),
@@ -1477,6 +1585,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                           top: 1.0,
                                                           bottom: 1.0),
                                                   child: Card(
+                                                    color: localColorCode
+                                                        .cardColor,
                                                     margin:
                                                         const EdgeInsets.all(0),
                                                     child: Container(
@@ -1489,10 +1599,13 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                             child: Text(
                                                               'last',
                                                               style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  // fontWeight: FontWeight.bold,
-                                                                  fontSize: 22),
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                // fontWeight: FontWeight.bold,
+                                                                fontSize: 22,
+                                                                color: localColorCode
+                                                                    .textColor1,
+                                                              ),
                                                             ),
                                                             onTap: () {
                                                               setState(() {
@@ -1515,13 +1628,19 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                           .toString();
                                                                 } else {
                                                                   showToast(
-                                                                      ' Action not allowed. ',
-                                                                      textStyle: TextStyle(
-                                                                          fontFamily:
-                                                                              'Nunito'),
-                                                                      position:
-                                                                          ToastPosition
-                                                                              .bottom);
+                                                                    ' Action not allowed. ',
+                                                                    textStyle: TextStyle(
+                                                                        fontFamily:
+                                                                            'Nunito',
+                                                                        color: localColorCode
+                                                                            .toastTextColor),
+                                                                    position:
+                                                                        ToastPosition
+                                                                            .bottom,
+                                                                    backgroundColor:
+                                                                        localColorCode
+                                                                            .toastBackgroundColor,
+                                                                  );
                                                                 }
                                                               });
                                                             }),
@@ -1535,6 +1654,7 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                           ],
                                         )),
                                         Card(
+                                          color: localColorCode.cardColor,
                                           margin: const EdgeInsets.all(0),
                                           child: Container(
                                             height: MediaQuery.of(context)
@@ -1545,6 +1665,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                               child: Icon(
                                                 Icons.arrow_forward,
                                                 size: 42,
+                                                color:
+                                                    localColorCode.textColor1,
                                               ),
                                               onTap: () {
                                                 if (!_presentSubmitDialog) {
@@ -1584,21 +1706,31 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                       position:
                                                           ToastPosition.bottom,
                                                       backgroundColor:
-                                                          Colors.white,
+                                                          localColorCode
+                                                              .toastBackgroundColor,
                                                       radius: 5.0,
                                                       textStyle: TextStyle(
-                                                          fontSize: 16.0,
-                                                          color: Colors.black,
-                                                          fontFamily: 'Nunito'),
+                                                        fontSize: 16.0,
+                                                        color: localColorCode
+                                                            .toastTextColor,
+                                                        fontFamily: 'Nunito',
+                                                      ),
                                                     );
                                                   }
                                                 } else {
                                                   showToast(
-                                                      ' Action not allowed. ',
-                                                      textStyle: TextStyle(
-                                                          fontFamily: 'Nunito'),
-                                                      position:
-                                                          ToastPosition.bottom);
+                                                    ' Action not allowed. ',
+                                                    textStyle: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      color: localColorCode
+                                                          .toastTextColor,
+                                                    ),
+                                                    position:
+                                                        ToastPosition.bottom,
+                                                    backgroundColor:
+                                                        localColorCode
+                                                            .toastBackgroundColor,
+                                                  );
                                                 }
                                               },
                                             ),

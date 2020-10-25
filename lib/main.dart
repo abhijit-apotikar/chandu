@@ -22,6 +22,8 @@ import './services/authService.dart';
 import './models/stateVariablesModel.dart';
 import './models/set_up_model.dart';
 import './models/my_list_model.dart';
+import './models/colorCodeNotifier.dart';
+import './models/actualColorCodes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +32,9 @@ void main() async {
       'NT8mJyc2IWhia31ifWN9Z2FoYmF8YGJ8ampqanNiYmlmamlmanMDHmgyMTs6OTonfTIjPCc6ODIhYmZlEzQ+Mjo/fTA8Pg==');
   runApp(
     MultiProvider(providers: [
+      ChangeNotifierProvider<ColorCodeNotifier>(
+        create: (_) => ColorCodeNotifier(lightTheme),
+      ),
       ChangeNotifierProvider<StateVariablesModel>(
         create: (_) => StateVariablesModel(),
       ),

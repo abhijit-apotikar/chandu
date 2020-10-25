@@ -9,6 +9,8 @@ import '../widgets/loadingWidget.dart';
 import '../services/firestoreService.dart';
 import '../models/set_up_model.dart';
 import '../models/stateVariablesModel.dart';
+import '../models/colorCodeModel.dart';
+import '../models/colorCodeNotifier.dart';
 
 class CourseSetUpWidget extends StatefulWidget {
   @override
@@ -40,7 +42,11 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
     final cUser = Provider.of<User>(context);
     StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
     final FirestoreService _fsService = new FirestoreService();
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
     return Scaffold(
+        backgroundColor: localColorCode.cardColor,
         key: _scaffold,
         body: isLoading
             ? LoadingWidget()
@@ -48,8 +54,8 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                 decoration: BoxDecoration(
                   gradient: new LinearGradient(
                       colors: [
-                        Color(0xffb2ff59),
-                        Color(0xff69f0ae),
+                        localColorCode.backGroundColor1,
+                        localColorCode.backGroundColor2,
                       ],
                       begin: Alignment.topRight,
                       end: Alignment.bottomLeft,
@@ -67,7 +73,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                         height: size.height * 0.085,
                         margin: const EdgeInsets.all(0),
                         child: Card(
-                          color: Colors.white,
+                          color: localColorCode.cardColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           margin: const EdgeInsets.symmetric(
@@ -79,6 +85,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                               style: TextStyle(
                                 fontSize: 32,
                                 fontFamily: 'Nunito',
+                                color: localColorCode.textColor1,
                               ),
                             ),
                           ),
@@ -178,7 +185,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                             fontFamily: 'Nunito',
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            // color: Colors.deepPurpleAccent,
+                                            color: localColorCode.textColor1,
                                           ),
                                         ),
                                         Consumer<SetUpModel>(
@@ -246,7 +253,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                             fontFamily: 'Nunito',
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            // color: Colors.deepPurpleAccent,
+                                            color: localColorCode.textColor1,
                                           ),
                                         ),
                                         Consumer<SetUpModel>(
@@ -305,7 +312,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                             fontFamily: 'Nunito',
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            // color: Colors.deepPurpleAccent,
+                                            color: localColorCode.textColor1,
                                           ),
                                         ),
                                         Consumer<SetUpModel>(
@@ -358,6 +365,7 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                         style: TextStyle(
                                           fontFamily: 'Nunito',
                                           fontSize: 24,
+                                          color: localColorCode.textColor2,
                                         ),
                                       ),
                                       onPressed: () async {
@@ -428,12 +436,17 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                           .setCourseFlag(true);
                                                     }
                                                     showToast(
-                                                        ' Course set up successful. ',
-                                                        textStyle: TextStyle(
-                                                            fontFamily:
-                                                                'Nunito'),
-                                                        position: ToastPosition
-                                                            .bottom);
+                                                      ' Course set up successful. ',
+                                                      textStyle: TextStyle(
+                                                          fontFamily: 'Nunito',
+                                                          color: localColorCode
+                                                              .toastTextColor),
+                                                      position:
+                                                          ToastPosition.bottom,
+                                                      backgroundColor:
+                                                          localColorCode
+                                                              .toastBackgroundColor,
+                                                    );
                                                     setState(() {
                                                       isLoading = false;
                                                     });
@@ -443,46 +456,72 @@ class _CourseSetUpWidgetState extends State<CourseSetUpWidget> {
                                                     isLoading = false;
                                                   });
                                                   showToast(
-                                                      ' Sorry, Selected sem not available. ',
-                                                      textStyle: TextStyle(
-                                                          fontFamily: 'Nunito'),
-                                                      position:
-                                                          ToastPosition.bottom);
+                                                    ' Sorry, Selected sem not available. ',
+                                                    textStyle: TextStyle(
+                                                        fontFamily: 'Nunito',
+                                                        color: localColorCode
+                                                            .toastTextColor),
+                                                    position:
+                                                        ToastPosition.bottom,
+                                                    backgroundColor:
+                                                        localColorCode
+                                                            .toastBackgroundColor,
+                                                  );
                                                 }
                                               } else {
                                                 setState(() {
                                                   isLoading = false;
                                                 });
                                                 showToast(
-                                                    ' Sorry, Selected branch not available. ',
-                                                    textStyle: TextStyle(
-                                                        fontFamily: 'Nunito'),
-                                                    position:
-                                                        ToastPosition.bottom);
+                                                  ' Sorry, Selected branch not available. ',
+                                                  textStyle: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      color: localColorCode
+                                                          .toastTextColor),
+                                                  position:
+                                                      ToastPosition.bottom,
+                                                  backgroundColor:
+                                                      localColorCode
+                                                          .toastBackgroundColor,
+                                                );
                                               }
                                             } else {
                                               setState(() {
                                                 isLoading = false;
                                               });
                                               showToast(
-                                                  ' Sorry, Selected course not available. ',
-                                                  textStyle: TextStyle(
-                                                      fontFamily: 'Nunito'),
-                                                  position:
-                                                      ToastPosition.bottom);
+                                                ' Sorry, Selected course not available. ',
+                                                textStyle: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    color: localColorCode
+                                                        .toastTextColor),
+                                                position: ToastPosition.bottom,
+                                                backgroundColor: localColorCode
+                                                    .toastBackgroundColor,
+                                              );
                                             }
                                           } else if (!groupSelect) {
                                             showToast(
-                                                ' You must explicitly select group. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
+                                              ' You must explicitly select group. ',
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'Nunito',
+                                                  color: localColorCode
+                                                      .toastTextColor),
+                                              position: ToastPosition.bottom,
+                                              backgroundColor: localColorCode
+                                                  .toastBackgroundColor,
+                                            );
                                           } else if (!semSelect) {
                                             showToast(
-                                                ' You must explicitly select sem. ',
-                                                textStyle: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                                position: ToastPosition.bottom);
+                                              ' You must explicitly select sem. ',
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'Nunito',
+                                                  color: localColorCode
+                                                      .toastTextColor),
+                                              position: ToastPosition.bottom,
+                                              backgroundColor: localColorCode
+                                                  .toastBackgroundColor,
+                                            );
                                           }
                                         }
                                       },

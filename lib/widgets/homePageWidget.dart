@@ -10,6 +10,8 @@ import 'profileWidget.dart';
 import 'settingsWidget.dart';
 import '../services/firestoreService.dart';
 import '../widgets/loadingWidget.dart';
+import '../models/colorCodeNotifier.dart';
+import '../models/colorCodeModel.dart';
 
 class HomePageWidget extends StatefulWidget {
   @override
@@ -26,6 +28,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     final FirestoreService _fService = new FirestoreService();
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
 
     /* setState(() {
       if (_curMarked == null) {
@@ -39,8 +44,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         decoration: BoxDecoration(
           gradient: new LinearGradient(
               colors: [
-                Color(0xffb2ff59),
-                Color(0xff69f0ae),
+                localColorCode.backGroundColor1,
+                localColorCode.backGroundColor2,
               ],
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -68,7 +73,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         height: size.height * 0.085,
                         margin: const EdgeInsets.all(0),
                         child: Card(
-                          color: Colors.white,
+                          color: localColorCode.cardColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           margin: const EdgeInsets.symmetric(
@@ -86,6 +91,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             style: TextStyle(
                                               fontSize: 32,
                                               fontFamily: 'Nunito',
+                                              color: localColorCode.textColor1,
                                             ),
                                           ),
                                         ),
@@ -97,7 +103,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               child: Text(
                                                 'Subject',
                                                 style: TextStyle(
-                                                    fontFamily: 'Nunito'),
+                                                  fontFamily: 'Nunito',
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      localColorCode.textColor2,
+                                                ),
                                               ),
                                               onPressed: () {
                                                 setState(() {
@@ -147,6 +157,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       style: TextStyle(
                                         fontSize: 32,
                                         fontFamily: 'Nunito',
+                                        color: localColorCode.textColor1,
                                       ),
                                     );
                             },
@@ -187,7 +198,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           margin: const EdgeInsets.all(0),
                                           color: myModel.clr1,
                                           width: size.width * 0.33,
-                                          child: Icon(Icons.home, size: 38)),
+                                          child: Icon(
+                                            Icons.home,
+                                            size: 38,
+                                            color: localColorCode.textColor1,
+                                          )),
                                       onTap: () {
                                         myModel.chngPg(1);
                                       });
@@ -203,7 +218,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           margin: const EdgeInsets.all(0),
                                           color: myModel.clr2,
                                           width: size.width * 0.33,
-                                          child: Icon(Icons.person, size: 38)),
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 38,
+                                            color: localColorCode.textColor1,
+                                          )),
                                       onTap: () {
                                         myModel.chngPg(2);
                                       });
@@ -219,8 +238,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           margin: const EdgeInsets.all(0),
                                           color: myModel.clr3,
                                           width: size.width * 0.33,
-                                          child:
-                                              Icon(Icons.settings, size: 38)),
+                                          child: Icon(
+                                            Icons.settings,
+                                            size: 38,
+                                            color: localColorCode.textColor1,
+                                          )),
                                       onTap: () {
                                         myModel.chngPg(3);
                                       });
@@ -237,8 +259,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   decoration: BoxDecoration(
                     gradient: new LinearGradient(
                         colors: [
-                          Color(0xffb2ff59),
-                          Color(0xff69f0ae),
+                          localColorCode.backGroundColor1,
+                          localColorCode.backGroundColor2,
                         ],
                         begin: Alignment.topRight,
                         end: Alignment.bottomLeft,
@@ -266,7 +288,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 _setUpModel.totalElectives == 0
                                     ? 'You have total ${_setUpModel.totalPapers} papers and all are compulsory'
                                     : 'You have total ${_setUpModel.totalPapers} theory papers out of which ${(_setUpModel.totalPapers - _setUpModel.totalElectives)} are compulsory(marked with a yellow stripe) and ${_setUpModel.totalElectives} is elective which is to be chosen from among a set of ${_setUpModel.totalElectiveChoices} papers(marked with a red stripe). ',
-                                style: TextStyle(fontFamily: 'Nunito'),
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  color: localColorCode.textColor1,
+                                ),
                               ),
                               SizedBox(
                                 height: 20.0,
@@ -274,14 +299,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               Text(
                                 'Select any one subject from the following:',
                                 style: TextStyle(
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.bold),
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.bold,
+                                  color: localColorCode.textColor1,
+                                ),
                               ),
                               Text(
                                 '(Current subject is marked in blue)',
                                 style: TextStyle(
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.bold),
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.bold,
+                                  color: localColorCode.textColor1,
+                                ),
                               ),
                             ],
                           ),
@@ -323,8 +352,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
                                             '${index + 1}',
-                                            style:
-                                                TextStyle(fontFamily: 'Nunito'),
+                                            style: TextStyle(
+                                              fontFamily: 'Nunito',
+                                              color: localColorCode.textColor1,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -333,14 +364,17 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           child: Card(
                                             color: _curMarked == index
                                                 ? Colors.blue
-                                                : Colors.white,
+                                                : localColorCode.cardColor,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 '${_setUpModel.subList[index]['subName']}',
                                                 style: TextStyle(
-                                                    fontFamily: 'Nunito'),
+                                                  fontFamily: 'Nunito',
+                                                  color:
+                                                      localColorCode.textColor1,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -356,18 +390,26 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 _curMarked = index;
                                                 showToast(msg,
                                                     textStyle: TextStyle(
-                                                        fontFamily: 'Nunito'),
+                                                        fontFamily: 'Nunito',
+                                                        color: localColorCode
+                                                            .toastTextColor),
                                                     position:
-                                                        ToastPosition.center);
+                                                        ToastPosition.bottom,
+                                                    backgroundColor: localColorCode
+                                                        .toastBackgroundColor);
                                                 _setUpModel.chngCurSub(
                                                     '${_setUpModel.subList[index]['subName']}');
                                               } else {
                                                 showToast(
                                                     ' This subject is not available. ',
                                                     textStyle: TextStyle(
-                                                        fontFamily: 'Nunito'),
+                                                        fontFamily: 'Nunito',
+                                                        color: localColorCode
+                                                            .toastTextColor),
                                                     position:
-                                                        ToastPosition.center);
+                                                        ToastPosition.center,
+                                                    backgroundColor: localColorCode
+                                                        .toastBackgroundColor);
                                               }
                                             });
                                           },

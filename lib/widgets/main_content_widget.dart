@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../models/my_list_model.dart';
 import '../models/set_up_model.dart';
 import '../my_arguments/my_arguments1.dart';
+import '../models/colorCodeNotifier.dart';
+import '../models/colorCodeModel.dart';
 
 class MainContentWidget extends StatelessWidget {
   @override
@@ -12,16 +14,22 @@ class MainContentWidget extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     MyListModel mlm = new MyListModel();
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(
+            height: 10.0,
+          ),
           Container(
             padding: const EdgeInsets.only(left: 10, right: 10),
             height: size.height * 0.1,
             child: InkWell(
               child: Card(
                 shadowColor: Colors.black45,
-                color: Colors.transparent,
+                color: localColorCode.transparentCard,
                 elevation: 8,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -34,6 +42,7 @@ class MainContentWidget extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 18,
+                          color: localColorCode.textColor1,
                         ),
                       ),
                     ),
@@ -45,6 +54,7 @@ class MainContentWidget extends StatelessWidget {
                         '${_setUpModel.curSub}',
                         style: TextStyle(
                           fontFamily: 'Nunito',
+                          color: localColorCode.textColor1,
                           //fontSize: 18,
                         ),
                       ),
@@ -69,7 +79,7 @@ class MainContentWidget extends StatelessWidget {
             child: InkWell(
               child: Card(
                 shadowColor: Colors.black45,
-                color: Colors.transparent,
+                color: localColorCode.transparentCard,
                 elevation: 8,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -80,6 +90,7 @@ class MainContentWidget extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 18,
+                      color: localColorCode.textColor1,
                     ),
                   ),
                 ),
@@ -100,7 +111,7 @@ class MainContentWidget extends StatelessWidget {
             child: InkWell(
               child: Card(
                 shadowColor: Colors.black45,
-                color: Colors.transparent,
+                color: localColorCode.transparentCard,
                 elevation: 8,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -111,6 +122,7 @@ class MainContentWidget extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 18,
+                      color: localColorCode.textColor1,
                     ),
                   ),
                 ),
@@ -131,7 +143,7 @@ class MainContentWidget extends StatelessWidget {
             child: InkWell(
               child: Card(
                 shadowColor: Colors.black45,
-                color: Colors.transparent,
+                color: localColorCode.transparentCard,
                 elevation: 8,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -142,6 +154,7 @@ class MainContentWidget extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 18,
+                      color: localColorCode.textColor1,
                     ),
                   ),
                 ),

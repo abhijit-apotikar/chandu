@@ -6,6 +6,9 @@ import 'package:package_info/package_info.dart';
 import '../services/authService.dart';
 import '../models/stateVariablesModel.dart';
 import '../widgets/logOutAlertDialog.dart';
+import '../models/colorCodeNotifier.dart';
+import '../models/actualColorCodes.dart';
+import '../models/colorCodeModel.dart';
 
 class SettingsWidget extends StatefulWidget {
   @override
@@ -17,6 +20,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   @override
   Widget build(BuildContext context) {
     AuthService _authService = new AuthService();
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
     StateVariablesModel svm = Provider.of<StateVariablesModel>(context);
     // Size size = MediaQuery.of(context).size;
 // ------------------ package info ------------------------
@@ -48,10 +54,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               fontSize: 16,
-                              //color: Colors.red,
+                              color: localColorCode.textColor1,
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: localColorCode.textColor1,
+                          ),
                         ],
                       ),
                       onTap: () {
@@ -66,6 +75,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
                 Divider(
                   thickness: 2.0,
+                  color: localColorCode.textColor3,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -79,10 +89,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               fontSize: 16,
-                              //color: Colors.red,
+                              color: localColorCode.textColor1,
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: localColorCode.textColor1,
+                          ),
                         ],
                       ),
                       onTap: () {
@@ -91,6 +104,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
                 Divider(
                   thickness: 2.0,
+                  color: localColorCode.textColor3,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -103,18 +117,28 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 16,
-                          //color: Colors.red,
+                          color: localColorCode.textColor1,
                         ),
                       ),
                       Switch(
-                        value: true,
-                        onChanged: (_) {},
+                        value: _colorCodeNotifier.getColorCode() == lightTheme
+                            ? false
+                            : true,
+                        onChanged: (_) {
+                          if (_colorCodeNotifier.getColorCode() == lightTheme) {
+                            _colorCodeNotifier.setColorCode(darkTheme);
+                          } else if (_colorCodeNotifier.getColorCode() ==
+                              darkTheme) {
+                            _colorCodeNotifier.setColorCode(lightTheme);
+                          }
+                        },
                       ),
                     ],
                   ),
                 ),
                 Divider(
                   thickness: 2.0,
+                  color: localColorCode.textColor3,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -128,16 +152,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           style: TextStyle(
                             fontFamily: 'Nunito',
                             fontSize: 16,
-                            //color: Colors.red,
+                            color: localColorCode.textColor1,
                           ),
                         ),
-                        Icon(Icons.arrow_forward_ios),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: localColorCode.textColor1,
+                        ),
                       ],
                     ),
                   ),
                 ),
                 Divider(
                   thickness: 2.0,
+                  color: localColorCode.textColor3,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -151,16 +179,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               fontSize: 16,
-                              //color: Colors.red,
+                              color: localColorCode.textColor1,
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: localColorCode.textColor1,
+                          ),
                         ],
                       ),
                       onTap: () {}),
                 ),
                 Divider(
                   thickness: 2.0,
+                  color: localColorCode.textColor3,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -174,16 +206,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               fontSize: 16,
-                              //color: Colors.red,
+                              color: localColorCode.textColor1,
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: localColorCode.textColor1,
+                          ),
                         ],
                       ),
                       onTap: () {}),
                 ),
                 Divider(
                   thickness: 2.0,
+                  color: localColorCode.textColor3,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -197,16 +233,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               fontSize: 16,
-                              //color: Colors.red,
+                              color: localColorCode.textColor1,
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: localColorCode.textColor1,
+                          ),
                         ],
                       ),
                       onTap: () {}),
                 ),
                 Divider(
                   thickness: 2.0,
+                  color: localColorCode.textColor3,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -220,16 +260,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             style: TextStyle(
                               fontFamily: 'Nunito',
                               fontSize: 16,
-                              //color: Colors.red,
+                              color: localColorCode.textColor1,
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: localColorCode.textColor1,
+                          ),
                         ],
                       ),
                       onTap: () {}),
                 ),
                 Divider(
                   thickness: 2.0,
+                  color: localColorCode.textColor3,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -245,7 +289,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 16,
-                          //color: Colors.red,
+                          color: localColorCode.textColor1,
                         ),
                       ),
                       Text(
@@ -253,7 +297,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 16,
-                          //color: Colors.red,
+                          color: localColorCode.textColor1,
                         ),
                       ),
                     ],
@@ -267,7 +311,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       style: TextStyle(
                         fontFamily: 'Nunito',
                         // fontSize: 16,
-                        //color: Colors.red,
+                        color: localColorCode.textColor1,
                       ),
                     ),
                     Icon(
@@ -279,7 +323,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       style: TextStyle(
                         fontFamily: 'Nunito',
                         //  fontSize: 16,
-                        //color: Colors.red,
+                        color: localColorCode.textColor1,
                       ),
                     ),
                   ],

@@ -7,6 +7,8 @@ import '../widgets/loadingWidget.dart';
 import '../widgets/my_quiz_widget.dart';
 import '../models/set_up_model.dart';
 import '../services/firestoreService.dart';
+import '../models/colorCodeNotifier.dart';
+import '../models/colorCodeModel.dart';
 
 class TestListWidget extends StatefulWidget {
   @override
@@ -26,14 +28,17 @@ class _TestListWidgetState extends State<TestListWidget> {
     EdgeInsets pdTop = MediaQuery.of(context).padding;
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     final FirestoreService _fService = new FirestoreService();
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
 
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: new LinearGradient(
               colors: [
-                Color(0xffb2ff59),
-                Color(0xff69f0ae),
+                localColorCode.backGroundColor1,
+                localColorCode.backGroundColor2,
               ],
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -48,7 +53,7 @@ class _TestListWidgetState extends State<TestListWidget> {
           Container(
             height: size.height * 0.085,
             child: Card(
-              color: Colors.white,
+              color: localColorCode.cardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -60,6 +65,7 @@ class _TestListWidgetState extends State<TestListWidget> {
                     child: Icon(
                       Icons.arrow_back_ios,
                       size: 32,
+                      color: localColorCode.textColor1,
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
@@ -71,6 +77,7 @@ class _TestListWidgetState extends State<TestListWidget> {
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 32,
+                      color: localColorCode.textColor1,
                     ),
                   ),
                 ],
@@ -81,13 +88,17 @@ class _TestListWidgetState extends State<TestListWidget> {
             future: _fService.getTests(
                 _setUpModel.curSub, _hours, _minutes, _seconds),
             builder: (context, snapshot) {
-              if (snapshot.hasError ||
-                  snapshot.data == false) {
+              if (snapshot.hasError || snapshot.data == false) {
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   height: size.height * 0.85,
                   child: Center(
-                    child: Text('Sorry, No tests available.'),
+                    child: Text(
+                      'Sorry, No tests available.',
+                      style: TextStyle(
+                          fontFamily: 'Nunito',
+                          color: localColorCode.textColor1),
+                    ),
                   ),
                 );
               } else if (snapshot.hasData) {
@@ -103,7 +114,7 @@ class _TestListWidgetState extends State<TestListWidget> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            color: Colors.transparent,
+                            color: localColorCode.transparentCard,
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -115,18 +126,21 @@ class _TestListWidgetState extends State<TestListWidget> {
                                       style: TextStyle(
                                         fontFamily: 'Nunito',
                                         fontSize: 18,
+                                        color: localColorCode.textColor1,
                                       ),
                                     ),
                                     Text(
                                       'Test Setter: ${snapshot.data[index]['testSetter']}',
                                       style: TextStyle(
                                         fontFamily: 'Nunito',
+                                        color: localColorCode.textColor1,
                                       ),
                                     ),
                                     Text(
                                       'Attempts: ${snapshot.data[index]['attempts']}',
                                       style: TextStyle(
                                         fontFamily: 'Nunito',
+                                        color: localColorCode.textColor1,
                                       ),
                                     ),
                                   ],

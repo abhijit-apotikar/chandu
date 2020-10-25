@@ -9,6 +9,8 @@ import '../widgets/loadingWidget.dart';
 import '../models/set_up_model.dart';
 import '../models/my_list_model.dart';
 import '../services/firestoreService.dart';
+import '../models/colorCodeNotifier.dart';
+import '../models/colorCodeModel.dart';
 
 class MyListWidget extends StatefulWidget {
   @override
@@ -26,6 +28,9 @@ class _MyListWidgetState extends State<MyListWidget> {
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
     MyListModel _myListModel = Provider.of<MyListModel>(context);
     final FirestoreService _fService = new FirestoreService();
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
 
     var _future;
     if (titleString == "Chapters") {
@@ -42,8 +47,8 @@ class _MyListWidgetState extends State<MyListWidget> {
       decoration: BoxDecoration(
         gradient: new LinearGradient(
             colors: [
-              Color(0xffb2ff59),
-              Color(0xff69f0ae),
+              localColorCode.backGroundColor1,
+              localColorCode.backGroundColor2,
             ],
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
@@ -67,7 +72,7 @@ class _MyListWidgetState extends State<MyListWidget> {
               Container(
                 height: size.height * 0.085,
                 child: Card(
-                  color: Colors.white,
+                  color: localColorCode.cardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -80,6 +85,7 @@ class _MyListWidgetState extends State<MyListWidget> {
                         child: Icon(
                           Icons.arrow_back_ios,
                           size: 32,
+                          color: localColorCode.textColor1,
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
@@ -91,6 +97,7 @@ class _MyListWidgetState extends State<MyListWidget> {
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 32,
+                          color: localColorCode.textColor1,
                         ),
                       ),
                     ],
@@ -114,7 +121,7 @@ class _MyListWidgetState extends State<MyListWidget> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              color: Colors.transparent,
+                              color: localColorCode.transparentCard,
                               child: Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -129,6 +136,7 @@ class _MyListWidgetState extends State<MyListWidget> {
                                                 ['title']),
                                     style: TextStyle(
                                       fontFamily: 'Nunito',
+                                      color: localColorCode.textColor1,
                                     ),
                                   ),
                                 ),

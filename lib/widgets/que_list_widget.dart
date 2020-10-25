@@ -9,6 +9,8 @@ import '../my_arguments/my_arguments2.dart';
 import '../services/firestoreService.dart';
 import '../models/my_que_model.dart';
 import '../models/set_up_model.dart';
+import '../models/colorCodeNotifier.dart';
+import '../models/colorCodeModel.dart';
 
 class MyQueListWidget extends StatefulWidget {
   @override
@@ -29,13 +31,16 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
     List<MyQueModel> myQueList = [];
     final FirestoreService _fService = new FirestoreService();
     SetUpModel _setUpModel = Provider.of<SetUpModel>(context);
+    ColorCodeNotifier _colorCodeNotifier =
+        Provider.of<ColorCodeNotifier>(context);
+    ColorCodeModel localColorCode = _colorCodeNotifier.getColorCode();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: new LinearGradient(
               colors: [
-                Color(0xffb2ff59),
-                Color(0xff69f0ae),
+                localColorCode.backGroundColor1,
+                localColorCode.backGroundColor2,
               ],
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -50,7 +55,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
           Container(
             height: size.height * 0.085,
             child: Card(
-              color: Colors.white,
+              color: localColorCode.cardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -62,6 +67,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                     child: Icon(
                       Icons.arrow_back_ios,
                       size: 32,
+                      color: localColorCode.textColor1,
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
@@ -73,6 +79,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                       style: TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 16,
+                        color: localColorCode.textColor1,
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -92,7 +99,13 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     height: size.height * 0.85,
                     child: Center(
-                      child: Text('Sorry, No Questions Available.'),
+                      child: Text(
+                        'Sorry, No Questions Available.',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          color: localColorCode.textColor1,
+                        ),
+                      ),
                     ),
                   );
                 } else if (snapshot.hasData) {
@@ -138,7 +151,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      color: Colors.transparent,
+                                      color: localColorCode.transparentCard,
                                       child: SingleChildScrollView(
                                         child: Container(
                                           // margin: EdgeInsets.all(10),
@@ -152,7 +165,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.end,
                                                 children: [
-                                                 /* InkWell(
+                                                  /* InkWell(
                                                     child:
                                                         Icon(Entypo.bookmark),
                                                     onTap: () {},
@@ -169,8 +182,11 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                     width: 15,
                                                   ),*/
                                                   InkWell(
-                                                    child: Icon(Entypo
-                                                        .info_with_circle),
+                                                    child: Icon(
+                                                      Entypo.info_with_circle,
+                                                      color: localColorCode
+                                                          .textColor1,
+                                                    ),
                                                     onTap: () {
                                                       setState(() {
                                                         _curListItemIndex =
@@ -178,7 +194,9 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       });
                                                     },
                                                   ),
-                                                  SizedBox(width: 10.0,),
+                                                  SizedBox(
+                                                    width: 10.0,
+                                                  ),
                                                 ],
                                               ),
                                               SizedBox(
@@ -193,6 +211,8 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
                                                         fontSize: 18,
+                                                        color: localColorCode
+                                                            .textColor1,
                                                       ),
                                                     ),
                                                   ),
@@ -226,7 +246,8 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                                 myQueList[index]
                                                                     .op1
                                                             ? Colors.red
-                                                            : Colors.black,
+                                                            : localColorCode
+                                                                .textColor1,
                                                       ),
                                                     ),
                                                   ),
@@ -262,7 +283,8 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                                 myQueList[index]
                                                                     .op2
                                                             ? Colors.red
-                                                            : Colors.black,
+                                                            : localColorCode
+                                                                .textColor1,
                                                       ),
                                                     ),
                                                   ),
@@ -298,7 +320,8 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                                 myQueList[index]
                                                                     .op3
                                                             ? Colors.red
-                                                            : Colors.black,
+                                                            : localColorCode
+                                                                .textColor1,
                                                       ),
                                                     ),
                                                   ),
@@ -334,7 +357,8 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                                 myQueList[index]
                                                                     .op4
                                                             ? Colors.red
-                                                            : Colors.black,
+                                                            : localColorCode
+                                                                .textColor1,
                                                       ),
                                                     ),
                                                   ),
@@ -364,7 +388,7 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      color: Colors.transparent,
+                                      color: localColorCode.transparentCard,
                                       child: SingleChildScrollView(
                                         child: Container(
                                           // margin: EdgeInsets.all(10),
@@ -382,6 +406,8 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       child: Icon(
                                                         Entypo.cross,
                                                         size: 32,
+                                                        color: localColorCode
+                                                            .textColor1,
                                                       ),
                                                       onTap: () {
                                                         setState(() {
@@ -390,7 +416,9 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                         });
                                                       },
                                                     ),
-                                                    SizedBox(width: 10.0,),
+                                                    SizedBox(
+                                                      width: 10.0,
+                                                    ),
                                                   ]),
                                               SizedBox(
                                                 height: 5,
@@ -401,6 +429,8 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                       style: TextStyle(
                                                         fontFamily: 'Nunito',
                                                         fontSize: 16,
+                                                        color: localColorCode
+                                                            .textColor1,
                                                       )),
                                                   Text(myQueList[index].queId,
                                                       style: TextStyle(
@@ -520,8 +550,11 @@ class _MyQueListWidgetState extends State<MyQueListWidget> {
                                                   Text(
                                                     'Veteran: ',
                                                     style: TextStyle(
-                                                        fontFamily: 'Nunito',
-                                                        fontSize: 16),
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 16,
+                                                      color: localColorCode
+                                                          .textColor1,
+                                                    ),
                                                   ),
                                                   Text(
                                                       myQueList[index].veteran
