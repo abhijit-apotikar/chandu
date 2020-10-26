@@ -599,7 +599,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                           widget
                                                                               ._minutes,
                                                                           widget
-                                                                              ._seconds);
+                                                                              ._seconds,
+                                                                          _queAttempted);
                                                                       Navigator.of(
                                                                               context)
                                                                           .pushReplacementNamed(
@@ -727,7 +728,8 @@ class _MyQuizWidgetState extends State<MyQuizWidget> {
                                                                               myQueList.length,
                                                                               widget._hours,
                                                                               widget._minutes,
-                                                                              widget._seconds);
+                                                                              widget._seconds,
+                                                                              _queAttempted);
                                                                           Navigator.of(context)
                                                                               .pushReplacementNamed(
                                                                             '/ResultWidget',

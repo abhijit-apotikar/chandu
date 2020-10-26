@@ -82,6 +82,7 @@ class _ResultWidgetState extends State<ResultWidget> {
     String _testName = testArguments.testName;
     List<Map<String, String>> _testAttempt = testArguments.testAttempt;
     List<Map<String, bool>> _reviewList = testArguments.reviewList;
+    int _queAttempted = testArguments.queAttempted;
     // int _totalQue = testArguments.totalQue;
     // List<Map<String, int>> result = calcResult(_testAttempt, _totalQue);
     FirestoreService _fService = new FirestoreService();
@@ -130,8 +131,8 @@ class _ResultWidgetState extends State<ResultWidget> {
         ),
         child: FutureBuilder(
           future: !_dataLoaded
-              ? _fService.calcResult(
-                  _user.uid, _setUpModel.curSub, _testName, _testAttempt)
+              ? _fService.calcResult(_user.uid, _setUpModel.curSub, _testName,
+                  _testAttempt, _queAttempted)
               : null,
           builder: (context, snapshot) {
             if (snapshot.hasData) {

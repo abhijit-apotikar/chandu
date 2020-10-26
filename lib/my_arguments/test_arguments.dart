@@ -6,6 +6,7 @@ class TestArguments {
   final int hours;
   final int minutes;
   final int seconds;
+  final int queAttempted;
   TestArguments(this.testName, this.testAttempt, this.reviewList, this.totalQue,
-      this.hours, this.minutes, this.seconds);
+      this.hours, this.minutes, this.seconds, this.queAttempted);
 }

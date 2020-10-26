@@ -543,7 +543,7 @@ class FirestoreService {
   }
 
   Future calcResult(String _userId, String _paperName, String _testName,
-      List<Map<String, dynamic>> _testAttempt) async {
+      List<Map<String, dynamic>> _testAttempt,int _queAttempted) async {
     int correct = 0;
     int wrong = 0;
     int nonAttempted = 0;
@@ -577,7 +577,10 @@ class FirestoreService {
         .where('testName', isEqualTo: _testName)
         .get();
     int _testLength = qs2.docs[0].data()['questions'].length;
-    nonAttempted = _testLength - _testAttempt.length;
+    debugPrint('*********************** $_testLength ***************************************');
+    debugPrint('!!!!!!!!!!!!!!!!!!!!!!!!!!!  ${_testAttempt.length}  !!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    nonAttempted = _testLength - _queAttempted;
+    debugPrint('&&&&&&&&&&&&&&& $nonAttempted  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
     await writeAttempt(_userId, _paperName, _testName, _testAttempt, correct);
     _avgMarksPlusTopperList = await getTopperList(_paperName, _testName);
     resultInfo['correct'] = correct;

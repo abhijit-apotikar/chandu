@@ -11,7 +11,8 @@ showAlertDialog(
     int totalQue,
     int _hours,
     int _minutes,
-    int _seconds) {
+    int _seconds,
+    int _queAttempted) {
   // set up the buttons
   Widget okButton = OutlineButton(
     color: Colors.white,
@@ -27,8 +28,8 @@ showAlertDialog(
           fontFamily: 'Nunito'),
     ),
     onPressed: () {
-      TestArguments testArguments = new TestArguments(testName,
-          testAttempt, reviewList, totalQue, _hours, _minutes, _seconds);
+      TestArguments testArguments = new TestArguments(testName, testAttempt,
+          reviewList, totalQue, _hours, _minutes, _seconds, _queAttempted);
       Navigator.of(context).pushReplacementNamed(
         '/ResultWidget',
         arguments: testArguments,
